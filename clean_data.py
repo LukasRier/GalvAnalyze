@@ -76,7 +76,7 @@ def create_data_frame(file=None):
     (potential,capacity,
      time,current,cycle_no) = parse_data(data)
     
-    capacity = capacity / active_mass
+    grav_capacity = capacity / active_mass
         
     is_pos,is_neg = current_thresholds(current,0.01)
    
@@ -95,7 +95,7 @@ def create_data_frame(file=None):
         exp_time = np.array(time[pos_cycle_no==cn+1].values,ndmin=1).T
         cyc_time = exp_time - exp_time[0]
         cyc_pot = np.array(potential[pos_cycle_no==cn+1].values,ndmin=1).T
-        cyc_capacity = np.array(capacity[pos_cycle_no==cn+1].values,ndmin=1).T 
+        cyc_capacity = np.array(grav_capacity[pos_cycle_no==cn+1].values,ndmin=1).T 
         
         ct_name = time_head + "(C" + str(cn+1) + ")"
         all_data[ct_name] = cyc_time
@@ -111,7 +111,7 @@ def create_data_frame(file=None):
         exp_time = np.array(time[neg_cycle_no==cn+1].values,ndmin=1).T
         cyc_time = exp_time - exp_time[0]
         cyc_pot = np.array(potential[neg_cycle_no==cn+1].values,ndmin=1).T
-        cyc_capacity = np.array(capacity[neg_cycle_no==cn+1].values,ndmin=1).T
+        cyc_capacity = np.array(grav_capacity[neg_cycle_no==cn+1].values,ndmin=1).T
         
         ct_name = time_head + "(D" + str(cn+1) + ")"
         all_data[ct_name] = cyc_time
@@ -140,7 +140,9 @@ def create_data_frame(file=None):
     
         
     out_df = pd.DataFrame.from_dict(all_data,orient="columns")
+    outdf_csv_data = out_df.to_csv("%s%s" % (file[0:-3],'csv'), index = True)
     
+
     return out_df,file,pos_count,neg_count
 
 if __name__ == "__main__":
