@@ -9,16 +9,21 @@ import numpy as np
 import pandas as pd
 import tkinter as tk
 from tkinter import filedialog
+from tkinter import simpledialog
 
 def data_from_file(file=None):
     if file==None:
         root = tk.Tk()
-        file = filedialog.askopenfilename(parent=root)
         root.withdraw()
+        file = filedialog.askopenfilename(parent=root)
+        
+        active_mass = float(simpledialog.askstring(title="Active Mass",
+                                  prompt="Enter Active Loading (g):"))
+        
         print(file)
     
     data = pd.read_csv(file,delimiter='\t')
-    return file,data
+    return file,data,active_mass
 
 def parse_data(data):
     potential = data.loc[:,'Ecell/V']
@@ -28,7 +33,7 @@ def parse_data(data):
     time = data.loc[:,'time/s']
     return potential,capacity,time,current,cycle_no
 
-def current_thresholds(current,rel_cutoff=0.01):
+def current_thresholds(current,rel_cutoff=0.98):
     posthresh = rel_cutoff * np.max(current)
     negthresh = rel_cutoff * np.min(current)
     pos_cycles = current > posthresh
@@ -59,30 +64,27 @@ def get_cycle_counts(time,is_pos,is_neg):
         if is_neg[i]:
             if neg_edge[i]==1:
                 neg_count += 1
-                neg_cycle_no[i] = neg_count
+            neg_cycle_no[i] = neg_count
     print("Number of neg cycles = %d \nNumber of pos cycles = %d" % (neg_count,pos_count))       
  
     return pos_count,neg_count,pos_cycle_no,neg_cycle_no
 
 def create_data_frame(file=None):    
-    file,data = data_from_file(file)
-    ######### TODO
-    # active mass user input
-    active_mass = 1
     
+    file,data,active_mass = data_from_file(file)
+       
     (potential,capacity,
      time,current,cycle_no) = parse_data(data)
-    
-    capacity = capacity / active_mass
-        
-    is_pos,is_neg = current_thresholds(current,0.01)
+       
+    grav_capacity = capacity / active_mass
+          
+    is_pos,is_neg = current_thresholds(current,0.98)
    
     pos_edge,neg_edge = find_edges(is_pos,is_neg)
     
     (pos_count,neg_count,
      pos_cycle_no,neg_cycle_no) = get_cycle_counts(time,is_pos,is_neg)
-
-
+    
     all_data = dict()
 
     time_head = "Elapsed time/s "
@@ -92,7 +94,7 @@ def create_data_frame(file=None):
         exp_time = np.array(time[pos_cycle_no==cn+1].values,ndmin=1).T
         cyc_time = exp_time - exp_time[0]
         cyc_pot = np.array(potential[pos_cycle_no==cn+1].values,ndmin=1).T
-        cyc_capacity = np.array(capacity[pos_cycle_no==cn+1].values,ndmin=1).T 
+        cyc_capacity = np.array(grav_capacity[pos_cycle_no==cn+1].values,ndmin=1).T 
         
         ct_name = time_head + "(C" + str(cn+1) + ")"
         all_data[ct_name] = cyc_time
@@ -108,7 +110,7 @@ def create_data_frame(file=None):
         exp_time = np.array(time[neg_cycle_no==cn+1].values,ndmin=1).T
         cyc_time = exp_time - exp_time[0]
         cyc_pot = np.array(potential[neg_cycle_no==cn+1].values,ndmin=1).T
-        cyc_capacity = np.array(capacity[neg_cycle_no==cn+1].values,ndmin=1).T
+        cyc_capacity = np.array(grav_capacity[neg_cycle_no==cn+1].values,ndmin=1).T
         
         ct_name = time_head + "(D" + str(cn+1) + ")"
         all_data[ct_name] = cyc_time
@@ -137,7 +139,9 @@ def create_data_frame(file=None):
     
         
     out_df = pd.DataFrame.from_dict(all_data,orient="columns")
+    out_df.to_csv("%s%s" % (file[0:-3],'csv'), index = True)
     
+
     return out_df,file,pos_count,neg_count
 
 if __name__ == "__main__":
@@ -145,7 +149,7 @@ if __name__ == "__main__":
 
     out_df,file_path,_,_ = create_data_frame()
 
-    outdf_csv_data = out_df.to_csv("%s%s" % (file_path[0:-3],'csv'), index = True)
+    out_df.to_csv("%s%s" % (file_path[0:-3],'csv'), index = True)
     
 
             
