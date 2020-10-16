@@ -18,7 +18,8 @@ file_path = filedialog.askopenfilename(parent=root)
 
 ################
 # Ask for user input TODO
-active_mass = float(input("Give me the active masses pls my friend(in g): "))
+# active_mass = float(input("Acitve loading (g):"))
+active_mass = 0.008
 ################
 root.withdraw()
 print(file_path)
@@ -145,16 +146,35 @@ for col in all_data:
 max_length = np.max(length)
 
 for i,col in enumerate(all_data): 
-    buffer = np.zeros([round(max_length)])*np.nan
+    buffer = np.zeros(int(round(max_length)))*np.nan
     orig_len = np.max(np.shape(all_data[col]))
     buffer[0:orig_len] = all_data[col]
     all_data[col] = buffer
-
+    
 
     
 out_df = pd.DataFrame.from_dict(all_data,orient="columns")
-outdf_csv_data = out_df.to_csv("%s%s" % (file_path[0:-3],'csv'), index = True)
+# outdf_csv_data = out_df.to_csv("%s%s" % (file_path[0:-3],'csv'), index = True)
 
-
-
+charge_cols = [col for col in out_df.columns if 'Capacity/mA.h.g^-1 (C' in col]
+max_charge_cap = np.zeros((pos_count,1))
+for i,col in enumerate(charge_cols):
+    max_charge_cap[i]=np.max(out_df[col])
+    print(max_charge_cap[i])
+    
+discharge_cols =  [col for col in out_df.columns if 'Capacity/mA.h.g^-1 (D' in col]
+max_discharge_cap = np.zeros((neg_count,1))
+for i,col in enumerate(discharge_cols):
+    max_discharge_cap[i]=np.max(out_df[col])
+    print(max_discharge_cap[i])
+    
+cycle_no = np.arange(1,pos_count+1)
+    
+plt.figure()
+plt.plot(cycle_no, max_discharge_cap, 'x')
+plt.plot(cycle_no,max_charge_cap, 'x')
+plt.legend(["Discharge capacity", "Charge capacity"])
+plt.xlabel("Cycle Number")
+plt.ylabel("Capacity mAh g^-1)
+plt.show()
 # plt.close()
