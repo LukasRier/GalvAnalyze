@@ -70,12 +70,9 @@ def get_cycle_counts(time,is_pos,is_neg):
     return pos_count,neg_count,pos_cycle_no,neg_cycle_no
 
 def create_data_frame(file=None):    
+    
     file,data,active_mass = data_from_file(file)
-    
-
-# check it out
-print("Hello", USER_INP)
-    
+       
     (potential,capacity,
      time,current,cycle_no) = parse_data(data)
     
