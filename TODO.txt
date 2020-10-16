@@ -1,0 +1,7 @@
+* create CSV with maximum charge and discharge capacity per cycle no
+* clean up plots
+* make executable
+
+* make interface?
+	* include cleverer thresholding
+		* manual or adaptive if currents change
