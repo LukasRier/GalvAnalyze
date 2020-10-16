@@ -138,12 +138,12 @@ def create_data_frame(file=None):
         
     out_df = pd.DataFrame.from_dict(all_data,orient="columns")
     
-    return out_df,file
+    return out_df,file,pos_count,neg_count
 
 if __name__ == "__main__":
     
 
-    out_df,file_path = create_data_frame()
+    out_df,file_path,_,_ = create_data_frame()
 
     outdf_csv_data = out_df.to_csv("%s%s" % (file_path[0:-3],'csv'), index = True)
     

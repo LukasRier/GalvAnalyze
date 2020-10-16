@@ -8,4 +8,4 @@ lukasrier@outlook.com
 
 import clean_data as cld
 
-data_frame,_ = cld.create_data_frame()
+data_frame,_,pos_count,neg_count = cld.create_data_frame()
