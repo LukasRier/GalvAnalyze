@@ -64,11 +64,12 @@ plt.figure()
 discharge_cyc_potentials = np.zeros((out_df.shape[0],neg_count))
 discharge_cyc_capacities = np.zeros((out_df.shape[0],neg_count))
 for coln in range(neg_count):
-    discharge_cyc_potentials[:,coln] = out_df["Ecell/V (D%d)" % (coln+1), linewidth=0.1]
-    discharge_cyc_capacities[:,coln] = out_df["Capacity/mA.h.g^-1 (D%d)" % (coln+1), linewidth=0.1]
+    discharge_cyc_potentials[:,coln] = out_df["Ecell/V (D%d)" % (coln+1)]
+    discharge_cyc_capacities[:,coln] = out_df["Capacity/mA.h.g^-1 (D%d)" % (coln+1)]
     plt.plot(discharge_cyc_capacities[:,coln],discharge_cyc_potentials[:,coln],
-             )
-    plt.plot(charge_cyc_capacities[:,coln],charge_cyc_potentials[:,coln])
+             linewidth=0.1)
+    plt.plot(charge_cyc_capacities[:,coln],charge_cyc_potentials[:,coln],
+             linewidth=0.1)
     plt.xlabel("Capacity $mAh g^{-1}$")
     plt.ylabel("Potential / $V$")
     plt.legend(["Discharge1","Charge1","Discharge2","Charge2","Discharge3","Charge3"
