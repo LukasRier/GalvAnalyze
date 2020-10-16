@@ -151,7 +151,6 @@ for i,col in enumerate(all_data):
     buffer[0:orig_len] = all_data[col]
     all_data[col] = buffer
 
-
     
 out_df = pd.DataFrame.from_dict(all_data,orient="columns")
 outdf_csv_data = out_df.to_csv("%s%s" % (file_path[0:-3],'csv'), index = True)
