@@ -18,8 +18,8 @@ file_path = filedialog.askopenfilename(parent=root)
 
 ################
 # Ask for user input TODO
-# active_mass = float(input("Acitve loading (g):"))
-active_mass = 0.008
+#active_mass = float(input("Give me the active masses pls my friend(in g): "))
+active_mass=1
 ################
 root.withdraw()
 print(file_path)
@@ -146,78 +146,15 @@ for col in all_data:
 max_length = np.max(length)
 
 for i,col in enumerate(all_data): 
-    buffer = np.zeros(int(round(max_length)))*np.nan
+    buffer = np.zeros([round(max_length)])*np.nan
     orig_len = np.max(np.shape(all_data[col]))
     buffer[0:orig_len] = all_data[col]
     all_data[col] = buffer
-    
 
     
 out_df = pd.DataFrame.from_dict(all_data,orient="columns")
-# outdf_csv_data = out_df.to_csv("%s%s" % (file_path[0:-3],'csv'), index = True)
+outdf_csv_data = out_df.to_csv("%s%s" % (file_path[0:-3],'csv'), index = True)
 
-charge_cols = [col for col in out_df.columns if 'Capacity/mA.h.g^-1 (C' in col]
-max_charge_cap = np.zeros((pos_count,1))
-for i,col in enumerate(charge_cols):
-    max_charge_cap[i]=np.max(out_df[col])
-    
-discharge_cols =  [col for col in out_df.columns if 'Capacity/mA.h.g^-1 (D' in col]
-max_discharge_cap = np.zeros((neg_count,1))
-for i,col in enumerate(discharge_cols):
-    max_discharge_cap[i]=np.max(out_df[col])
-    
-cycle_no = np.arange(1,pos_count+1)
-    
-plt.figure()
-plt.plot(cycle_no, max_discharge_cap, 'x')
-plt.plot(cycle_no, max_charge_cap, 'x')
-plt.legend(["Discharge capacity", "Charge capacity"])
-plt.xlabel("Cycle Number")
-plt.ylabel("Capacity mAh g^{-1}$")
-plt.savefig("Cycle no vs. Capacity.png")
-plt.show()
-
-plt.figure()
-charge_cyc_potentials = np.zeros((out_df.shape[0],pos_count))
-charge_cyc_capacities = np.zeros((out_df.shape[0],pos_count))
-for coln in range(pos_count):
-    charge_cyc_potentials[:,coln] = out_df["Ecell/V (C%d)" % (coln+1)]
-    charge_cyc_capacities[:,coln] = out_df["Capacity/mA.h.g^-1 (C%d)" % (coln+1)]
-    plt.plot(charge_cyc_capacities[:,coln],charge_cyc_potentials[:,coln])
-    plt.xlabel("Capacity $mAh g^{-1}$")
-    plt.ylabel("Potential / $V$")
-plt.legend(["Cyc1","Cyc2","Cyc3","Cyc4","Cyc5","Cyc6","Cyc7","Cyc8","Cyc9","Cyc10"])
-plt.savefig("Charge capacity vs. Potential.png")
-
-plt.figure()
-discharge_cyc_potentials = np.zeros((out_df.shape[0],neg_count))
-discharge_cyc_capacities = np.zeros((out_df.shape[0],neg_count))
-for coln in range(neg_count):
-    discharge_cyc_potentials[:,coln] = out_df["Ecell/V (D%d)" % (coln+1)]
-    discharge_cyc_capacities[:,coln] = out_df["Capacity/mA.h.g^-1 (D%d)" % (coln+1)]
-    plt.plot(discharge_cyc_capacities[:,coln],discharge_cyc_potentials[:,coln])
-    plt.xlabel("Capacity $mAh g^{-1}$")
-    plt.ylabel("Potential / $V$")
-    plt.legend(["Cyc1","Cyc2","Cyc3","Cyc4","Cyc5","Cyc6","Cyc7","Cyc8","Cyc9","Cyc10"])
-plt.savefig("Disharge capacity vs. Potential.png")
-
-plt.figure()
-discharge_cyc_potentials = np.zeros((out_df.shape[0],neg_count))
-discharge_cyc_capacities = np.zeros((out_df.shape[0],neg_count))
-for coln in range(neg_count):
-    discharge_cyc_potentials[:,coln] = out_df["Ecell/V (D%d)" % (coln+1)]
-    discharge_cyc_capacities[:,coln] = out_df["Capacity/mA.h.g^-1 (D%d)" % (coln+1)]
-    plt.plot(discharge_cyc_capacities[:,coln],discharge_cyc_potentials[:,coln])
-    plt.plot(charge_cyc_capacities[:,coln],charge_cyc_potentials[:,coln])
-    plt.xlabel("Capacity $mAh g^{-1}$")
-    plt.ylabel("Potential / $V$")
-    plt.legend(["Discharge1","Charge1","Discharge2","Charge2","Discharge3","Charge3"
-                ,"Discharge4","Charge4","Discharge5","Charge5"])
-plt.savefig("Capacity vs. Potential all cycles.png")
-
-
-#plt.figure()
-#plt.plot()
 
 
 # plt.close()
