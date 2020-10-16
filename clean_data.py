@@ -2,7 +2,8 @@
 """
 Created on Fri Oct 16 20:16:32 2020
 
-@author: lukas
+@author: lukas Rier
+lukasrier@outlook.com
 """
 import numpy as np
 import pandas as pd
@@ -59,7 +60,7 @@ def get_cycle_counts(time,is_pos,is_neg):
             if neg_edge[i]==1:
                 neg_count += 1
                 neg_cycle_no[i] = neg_count
-            print("Number of neg cycles = %d \nNumber of pos cycles = %d" % (neg_count,pos_count))       
+    print("Number of neg cycles = %d \nNumber of pos cycles = %d" % (neg_count,pos_count))       
  
     return pos_count,neg_count,pos_cycle_no,neg_cycle_no
 
@@ -84,34 +85,39 @@ def create_data_frame(file=None):
 
     all_data = dict()
 
+    time_head = "Elapsed time/s "
+    potential_head = "Ecell/V "
+    capacity_head = "Capacity/mA.h.g^-1 "
     for cn in range(pos_count):
         exp_time = np.array(time[pos_cycle_no==cn+1].values,ndmin=1).T
         cyc_time = exp_time - exp_time[0]
         cyc_pot = np.array(potential[pos_cycle_no==cn+1].values,ndmin=1).T
         cyc_capacity = np.array(capacity[pos_cycle_no==cn+1].values,ndmin=1).T 
         
-        ct_name = "Elapsed time/s (C" + str(cn+1) + ")"
+        ct_name = time_head + "(C" + str(cn+1) + ")"
         all_data[ct_name] = cyc_time
         
-        cyc_pot_name = "Ecell/V (C" + str(cn+1) + ")"
+        cyc_pot_name = potential_head + "(C" + str(cn+1) + ")"
         all_data[cyc_pot_name] = cyc_pot
         
-        cyc_cap_name = "Capacity/mA.h.g^-1 (C" + str(cn+1) + ")"
+        cyc_cap_name = capacity_head + "(C" + str(cn+1) + ")"
         all_data[cyc_cap_name] = cyc_capacity
     
+
     for cn in range(neg_count):
         exp_time = np.array(time[neg_cycle_no==cn+1].values,ndmin=1).T
         cyc_time = exp_time - exp_time[0]
         cyc_pot = np.array(potential[neg_cycle_no==cn+1].values,ndmin=1).T
         cyc_capacity = np.array(capacity[neg_cycle_no==cn+1].values,ndmin=1).T
         
-        ct_name = "Elapsed time/s (D" + str(cn+1) + ")"
+        ct_name = time_head + "(D" + str(cn+1) + ")"
         all_data[ct_name] = cyc_time
         
-        cyc_pot_name = "Ecell/V (D" + str(cn+1) + ")"
+        cyc_pot_name = potential_head + "(D" + str(cn+1) + ")"
         all_data[cyc_pot_name] = cyc_pot
         
-        cyc_cap_name = "Capacity/mA.h.g^-1 (D" + str(cn+1) + ")"
+        
+        cyc_cap_name =  capacity_head + "(D" + str(cn+1) + ")"
         all_data[cyc_cap_name] = cyc_capacity   
     
     length = np.array([])
