@@ -9,16 +9,21 @@ import numpy as np
 import pandas as pd
 import tkinter as tk
 from tkinter import filedialog
+from tkinter import simpledialog
 
 def data_from_file(file=None):
     if file==None:
         root = tk.Tk()
-        file = filedialog.askopenfilename(parent=root)
         root.withdraw()
+        file = filedialog.askopenfilename(parent=root)
+        
+        active_mass = float(simpledialog.askstring(title="Active Mass",
+                                  prompt="Enter Active Loading (g):"))
+        
         print(file)
     
     data = pd.read_csv(file,delimiter='\t')
-    return file,data
+    return file,data,active_mass
 
 def parse_data(data):
     potential = data.loc[:,'Ecell/V']
@@ -65,10 +70,11 @@ def get_cycle_counts(time,is_pos,is_neg):
     return pos_count,neg_count,pos_cycle_no,neg_cycle_no
 
 def create_data_frame(file=None):    
-    file,data = data_from_file(file)
-    ######### TODO
-    # active mass user input
-    active_mass = 1
+    file,data,active_mass = data_from_file(file)
+    
+
+# check it out
+print("Hello", USER_INP)
     
     (potential,capacity,
      time,current,cycle_no) = parse_data(data)
