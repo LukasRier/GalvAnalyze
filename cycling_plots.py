@@ -11,9 +11,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-data_frame,_,pos_count,neg_count = cld.create_data_frame()
-
-out_df,_ = cld.create_data_frame()
+out_df,_,pos_count,neg_count = cld.create_data_frame()
 
 charge_cols = [col for col in out_df.columns if 'Capacity/mA.h.g^-1 (C' in col]
 max_charge_cap = np.zeros((pos_count,1))
