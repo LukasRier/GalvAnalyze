@@ -18,7 +18,7 @@ def data_from_file(file=None):
         file = filedialog.askopenfilename(parent=root)
         
         active_mass = float(simpledialog.askstring(title="Active Mass",
-                                  prompt="Enter Active Loading (g):"))
+                                  prompt="Enter Active Loading (mg):")) / 1000
         
         print(file)
     
