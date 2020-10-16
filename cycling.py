@@ -18,7 +18,8 @@ file_path = filedialog.askopenfilename(parent=root)
 
 ################
 # Ask for user input TODO
-active_mass = float(input("Give me the active masses pls my friend(in g): "))
+#active_mass = float(input("Give me the active masses pls my friend(in g): "))
+active_mass=1
 ################
 root.withdraw()
 print(file_path)
