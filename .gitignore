@@ -4,3 +4,4 @@
 1Li Insertion Crate 500 Cycles_CA7 BAD.txt
 *.pyc
 __pycache__/clean_data.cpython-37.pyc
+*.csv
