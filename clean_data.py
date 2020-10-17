@@ -11,6 +11,7 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import simpledialog
 import sys
+import os
 
 def data_from_file(file=None):
     if file==None:
@@ -18,6 +19,7 @@ def data_from_file(file=None):
         root.withdraw()
         try:
             file = filedialog.askopenfilename(parent=root)
+            file = os.path.abspath(file)
         except FileNotFoundError:
             sys.exit()
             
@@ -36,7 +38,7 @@ def data_from_file(file=None):
                 tk.messagebox.showerror(title=None, 
                                         message="Enter a valid number!")
         
-        active_mass = float(active_mass_input)
+        active_mass = float(active_mass_input) / 1000
     
     return file,data,active_mass
 
@@ -164,19 +166,23 @@ def create_data_frame(file=None):
         buffer[0:orig_len] = all_data[col]
         all_data[col] = buffer
     
-        
-    out_df = pd.DataFrame.from_dict(all_data,orient="columns")
-    out_df.to_csv("%s%s" % (file[0:-3],'csv'), index = True)
+    save_dir = file[0:-4] + "_OUTPUTS"
+    try:
+        os.mkdir(save_dir)
+    except FileExistsError:
+        pass
     
-
-    return out_df,file,pos_count,neg_count
+    filename = os.path.basename(file)
+    out_df = pd.DataFrame.from_dict(all_data,orient="columns")
+    
+    out_df.to_csv(os.path.join(save_dir,"%s%s" % (filename[0:-3],'csv') ), index = True)
+    
+    return out_df,filename,save_dir,pos_count,neg_count
 
 if __name__ == "__main__":
     
 
-    out_df,file_path,_,_ = create_data_frame()
-
-    out_df.to_csv("%s%s" % (file_path[0:-3],'csv'), index = True)
+    out_df,file,save_dir,_,_ = create_data_frame()
     
 
             

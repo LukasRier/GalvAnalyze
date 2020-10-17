@@ -9,8 +9,10 @@ lukasrier@outlook.com
 import clean_data as cld
 import numpy as np
 import matplotlib.pyplot as plt
+import pandas as pd
+import os
 
-out_df,_,pos_count,neg_count = cld.create_data_frame()
+out_df,filename,save_dir,pos_count,neg_count = cld.create_data_frame()
 
 
 charge_cols = [col for col in out_df.columns if 'Capacity/mA.h.g^-1 (C' in col]
@@ -36,6 +38,13 @@ plt.yticks(fontsize=14)
 plt.tight_layout()
 plt.savefig("Cycle no vs. Capacity.png")
 plt.show()
+
+max_cap = {'Cycle Number': cycle_no, 
+           'Max Charge Capacity mA.h.g^-1': max_charge_cap,
+           'Max Discharge Capacity mA.h.g^-1': max_discharge_cap}
+max_cap_df = pd.DataFrame(data=max_cap)
+max_cap_path = os.path.join(save_dir,"%s%s" % (filename[0:-4],'_max_capacities_per_cycle.csv'))
+max_cap_df.to_csv(max_cap_path, index = True)
 
 plt.figure()
 charge_cyc_potentials = np.zeros((out_df.shape[0],pos_count))
