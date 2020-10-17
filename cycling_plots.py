@@ -24,13 +24,16 @@ for i,col in enumerate(discharge_cols):
     max_discharge_cap[i]=np.max(out_df[col])
     
 cycle_no = np.arange(1,pos_count+1)
-    
+
 plt.figure()
 plt.plot(cycle_no, max_discharge_cap, 'x')
 plt.plot(cycle_no, max_charge_cap, 'x')
 plt.legend(["Discharge capacity", "Charge capacity"])
-plt.xlabel("Cycle Number")
-plt.ylabel("Capacity mAh g^{-1}$")
+plt.xlabel("Cycle Number", fontsize=14)
+plt.xticks(fontsize=14)
+plt.ylabel("Capacity $mAh g^{-1}$", fontsize=14)
+plt.yticks(fontsize=14)
+plt.tight_layout()
 plt.savefig("Cycle no vs. Capacity.png")
 plt.show()
 
@@ -40,9 +43,12 @@ charge_cyc_capacities = np.zeros((out_df.shape[0],pos_count))
 for coln in range(pos_count):
     charge_cyc_potentials[:,coln] = out_df["Ecell/V (C%d)" % (coln+1)]
     charge_cyc_capacities[:,coln] = out_df["Capacity/mA.h.g^-1 (C%d)" % (coln+1)]
-    plt.plot(charge_cyc_capacities[:,coln],charge_cyc_potentials[:,coln], linewidth=0.1)
-    plt.xlabel("Capacity $mAh g^{-1}$")
-    plt.ylabel("Potential / $V$")
+    plt.plot(charge_cyc_capacities[:,coln],charge_cyc_potentials[:,coln], linewidth=0.5)
+    plt.xlabel("Capacity $mAh g^{-1}$", fontsize=14)
+    plt.xticks(fontsize=14)
+    plt.ylabel("Potential / $V$", fontsize=14)
+    plt.yticks(fontsize=14)
+    plt.tight_layout()
 plt.legend(["Cyc1","Cyc2","Cyc3","Cyc4","Cyc5","Cyc6","Cyc7","Cyc8","Cyc9","Cyc10"])
 plt.savefig("Charge capacity vs. Potential.png")
 
@@ -52,9 +58,12 @@ discharge_cyc_capacities = np.zeros((out_df.shape[0],neg_count))
 for coln in range(neg_count):
     discharge_cyc_potentials[:,coln] = out_df["Ecell/V (D%d)" % (coln+1)]
     discharge_cyc_capacities[:,coln] = out_df["Capacity/mA.h.g^-1 (D%d)" % (coln+1)]
-    plt.plot(discharge_cyc_capacities[:,coln],discharge_cyc_potentials[:,coln], linewidth=0.1)
-    plt.xlabel("Capacity $mAh g^{-1}$")
-    plt.ylabel("Potential / $V$")
+    plt.plot(discharge_cyc_capacities[:,coln],discharge_cyc_potentials[:,coln], linewidth=0.5)
+    plt.xlabel("Capacity $mAh g^{-1}$", fontsize=14)
+    plt.xticks(fontsize=14)
+    plt.ylabel("Potential / $V$", fontsize=14)
+    plt.yticks(fontsize=14)
+    plt.tight_layout()
     plt.legend(["Cyc1","Cyc2","Cyc3","Cyc4","Cyc5","Cyc6","Cyc7","Cyc8","Cyc9","Cyc10"])
 plt.savefig("Disharge capacity vs. Potential.png")
 
@@ -65,11 +74,14 @@ for coln in range(neg_count):
     discharge_cyc_potentials[:,coln] = out_df["Ecell/V (D%d)" % (coln+1)]
     discharge_cyc_capacities[:,coln] = out_df["Capacity/mA.h.g^-1 (D%d)" % (coln+1)]
     plt.plot(discharge_cyc_capacities[:,coln],discharge_cyc_potentials[:,coln],
-             linewidth=0.1)
+             linewidth=0.5)
     plt.plot(charge_cyc_capacities[:,coln],charge_cyc_potentials[:,coln],
-             linewidth=0.1)
-    plt.xlabel("Capacity $mAh g^{-1}$")
-    plt.ylabel("Potential / $V$")
+             linewidth=0.5)
+    plt.xlabel("Capacity $mAh g^{-1}$", fontsize=14)
+    plt.xticks(fontsize=14)
+    plt.ylabel("Potential / $V$", fontsize=14)
+    plt.yticks(fontsize=14)
+    plt.tight_layout()
     plt.legend(["Discharge1","Charge1","Discharge2","Charge2","Discharge3","Charge3"
                 ,"Discharge4","Charge4","Discharge5","Charge5"])
 plt.savefig("Capacity vs. Potential (all cycles).png")
