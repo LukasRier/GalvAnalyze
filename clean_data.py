@@ -16,10 +16,9 @@ def data_from_file(file=None):
         root = tk.Tk()
         root.withdraw()
         file = filedialog.askopenfilename(parent=root)
-        
         active_mass = float(simpledialog.askstring(title="Active Mass",
                                   prompt="Enter Active Loading (mg):")) / 1000
-        
+       
         print(file)
     
     data = pd.read_csv(file,delimiter='\t')
