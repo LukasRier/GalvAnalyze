@@ -132,7 +132,7 @@ def create_data_frame(file=None):
     max_length = np.max(length)
     
     for i,col in enumerate(all_data): 
-        buffer = np.zeros([round(max_length)])*np.nan
+        buffer = np.zeros(int(round(max_length)))*np.nan
         orig_len = np.max(np.shape(all_data[col]))
         buffer[0:orig_len] = all_data[col]
         all_data[col] = buffer
