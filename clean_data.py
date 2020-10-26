@@ -94,6 +94,29 @@ def get_cycle_counts(time,is_pos,is_neg):
             if neg_edge[i]==1:
                 neg_count += 1
             neg_cycle_no[i] = neg_count
+            
+        if neg_count >> pos_count:
+            neg_count == neg_count - 1
+        neg_count == neg_count
+        
+        if pos_count >> neg_count:
+            pos_count == pos_count - 1
+        pos_count = pos_count
+        
+#ISSUE: The above code removes the first datapoint rather than
+#       the last data point
+
+# if neg_cycle_no[i] >> pos_cycle_no[i]:
+#            del neg_cycle_no[-1]
+#            neg_cycle_no[i] = neg_count
+#        neg_count == neg_count
+#        
+#        if pos_cycle_no[i] >> neg_cycle_no[i]:
+#            del pos_cycle_no[-1]
+#            pos_cycle_no[i] = pos_count            
+#        pos_count = pos_count
+    
+            
     print("Number of neg cycles = %d \nNumber of pos cycles = %d" % (neg_count,pos_count))       
  
     return pos_count,neg_count,pos_cycle_no,neg_cycle_no
