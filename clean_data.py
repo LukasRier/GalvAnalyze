@@ -62,7 +62,7 @@ def parse_data(data):
     time = data.loc[:,'time/s']
     return potential,capacity,time,current,cycle_no
 
-def current_thresholds(current,rel_cutoff=0.98):
+def current_thresholds(current,rel_cutoff=0.9):
     posthresh = rel_cutoff * np.max(current)
     negthresh = rel_cutoff * np.min(current)
     pos_cycles = current > posthresh
@@ -95,6 +95,16 @@ def get_cycle_counts(time,is_pos,is_neg):
                 neg_count += 1
             neg_cycle_no[i] = neg_count
     print("Number of neg cycles = %d \nNumber of pos cycles = %d" % (neg_count,pos_count))       
+    
+    if pos_count > neg_count:
+        pos_cycle_no[pos_cycle_no > neg_count] = np.nan
+        pos_count = neg_count
+    elif pos_count < neg_count:
+        neg_cycle_no[neg_cycle_no > pos_count] = np.nan
+        neg_count = pos_count
+ 
+    print("Number of neg cycles = %d \nNumber of pos cycles = %d" % (
+        np.nanmax(neg_cycle_no),np.nanmax(pos_cycle_no)))  
  
     return pos_count,neg_count,pos_cycle_no,neg_cycle_no
 
