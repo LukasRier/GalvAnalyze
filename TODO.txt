@@ -1,5 +1,11 @@
-* create CSV with maximum charge and discharge capacity per cycle no
-* clean up plots
+* Remove the final cycle data from the longest cycle (if cycles not equal)
+
+* Create ability to input data from second software ('time /s', 'I /mA', 'E /V')
+  Capacity calculated through time*current/3600 = mAh g-1
+
+* Coulombic efficiency plot (ratio of charge to discharge capacity)
+  + add to csv of charge discharge
+
 * make executable
 
 * make interface?
