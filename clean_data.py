@@ -55,12 +55,36 @@ def check_valid_mass(input_str):
         return True
 
 def parse_data(data):
-    potential = data.loc[:,'Ecell/V']
-    current = data.loc[:,'<I>/mA']
-    capacity = data.loc[:,'Capacity/mA.h']
+    
+    if 'Ecell/V' in data:
+        potential = data.loc[:,'Ecell/V']
+    elif 'E /V' in data:
+        potential = data.loc[:,'E /V']
+    else:
+        potential = False
+    print(potential)
+
+    if '<I>/mA' in data:
+        current = data.loc[:,'<I>/mA']
+    elif 'I /mA' in data:
+        current = data.loc[:,'I /mA']
+    else:
+        current = False
+    
+    if 'time/s' in data:
+        time = data.loc[:,'time/s']
+    elif 'time /s' in data:
+        time = data.loc[:,'time /s']
+    else:
+        time = False
+
     cycle_no = data.loc[:,'cycle number']
-    time = data.loc[:,'time/s']
-    return potential,capacity,time,current,cycle_no
+    
+#    capacity = data.loc[:,'Capacity/mA.h']
+# Capacity needs to be calculated once cycles have been separated
+# Capacity = time*current (mAs) / 3600 (mAh) / active mass (g) = mAh g^-1
+    
+    return potential,current,time,cycle_no
 
 def current_thresholds(current,rel_cutoff=0.9):
     posthresh = rel_cutoff * np.max(current)
@@ -108,14 +132,17 @@ def get_cycle_counts(time,is_pos,is_neg):
  
     return pos_count,neg_count,pos_cycle_no,neg_cycle_no
 
+# Here we need to create the value of capacity
+# Capacity = time*current (mAs) / 3600 (mAh) / active mass (g) = mAh g^-1
+
 def create_data_frame(file=None):    
     
     file,data,active_mass = data_from_file(file)
        
-    (potential,capacity,
+    (potential,
      time,current,cycle_no) = parse_data(data)
        
-    grav_capacity = capacity / active_mass
+#    grav_capacity = capacity / active_mass
           
     is_pos,is_neg = current_thresholds(current,0.98)
    
@@ -128,12 +155,12 @@ def create_data_frame(file=None):
 
     time_head = "Elapsed time/s "
     potential_head = "Ecell/V "
-    capacity_head = "Capacity/mA.h.g^-1 "
+#    capacity_head = "Capacity/mA.h.g^-1 "
     for cn in range(pos_count):
         exp_time = np.array(time[pos_cycle_no==cn+1].values,ndmin=1).T
         cyc_time = exp_time - exp_time[0]
         cyc_pot = np.array(potential[pos_cycle_no==cn+1].values,ndmin=1).T
-        cyc_capacity = np.array(grav_capacity[pos_cycle_no==cn+1].values,ndmin=1).T 
+#        cyc_capacity = np.array(grav_capacity[pos_cycle_no==cn+1].values,ndmin=1).T 
         
         ct_name = time_head + "(C" + str(cn+1) + ")"
         all_data[ct_name] = cyc_time
@@ -141,15 +168,15 @@ def create_data_frame(file=None):
         cyc_pot_name = potential_head + "(C" + str(cn+1) + ")"
         all_data[cyc_pot_name] = cyc_pot
         
-        cyc_cap_name = capacity_head + "(C" + str(cn+1) + ")"
-        all_data[cyc_cap_name] = cyc_capacity
+#        cyc_cap_name = capacity_head + "(C" + str(cn+1) + ")"
+#        all_data[cyc_cap_name] = cyc_capacity
     
 
     for cn in range(neg_count):
         exp_time = np.array(time[neg_cycle_no==cn+1].values,ndmin=1).T
         cyc_time = exp_time - exp_time[0]
         cyc_pot = np.array(potential[neg_cycle_no==cn+1].values,ndmin=1).T
-        cyc_capacity = np.array(grav_capacity[neg_cycle_no==cn+1].values,ndmin=1).T
+#        cyc_capacity = np.array(grav_capacity[neg_cycle_no==cn+1].values,ndmin=1).T
         
         ct_name = time_head + "(D" + str(cn+1) + ")"
         all_data[ct_name] = cyc_time
@@ -158,8 +185,8 @@ def create_data_frame(file=None):
         all_data[cyc_pot_name] = cyc_pot
         
         
-        cyc_cap_name =  capacity_head + "(D" + str(cn+1) + ")"
-        all_data[cyc_cap_name] = cyc_capacity   
+#        cyc_cap_name =  capacity_head + "(D" + str(cn+1) + ")"
+#        all_data[cyc_cap_name] = cyc_capacity   
     
     length = np.array([])
     
