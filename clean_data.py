@@ -18,7 +18,9 @@ def data_from_file(file=None):
         root = tk.Tk()
         root.withdraw()
         try:
-            file = filedialog.askopenfilename(parent=root,filetypes=[('Text files', '*.txt')])
+            file = filedialog.askopenfilename(parent=root,
+                                              filetypes=[('Text files',
+                                                          '*.txt')])
             file = os.path.abspath(file)
         except FileNotFoundError:
             sys.exit()
