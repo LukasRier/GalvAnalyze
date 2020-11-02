@@ -24,10 +24,18 @@ discharge_cols =  [col for col in out_df.columns if 'Capacity/mA.h.g^-1 (D' in c
 max_discharge_cap = np.zeros(neg_count)
 for i,col in enumerate(discharge_cols):
     max_discharge_cap[i]=np.max(out_df[col])
+
+if max_discharge_cap[0] > max_charge_cap[0]:
+    coulombic_efficiency = 100*max_charge_cap/max_discharge_cap
+elif max_discharge_cap[0] < max_charge_cap[0]:
+    coulombic_efficiency = 100*max_discharge_cap/max_charge_cap
+else:
+    coulombic_efficiency = None
     
 cycle_no = np.arange(1,pos_count+1)
 
 plt.figure()
+plt.subplot(1,2,1)
 plt.plot(cycle_no, max_discharge_cap, 'x')
 plt.plot(cycle_no, max_charge_cap, 'x')
 plt.legend(["Discharge capacity", "Charge capacity"])
@@ -35,13 +43,24 @@ plt.xlabel("Cycle Number", fontsize=14)
 plt.xticks(fontsize=14)
 plt.ylabel("Capacity $mAh g^{-1}$", fontsize=14)
 plt.yticks(fontsize=14)
+
+plt.subplot(1,2,2)
+plt.plot(cycle_no, coulombic_efficiency, 'x')
+plt.legend('coulombic efficiency')
+plt.xlabel("Cycle Number", fontsize=14)
+plt.xticks(fontsize=14)
+plt.ylabel("Coulombic efficiency %", fontsize=14)
+plt.yticks(fontsize=14)
+plt.ylim([0,110])
+
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir,"Cycle no vs. Capacity.png"))
 plt.show()
 
 max_cap = {'Cycle Number': cycle_no, 
            'Max Charge Capacity mA.h.g^-1': max_charge_cap,
-           'Max Discharge Capacity mA.h.g^-1': max_discharge_cap}
+           'Max Discharge Capacity mA.h.g^-1': max_discharge_cap,
+           'Coulombic Efficiency' : coulombic_efficiency}
 max_cap_df = pd.DataFrame.from_dict(data=max_cap,orient="columns")
 max_cap_path = os.path.join(save_dir,"%s%s" % (filename[0:-4],'_max_capacities_per_cycle.csv'))
 max_cap_df.to_csv(max_cap_path, index = False)
@@ -92,5 +111,6 @@ for coln in range(neg_count):
     plt.yticks(fontsize=14)
     plt.tight_layout()
     plt.legend(["Discharge1","Charge1","Discharge2","Charge2","Discharge3","Charge3"
-                ,"Discharge4","Charge4","Discharge5","Charge5"])
+                ,"Discharge4","Charge4","Discharge5","Charge5"],
+               bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.savefig(os.path.join(save_dir,"Capacity vs. Potential (all cycles).png"))
