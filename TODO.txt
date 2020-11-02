@@ -1,5 +1,5 @@
 * Find a way to correct for potential limits
-   - We current do not show the charge/discharge starting at the potential limit
+   - We currently do not show the charge/discharge starting at the potential limit
 
 * make executable
 
