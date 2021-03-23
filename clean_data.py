@@ -213,12 +213,21 @@ def create_data_frame(file=None):
     filename = os.path.basename(file)
     out_df = pd.DataFrame.from_dict(all_data,orient="columns")
     
-    out_df.to_csv(os.path.join(save_dir,"%s%s" % (filename[0:-3],'csv') ), index = True)
+    out_df.to_csv(os.path.join(save_dir,"%s%s" % (filename[0:-3],'csv') ), index = True)  
     
     return out_df,filename,save_dir,pos_count,neg_count
 
+def create_cycles_seperate(out_df, save_dir):
+    for i in range(len(out_df.columns)//6):
+        match_C = '(C' + str(i+1) + ')'
+        current_charge_cols = [col for col in out_df.columns if match_C in col]
+        match_D = '(D' + str(i+1) + ')'
+        current_discharge_cols = [col for col in out_df.columns if match_D in col]
+        usecols = current_charge_cols + current_discharge_cols
+        Cycle_x = out_df[usecols]
+        Cycle_x.to_csv(os.path.join(save_dir,"Cycle_%d.csv" % (i+1)), index = True)
+
 if __name__ == "__main__":
-    
 
     out_df,file,save_dir,_,_ = create_data_frame()
     

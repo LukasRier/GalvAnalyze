@@ -13,6 +13,7 @@ import pandas as pd
 import os
 
 out_df,filename,save_dir,pos_count,neg_count = cld.create_data_frame()
+cld.create_cycles_seperate(out_df, save_dir)
 
 
 charge_cols = [col for col in out_df.columns if 'Capacity/mA.h.g^-1 (C' in col]
