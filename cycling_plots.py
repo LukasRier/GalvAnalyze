@@ -16,6 +16,8 @@ out_df,filename,save_dir,pos_count,neg_count = cld.create_data_frame()
 cld.create_cycles_seperate(out_df, save_dir)
 
 
+
+
 charge_cols = [col for col in out_df.columns if 'Capacity/mA.h.g^-1 (C' in col]
 max_charge_cap = np.zeros(pos_count)
 for i,col in enumerate(charge_cols):
@@ -35,28 +37,32 @@ elif max_discharge_cap[0] == max_charge_cap[0]:
     
 cycle_no = np.arange(1,pos_count+1)
 
-plt.figure()
-plt.subplot(1,2,1)
-plt.plot(cycle_no, max_discharge_cap, 'x')
-plt.plot(cycle_no, max_charge_cap, 'x')
-plt.legend(["Discharge capacity", "Charge capacity"])
-plt.xlabel("Cycle Number", fontsize=14)
+
+#
+fig,ax = plt.subplots()
+ax.plot(cycle_no, max_discharge_cap, 'x')
+ax.plot(cycle_no, max_charge_cap, 'x')
+ax.legend(["Discharge capacity", "Charge capacity"], loc='lower left')
+ax.set_xlabel("Cycle Number", fontsize=14)
 plt.xticks(fontsize=14)
-plt.ylabel("Capacity $mAh g^{-1}$", fontsize=14)
+ax.set_ylabel("Capacity $mAh g^{-1}$", fontsize=14)
 plt.yticks(fontsize=14)
 
-plt.subplot(1,2,2)
-plt.plot(cycle_no, coulombic_efficiency, 'x')
-plt.legend('coulombic efficiency')
-plt.xlabel("Cycle Number", fontsize=14)
-plt.xticks(fontsize=14)
-plt.ylabel("Coulombic efficiency %", fontsize=14)
-plt.yticks(fontsize=14)
+
+ax2=ax.twinx()
+ax2.plot(cycle_no, coulombic_efficiency, 'o')
+ax2.set_ylabel("Coulombic efficiency %", fontsize=14)
+ax2.legend(['Coulombic efficiency'], loc='lower right')
 plt.ylim([0,110])
+plt.savefig(os.path.join(save_dir,"Cycle no vs. Capacity and Coulombic efficiency.png"))
 
 plt.tight_layout()
-plt.savefig(os.path.join(save_dir,"Cycle no vs. Capacity.png"))
 plt.show()
+
+#
+
+
+
 
 max_cap = {'Cycle Number': cycle_no, 
            'Max Charge Capacity mA.h.g^-1': max_charge_cap,
