@@ -29,8 +29,8 @@ if max_discharge_cap[0] > max_charge_cap[0]:
     coulombic_efficiency = 100*max_charge_cap/max_discharge_cap
 elif max_discharge_cap[0] < max_charge_cap[0]:
     coulombic_efficiency = 100*max_discharge_cap/max_charge_cap
-else:
-    coulombic_efficiency = None
+elif max_discharge_cap[0] == max_charge_cap[0]:
+    coulombic_efficiency = 100*max_discharge_cap/max_charge_cap
     
 cycle_no = np.arange(1,pos_count+1)
 
