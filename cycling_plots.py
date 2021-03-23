@@ -54,6 +54,7 @@ ax2.plot(cycle_no, coulombic_efficiency, 'o')
 ax2.set_ylabel("Coulombic efficiency %", fontsize=14)
 ax2.legend(['Coulombic efficiency'], loc='lower right')
 plt.ylim([0,110])
+plt.yticks(fontsize=14)
 plt.savefig(os.path.join(save_dir,"Cycle no vs. Capacity and Coulombic efficiency.png"))
 
 plt.tight_layout()
