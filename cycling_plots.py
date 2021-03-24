@@ -12,16 +12,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import os
 
-
-
-if __name__ == "__main__":
-    
-    out_df,filename,save_dir,pos_count,neg_count = cld.create_data_frame()
-    cld.create_cycles_seperate(out_df, save_dir)
-    
-    
-    
-    
+def calculate_max_cap_and_coulombic_eff(out_df, pos_count, neg_count):    
     charge_cols = [col for col in out_df.columns if 'Capacity/mA.h.g^-1 (C' in col]
     max_charge_cap = np.zeros(pos_count)
     for i,col in enumerate(charge_cols):
@@ -38,11 +29,14 @@ if __name__ == "__main__":
         coulombic_efficiency = 100*max_discharge_cap/max_charge_cap
     elif max_discharge_cap[0] == max_charge_cap[0]:
         coulombic_efficiency = 100*max_discharge_cap/max_charge_cap
-        
-    cycle_no = np.arange(1,pos_count+1)
-    
-    
-    #
+    return coulombic_efficiency, max_charge_cap, max_discharge_cap 
+
+
+
+
+
+def plot_max_cap_and_efficiency(cycle_no, max_charge_cap, max_discharge_cap, coulombic_efficiency):
+    # max cap and coulombic efficiency plot
     fig,ax = plt.subplots()
     ax.plot(cycle_no, max_discharge_cap, 'x')
     ax.plot(cycle_no, max_charge_cap, 'x')
@@ -64,11 +58,11 @@ if __name__ == "__main__":
     plt.tight_layout()
     plt.show()
     
-    #
     
     
     
     
+def save_max_pap_csv(save_dir,cycle_no,max_charge_cap,max_discharge_cap,coulombic_efficiency):   
     max_cap = {'Cycle Number': cycle_no, 
                'Max Charge Capacity mA.h.g^-1': max_charge_cap,
                'Max Discharge Capacity mA.h.g^-1': max_discharge_cap,
@@ -76,17 +70,21 @@ if __name__ == "__main__":
     max_cap_df = pd.DataFrame.from_dict(data=max_cap,orient="columns")
     max_cap_path = os.path.join(save_dir,"Max_capacities_per_cycle.csv")
     # max_cap_path = os.path.join(save_dir,"%s%s" % ('test','_max_capacities_per_cycle.csv'))
-    max_cap_df.to_csv(max_cap_path, index = False)
-    
+    max_cap_df.to_csv(max_cap_path, index = False)   
+
+
+
+
+
+def plot_caps_vs_potentials(out_df,pos_count,neg_count,save_dir=None):    
     
     charge_cyc_potentials = np.zeros((out_df.shape[0],pos_count))
-    charge_cyc_capacities = np.zeros((out_df.shape[0],pos_count))
+    charge_cyc_capacities = np.zeros((out_df.shape[0],pos_count))  
     
     for coln in range(pos_count):
         charge_cyc_potentials[:,coln] = out_df["Ecell/V (C%d)" % (coln+1)]
         charge_cyc_capacities[:,coln] = out_df["Capacity/mA.h.g^-1 (C%d)" % (coln+1)]
         
-    
     # plt.figure()
     # plt.plot(charge_cyc_capacities,charge_cyc_potentials, linewidth=0.5)
     # plt.xlabel("Capacity $mAh g^{-1}$", fontsize=14)
@@ -95,8 +93,8 @@ if __name__ == "__main__":
     # plt.yticks(fontsize=14)
     # plt.tight_layout()
     # plt.legend(["Cyc1","Cyc2","Cyc3","Cyc4","Cyc5","Cyc6","Cyc7","Cyc8","Cyc9","Cyc10"])
-    # plt.savefig(os.path.join(save_dir,"Charge capacity vs. Potential.png"))
-    
+    # if save_dir != None:
+    #    plt.savefig(os.path.join(save_dir,"Charge capacity vs. Potential.png"))
     
     discharge_cyc_potentials = np.zeros((out_df.shape[0],neg_count))
     discharge_cyc_capacities = np.zeros((out_df.shape[0],neg_count))
@@ -113,7 +111,8 @@ if __name__ == "__main__":
     # plt.yticks(fontsize=14)
     # plt.tight_layout()
     # plt.legend(["Cyc1","Cyc2","Cyc3","Cyc4","Cyc5","Cyc6","Cyc7","Cyc8","Cyc9","Cyc10"])
-    # plt.savefig(os.path.join(save_dir,"Disharge capacity vs. Potential.png"))
+    # if save_dir != None:
+    #     plt.savefig(os.path.join(save_dir,"Disharge capacity vs. Potential.png"))
     
     
     plt.figure()
@@ -129,5 +128,32 @@ if __name__ == "__main__":
     plt.tight_layout()
     plt.legend(["Discharge1","Charge1","Discharge2","Charge2","Discharge3","Charge3"
                 ,"Discharge4","Charge4","Discharge5","Charge5"], loc='best')
-    plt.savefig(os.path.join(save_dir,"Capacity vs. Potential (all cycles).png"))
+    if save_dir != None:
+        plt.savefig(os.path.join(save_dir,"Capacity vs. Potential (all cycles).png"))
     plt.show()
+    
+    return charge_cyc_potentials,charge_cyc_capacities,discharge_cyc_potentials,discharge_cyc_capacities
+
+
+
+
+
+if __name__ == "__main__":
+    
+    out_df,filename,save_dir,pos_count,neg_count = cld.create_data_frame()
+    
+    cld.create_cycles_seperate(out_df, save_dir)
+    
+        
+    (coulombic_efficiency, max_charge_cap, 
+     max_discharge_cap) = calculate_max_cap_and_coulombic_eff(out_df,pos_count,neg_count)
+    
+    cycle_no = np.arange(1,pos_count+1)
+    
+    # max cap and coulombic efficiency plot
+    plot_max_cap_and_efficiency(cycle_no, max_charge_cap, max_discharge_cap, coulombic_efficiency)
+    
+    
+    save_max_pap_csv(save_dir,cycle_no,max_charge_cap,max_discharge_cap,coulombic_efficiency)
+
+    plot_caps_vs_potentials(out_df,pos_count,neg_count,save_dir)
