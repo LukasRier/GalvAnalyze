@@ -45,7 +45,9 @@ def data_from_file(file=None,active_mass_input=None):
             tk.messagebox.showerror(title=None, 
                                     message="Enter a valid number!")
     
-    root.destroy()    
+    if 'root' in locals():
+        root.destroy()
+        
     active_mass = float(active_mass_input) / 1000
     
     return file,data,active_mass

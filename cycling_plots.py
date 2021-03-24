@@ -31,11 +31,13 @@ def calculate_max_cap_and_coulombic_eff(out_df, pos_count, neg_count):
         coulombic_efficiency = 100*max_discharge_cap/max_charge_cap
     return coulombic_efficiency, max_charge_cap, max_discharge_cap 
 
+def get_cycle_no(pos_count):    
+    cycle_no = np.arange(1,pos_count+1)
+    return cycle_no
 
 
 
-
-def plot_max_cap_and_efficiency(cycle_no, max_charge_cap, max_discharge_cap, coulombic_efficiency):
+def plot_max_cap_and_efficiency(cycle_no, max_charge_cap, max_discharge_cap, coulombic_efficiency,save_dir):
     # max cap and coulombic efficiency plot
     fig,ax = plt.subplots()
     ax.plot(cycle_no, max_discharge_cap, 'x')
@@ -147,11 +149,11 @@ if __name__ == "__main__":
         
     (coulombic_efficiency, max_charge_cap, 
      max_discharge_cap) = calculate_max_cap_and_coulombic_eff(out_df,pos_count,neg_count)
-    
-    cycle_no = np.arange(1,pos_count+1)
+
+    cycle_no = get_cycle_no(pos_count)
     
     # max cap and coulombic efficiency plot
-    plot_max_cap_and_efficiency(cycle_no, max_charge_cap, max_discharge_cap, coulombic_efficiency)
+    plot_max_cap_and_efficiency(cycle_no, max_charge_cap, max_discharge_cap, coulombic_efficiency,save_dir)
     
     
     save_max_pap_csv(save_dir,cycle_no,max_charge_cap,max_discharge_cap,coulombic_efficiency)

@@ -8,6 +8,8 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import ttk
 from clean_data import check_valid_mass
+import clean_data as cld
+import cycling_plots as cyc
         
         
 class App(tk.Tk):
@@ -79,7 +81,7 @@ class CyclingFrame(ttk.Frame):
         self.filen_entry.insert(0,self.file)    
     
     def massBtnCallback(self):
-        print(self.c1var.get())
+        print()
         if not(check_valid_mass(self.tkMassVar.get())):
             tk.messagebox.showerror(title=None, 
                                     message="Enter a valid number!")
@@ -90,7 +92,24 @@ class CyclingFrame(ttk.Frame):
             print(self.mass)
             
     def runPlotsBtnCallback(self):
-        print('wohoo')
+        out_df,filename,save_dir,pos_count,neg_count = cld.create_data_frame(self.file,self.mass)
+        
+        if self.c1var.get() == True:
+            cld.create_cycles_seperate(out_df, save_dir)
+    
+        
+        (coulombic_efficiency, max_charge_cap, 
+         max_discharge_cap) = cyc.calculate_max_cap_and_coulombic_eff(out_df,pos_count,neg_count)
+    
+        cycle_no = cyc.get_cycle_no(pos_count)
+    
+        # max cap and coulombic efficiency plot
+        cyc.plot_max_cap_and_efficiency(cycle_no, max_charge_cap, max_discharge_cap, coulombic_efficiency,save_dir)
+    
+    
+        cyc.save_max_pap_csv(save_dir,cycle_no,max_charge_cap,max_discharge_cap,coulombic_efficiency)
+
+        cyc.plot_caps_vs_potentials(out_df,pos_count,neg_count,save_dir)
         
 if __name__ == "__main__":
     app = App()
