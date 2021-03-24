@@ -16,7 +16,7 @@ class App(tk.Tk):
 
         self.title('CyclingApp')
         self.geometry('1000x300')
-        self.resizable(True, False)
+        self.resizable(False, False)
         
 class CyclingFrame(ttk.Frame):
     def __init__(self, container):
@@ -50,7 +50,25 @@ class CyclingFrame(ttk.Frame):
         self.cnfrm_mass_btn = ttk.Button( self, text = "Confirm Mass", command=self.massBtnCallback )
         self.cnfrm_mass_btn.grid(column=2,row=4, sticky=tk.W,**options)
         
-        #select
+        # select whether to save individual charge discharge cycles
+        self.c1var = tk.BooleanVar(value=False)
+        self.save_indv_cycles_cb = ttk.Checkbutton(self, 
+                        text = "Save individual charge and discharge cycles",
+                        variable = self.c1var, onvalue=True, offvalue=False)
+        self.save_indv_cycles_cb.grid(column=0,row=5,columnspan=4, sticky=tk.W,**options)
+        
+        # select whether cycling currents vary in time (no effect yet)
+        self.c2var = tk.BooleanVar(value=False)
+        self.save_indv_cycles_cb = ttk.Checkbutton(self, 
+                        text = "Time varying peak current",
+                        variable = self.c2var, onvalue=True, offvalue=False)
+        self.save_indv_cycles_cb.grid(column=0,row=6, sticky=tk.W,**options)
+        
+        
+        #confirm and run clean data/plots
+        self.run_plots_btn = ttk.Button( self, text = "Run Cycling", command=self.runPlotsBtnCallback )
+        self.run_plots_btn.grid(column=24,row=6, sticky=tk.E,**options)
+        
         
         # add padding to the frame and show it
         self.grid(padx=10, pady=10, sticky=tk.NSEW)
@@ -61,7 +79,7 @@ class CyclingFrame(ttk.Frame):
         self.filen_entry.insert(0,self.file)    
     
     def massBtnCallback(self):
-        
+        print(self.c1var.get())
         if not(check_valid_mass(self.tkMassVar.get())):
             tk.messagebox.showerror(title=None, 
                                     message="Enter a valid number!")
@@ -70,6 +88,9 @@ class CyclingFrame(ttk.Frame):
         else:
             self.mass = self.tkMassVar.get()
             print(self.mass)
+            
+    def runPlotsBtnCallback(self):
+        print('wohoo')
         
 if __name__ == "__main__":
     app = App()
