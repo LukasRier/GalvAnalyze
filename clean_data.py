@@ -140,9 +140,9 @@ def get_cycle_counts(time,is_pos,is_neg):
 # Here we need to create the value of capacity
 # Capacity = time*current (mAs) / 3600 (mAh) / active mass (g) = mAh g^-1
 
-def create_data_frame(file=None):    
+def create_data_frame(file=None,active_mass=None):    
     
-    file,data,active_mass = data_from_file(file)
+    file,data,active_mass = data_from_file(file,active_mass)
        
     (potential,
      time,current) = parse_data(data)
