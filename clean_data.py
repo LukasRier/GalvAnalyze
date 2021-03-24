@@ -13,7 +13,7 @@ from tkinter import simpledialog
 import sys
 import os
 
-def data_from_file(file=None):
+def data_from_file(file=None,active_mass_input=None):
     if file==None:
         root = tk.Tk()
         root.withdraw()
@@ -25,22 +25,28 @@ def data_from_file(file=None):
         except FileNotFoundError:
             sys.exit()
             
-        print(file)
-        data = pd.read_csv(file,delimiter='\t')
+    print(file)
+    data = pd.read_csv(file,delimiter='\t')
         
+    if active_mass_input==None:
         mass_valid = False
-        while not(mass_valid):
-            active_mass_input = simpledialog.askstring(parent=root,
-                                       title="Active Mass",
-                                       prompt="Enter Active Loading (mg):",
-                                       initialvalue=8)
-            mass_valid = check_valid_mass(active_mass_input)
-            
-            if not(mass_valid):
-                tk.messagebox.showerror(title=None, 
-                                        message="Enter a valid number!")
+    else:
+        mass_valid = check_valid_mass(active_mass_input)
+    while not(mass_valid):
+        if not 'root' in locals():
+            root = tk.Tk()
+        active_mass_input = simpledialog.askstring(parent=root,
+                                   title="Active Mass",
+                                   prompt="Enter Active Loading (mg):",
+                                   initialvalue=8)
+        mass_valid = check_valid_mass(active_mass_input)
         
-        active_mass = float(active_mass_input) / 1000
+        if not(mass_valid):
+            tk.messagebox.showerror(title=None, 
+                                    message="Enter a valid number!")
+    
+    root.destroy()    
+    active_mass = float(active_mass_input) / 1000
     
     return file,data,active_mass
 
