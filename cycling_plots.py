@@ -70,7 +70,8 @@ max_cap = {'Cycle Number': cycle_no,
            'Max Discharge Capacity mA.h.g^-1': max_discharge_cap,
            'Coulombic Efficiency' : coulombic_efficiency}
 max_cap_df = pd.DataFrame.from_dict(data=max_cap,orient="columns")
-max_cap_path = os.path.join(save_dir,"%s%s" % (filename[0:-4],'_max_capacities_per_cycle.csv'))
+max_cap_path = os.path.join(save_dir,"Max_capacities_per_cycle.csv")
+# max_cap_path = os.path.join(save_dir,"%s%s" % ('test','_max_capacities_per_cycle.csv'))
 max_cap_df.to_csv(max_cap_path, index = False)
 
 
