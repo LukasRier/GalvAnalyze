@@ -36,6 +36,7 @@ def data_from_file(file=None,active_mass_input=None):
     while not(mass_valid):
         if not 'root' in locals():
             root = tk.Tk()
+            root.lift()
         active_mass_input = simpledialog.askstring(parent=root,
                                    title="Active Mass",
                                    prompt="Enter Active Loading (mg):",
@@ -59,7 +60,8 @@ def check_valid_mass(input_str):
     except ValueError:
         return False
     except TypeError:
-        sys.exit()
+        # sys.exit()
+        return False
     if val < 0:
         return False
     else:
@@ -101,7 +103,7 @@ def const_current_thresh_diagnostic(current,posthresh,negthresh):
     ax.plot(np.arange(1,len(current)+1),posthresh * np.ones((len(current))),'r')
     ax.plot(np.arange(1,len(current)+1),negthresh * np.ones((len(current))),'b')
     
-def variable_current_thresh_diagnostic(current,thresh):
+def variable_current_thresh_diagnostic(current,thresh,in_cycle,absgrad):
     
     plt.figure()
     ax = plt.subplot(111)
@@ -113,7 +115,36 @@ def variable_current_thresh_diagnostic(current,thresh):
     ax = plt.subplot(111)
     ax.hist(current,bins=10)
     
+    plt.figure()
+    ax = plt.subplot(111)
+    ax.plot(absgrad,'k')
+    plt.title('absgrad')
+    # ax.plot(in_cycle,'r--')
+    ax.plot(in_cycle * np.sign(current),'r--')
+        
+def check_min_curr_correct(incycle_thresh):
+    incycle_thresh_valid = False
+    while not(incycle_thresh_valid):
+        if not 'root' in locals():
+            root = tk.Tk()
+            root.lift()
+        incycle_thresh_input = simpledialog.askstring(parent=root,
+                                   title="Smallest current",
+                                   prompt="Is this the smalles current passed?:",
+                                   initialvalue=incycle_thresh)
+        incycle_thresh_valid = check_valid_mass(incycle_thresh_input)
+        
+        if not(incycle_thresh_valid):
+            tk.messagebox.showerror(title=None, 
+                                    message="Enter a valid number!")
     
+    if 'root' in locals():
+        root.destroy()
+    incycle_thresh = float(incycle_thresh_input)
+    
+    return incycle_thresh
+
+
 def current_thresholds(current,rel_cutoff=0.98,is_constant=True):
     if is_constant:
         posthresh = rel_cutoff * np.max(current)
@@ -123,11 +154,15 @@ def current_thresholds(current,rel_cutoff=0.98,is_constant=True):
         is_pos = pos_cycles != 0
         is_neg = neg_cycles != 0
         
-        const_current_thresh_diagnostic(current,posthresh,negthresh)
+        
+        ## Diagnostic plots! uncomment if needed
+        # const_current_thresh_diagnostic(current,posthresh,negthresh)
     else:
         absgrad = np.abs(find_edges(current))
         
-        incycle_thresh = 2 * np.min(np.unique(absgrad[absgrad > 0]))
+        incycle_thresh = np.min(np.unique(absgrad[absgrad > 0]))
+        
+        incycle_thresh = check_min_curr_correct(incycle_thresh)
         in_cycle = absgrad < incycle_thresh
         
         #get rid of initial period
@@ -138,13 +173,12 @@ def current_thresholds(current,rel_cutoff=0.98,is_constant=True):
                 in_cycle[st] = 0
                 st += 1
             print("removed ",st,"points from the beginning")
-        const_current_thresh_diagnostic(current,1,1)
-        plt.figure()
-        ax = plt.subplot(111)
-        ax.plot(absgrad,'k')
-        plt.title('absgrad')
-        # ax.plot(in_cycle,'r--')
-        ax.plot(in_cycle * np.sign(current),'r--')
+        
+        ## Diagnostic plots! uncomment if needed
+        # const_current_thresh_diagnostic(current,1,1)
+        # variable_current_thresh_diagnostic(current,0,in_cycle,absgrad)
+        
+        
         signed_in_cycle = in_cycle * np.sign(current)
         is_pos = signed_in_cycle == 1
         is_neg = signed_in_cycle == -1
