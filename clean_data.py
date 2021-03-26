@@ -12,6 +12,7 @@ from tkinter import filedialog
 from tkinter import simpledialog
 import sys
 import os
+import matplotlib.pyplot as plt
 
 def data_from_file(file=None,active_mass_input=None):
     if file==None:
@@ -92,22 +93,69 @@ def parse_data(data):
     
     return potential,time,current
 
-def current_thresholds(current,rel_cutoff=0.98):
-    posthresh = rel_cutoff * np.max(current)
-    negthresh = rel_cutoff * np.min(current)
-    pos_cycles = current > posthresh
-    neg_cycles = -1 * (current < negthresh)
-    is_pos = pos_cycles != 0
-    is_neg = neg_cycles != 0
+def const_current_thresh_diagnostic(current,posthresh,negthresh):
+    import matplotlib.pyplot as plt
+    plt.figure()
+    ax = plt.subplot(111)
+    ax.plot(current,'k')
+    ax.plot(np.arange(1,len(current)+1),posthresh * np.ones((len(current))),'r')
+    ax.plot(np.arange(1,len(current)+1),negthresh * np.ones((len(current))),'b')
+    
+def variable_current_thresh_diagnostic(current,thresh):
+    
+    plt.figure()
+    ax = plt.subplot(111)
+    ax.plot(current,'k')
+    ax.plot(thresh * np.ones((len(current))),'r')
+    ax.plot(-1 *thresh * np.ones((len(current))),'b')
+    
+    plt.figure()
+    ax = plt.subplot(111)
+    ax.hist(current,bins=10)
+    
+    
+def current_thresholds(current,rel_cutoff=0.98,is_constant=True):
+    if is_constant:
+        posthresh = rel_cutoff * np.max(current)
+        negthresh = rel_cutoff * np.min(current)
+        pos_cycles = current > posthresh
+        neg_cycles = -1 * (current < negthresh)
+        is_pos = pos_cycles != 0
+        is_neg = neg_cycles != 0
+        
+        const_current_thresh_diagnostic(current,posthresh,negthresh)
+    else:
+        absgrad = np.abs(find_edges(current))
+        
+        incycle_thresh = 2 * np.min(np.unique(absgrad[absgrad > 0]))
+        in_cycle = absgrad < incycle_thresh
+        
+        #get rid of initial period
+        if in_cycle[0] == 1:
+            in_cycle[0] = 0
+            st = 1
+            while in_cycle[st] == 1:
+                in_cycle[st] = 0
+                st += 1
+            print("removed ",st,"points from the beginning")
+        const_current_thresh_diagnostic(current,1,1)
+        plt.figure()
+        ax = plt.subplot(111)
+        ax.plot(absgrad,'k')
+        plt.title('absgrad')
+        # ax.plot(in_cycle,'r--')
+        ax.plot(in_cycle * np.sign(current),'r--')
+        signed_in_cycle = in_cycle * np.sign(current)
+        is_pos = signed_in_cycle == 1
+        is_neg = signed_in_cycle == -1
     return is_pos,is_neg
 
-def find_edges(is_pos,is_neg):
-    pos_edge = np.convolve(is_pos,[1,-1],mode='same')
-    neg_edge = np.convolve(is_neg,[1,-1],mode='same')
-    return pos_edge,neg_edge
+def find_edges(is_incycle):
+    edge = np.convolve(is_incycle,[1,-1],mode='same')
+    return edge
       
 def get_cycle_counts(time,is_pos,is_neg):
-    pos_edge,neg_edge = find_edges(is_pos,is_neg)
+    pos_edge,neg_edge = find_edges(is_pos),find_edges(is_neg)
           
     pos_cycle_no = np.zeros(time.shape)*np.nan
     pos_count = 0
@@ -142,7 +190,7 @@ def get_cycle_counts(time,is_pos,is_neg):
 # Here we need to create the value of capacity
 # Capacity = time*current (mAs) / 3600 (mAh) / active mass (g) = mAh g^-1
 
-def create_data_frame(file=None,active_mass=None):    
+def create_data_frame(file=None,active_mass=None,is_constant=True):    
     
     file,data,active_mass = data_from_file(file,active_mass)
        
@@ -151,9 +199,9 @@ def create_data_frame(file=None,active_mass=None):
        
 #    grav_capacity = capacity / active_mass
           
-    is_pos,is_neg = current_thresholds(current,0.98)
+    is_pos,is_neg = current_thresholds(current,0.98,is_constant)
    
-    pos_edge,neg_edge = find_edges(is_pos,is_neg)
+    # pos_edge,neg_edge = find_edges(is_pos),find_edges(is_neg)
     
     (pos_count,neg_count,
      pos_cycle_no,neg_cycle_no) = get_cycle_counts(time,is_pos,is_neg)
@@ -236,7 +284,7 @@ def create_cycles_seperate(out_df, save_dir):
         Cycle_x.to_csv(os.path.join(save_dir,"Cycle_%d.csv" % (i+1)), index = True)
 
 if __name__ == "__main__":
-
+    
     out_df,file,save_dir,_,_ = create_data_frame()
     
 

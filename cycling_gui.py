@@ -92,7 +92,9 @@ class CyclingFrame(ttk.Frame):
             print(self.mass)
             
     def runPlotsBtnCallback(self):
-        out_df,filename,save_dir,pos_count,neg_count = cld.create_data_frame(self.file,self.mass)
+        print(self.c2var.get())
+        
+        out_df,filename,save_dir,pos_count,neg_count = cld.create_data_frame(self.file,self.mass,not(self.c2var.get()))
         
         if self.c1var.get() == True:
             cld.create_cycles_seperate(out_df, save_dir)
