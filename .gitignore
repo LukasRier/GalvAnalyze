@@ -6,3 +6,4 @@
 *.csv
 *.pyc
 *.pyc
+__pycache__/clean_data.cpython-37.pyc
