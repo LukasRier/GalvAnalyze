@@ -156,7 +156,7 @@ def current_thresholds(current,rel_cutoff=0.98,is_constant=True):
         
         
         ## Diagnostic plots! uncomment if needed
-        # const_current_thresh_diagnostic(current,posthresh,negthresh)
+        const_current_thresh_diagnostic(current,posthresh,negthresh)
     else:
         absgrad = np.abs(find_edges(current))
         
@@ -175,8 +175,8 @@ def current_thresholds(current,rel_cutoff=0.98,is_constant=True):
             print("removed ",st,"points from the beginning")
         
         ## Diagnostic plots! uncomment if needed
-        # const_current_thresh_diagnostic(current,1,1)
-        # variable_current_thresh_diagnostic(current,0,in_cycle,absgrad)
+        const_current_thresh_diagnostic(current,1,1)
+        variable_current_thresh_diagnostic(current,0,in_cycle,absgrad)
         
         
         signed_in_cycle = in_cycle * np.sign(current)
@@ -200,11 +200,13 @@ def get_cycle_counts(time,is_pos,is_neg):
         if is_pos[i]:
             if pos_edge[i]==1:
                 pos_count += 1
+                pos_cycle_no[i-2] = pos_count
             pos_cycle_no[i] = pos_count
     
         if is_neg[i]:
             if neg_edge[i]==1:
                 neg_count += 1
+                neg_cycle_no[i-2] = neg_count
             neg_cycle_no[i] = neg_count
             
     print("Number of neg cycles = %d \nNumber of pos cycles = %d" % (neg_count,pos_count))       
