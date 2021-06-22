@@ -129,7 +129,7 @@ def check_min_curr_correct(incycle_thresh):
             root = tk.Tk()
             root.lift()
         incycle_thresh_input = simpledialog.askstring(parent=root,
-                                   title="Minimum current threshold",
+                                   title="Min current threshold",
                                    prompt="Desired current threshold (mA):",
                                    initialvalue=incycle_thresh)
         incycle_thresh_valid = check_valid_mass(incycle_thresh_input)
