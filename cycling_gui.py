@@ -59,7 +59,7 @@ class CyclingFrame(ttk.Frame):
                         variable = self.c1var, onvalue=True, offvalue=False)
         self.save_indv_cycles_cb.grid(column=0,row=5,columnspan=4, sticky=tk.W,**options)
         
-        # select whether cycling currents vary in time (no effect yet)
+        # select whether cycling currents vary in time
         self.c2var = tk.BooleanVar(value=False)
         self.save_indv_cycles_cb = ttk.Checkbutton(self, 
                         text = "Time varying peak current",
