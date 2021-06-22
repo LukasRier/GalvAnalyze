@@ -1,8 +1,21 @@
-* Find a way to correct for potential limits
-   - We currently do not show the charge/discharge starting at the potential limit
+TO-DO:
 
-* make executable
+1 - Hysteresis plot functionality
+	* Option to chose an exported C1D1 file and create a hysteresis plot of selected charge-discharge file
+	* RORY find an example to work towards
+	* Include plot of C1D1 hysteresis when "save individual charge and ..." is selected
 
-* make interface?
-	* include cleverer thresholding
-		* manual or adaptive if currents change
+2 - Create error common messages
+
+3 - Create read-me
+	* Explain basic functionality and use to layman audience
+	* Explain error messages
+
+4 - Asthetics
+	* Plot legends (Capacity graph below? Charge discharge curves at the RHS?)
+	* Find potential limits to stop drift (Indexing error - need to -1) and set limit = 0 mAh g-1
+	* Think about pop-out label names
+	* Put individual cycles into folder called "Charge-Discharge pairs"
+	* Remove italics from axis titles
+	* "mAh g^-1"
+	* Set Capacity axis minimum to 0 always
