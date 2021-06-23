@@ -298,9 +298,14 @@ def create_data_frame(file=None,active_mass=None,is_constant=True):
     
     save_dir = file[0:-4] + "_OUTPUTS"
     try:
-        os.chdir(os.path.abspath(os.path.join(file,'..')))
+        os.chdir(os.path.abspath(os.path.join(save_dir,'..')))
+        print('Data directory:')
         print(os.path.abspath(os.path.join(file,'..')))
-        os.mkdir(save_dir)
+        print('Creating results directory...')
+        last_save_dir = os.path.basename(os.path.normpath(save_dir))
+        print("final directory")
+        print(last_save_dir)
+        os.mkdir(last_save_dir)
     except FileExistsError:
         pass
     

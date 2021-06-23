@@ -56,14 +56,14 @@ class CyclingFrame(ttk.Frame):
         # select whether to save individual charge discharge cycles
         self.c1var = tk.BooleanVar(value=False)
         self.save_indv_cycles_cb = ttk.Checkbutton(self, 
-                        text = "Save individual charge and discharge cycles",
+                        text = "Seperate charge-discharge pairs to .csv",
                         variable = self.c1var, onvalue=True, offvalue=False)
         self.save_indv_cycles_cb.grid(column=0,row=5,columnspan=4, sticky=tk.W,**options)
         
         # select whether cycling currents vary in time
         self.c2var = tk.BooleanVar(value=False)
         self.save_indv_cycles_cb = ttk.Checkbutton(self, 
-                        text = "Time varying peak current",
+                        text = "Applied current varies",
                         variable = self.c2var, onvalue=True, offvalue=False)
         self.save_indv_cycles_cb.grid(column=0,row=6, sticky=tk.W,**options)
         
