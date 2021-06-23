@@ -4,16 +4,19 @@ TO-DO:
 	* Option to chose an exported C1D1 file and create a hysteresis plot of selected charge-discharge file
 	* Include plot of C1D1 hysteresis when "save individual charge and ..." is selected
 	* Examples of hysteresis plots in GitHub folder
+	* Add gui tab containing "Load file" button, "No file selected" box and "Create Hysteresis plot" button
+	* Takes input of the C1D1 files and spits out a hysteresis graph and .csv file to match
 
 2 - Can we increase the path length for files? Some people have an error that the file path length is too long and have to do their
     data analysis from a USB stick to make things easier
+	* Lukas working on solution
 
-3 - Create error common messages
-
-4 - Create read-me
-	* Explain basic functionality and use to layman audience
-	* Explain error messages
-
-5 - Asthetics
+3 - Asthetics
 	* Put individual cycles into folder called "Charge-Discharge pairs"
 	* Colour gradient of charges and colour gradient of discharges for ease of analysis
+
+4 - Create error common messages
+
+5 - Create read-me - final touches
+	* Explain basic functionality and use to layman audience
+	* Explain error messages
