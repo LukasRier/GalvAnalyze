@@ -128,7 +128,11 @@ def plot_caps_vs_potentials(out_df,pos_count,neg_count,save_dir=None):
     plt.xticks(fontsize=14)
     plt.ylabel("Potential / $\mathrm{V}$", fontsize=14)
     plt.yticks(fontsize=14)
-    plt.legend(["D1","C1","D2","C2","D3","C3","D4","C4","D5","C5"], bbox_to_anchor=(0.5, -0.2), ncol=10)
+    ax = plt.gca()
+    box = ax.get_position()
+    ax.set_position([box.x0, box.y0 + box.height * 0.035, box.width, box.height * 0.975])
+    plt.legend(["D1","C1","D2","C2","D3","C3","D4","C4","D5","C5"], loc= 'lower center',
+               bbox_to_anchor=(0.5, 1.01), ncol=5)
     plt.tight_layout()
     if save_dir != None:
         plt.savefig(os.path.join(save_dir,"Capacity vs. Potential (all cycles).png"))
