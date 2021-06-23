@@ -156,7 +156,7 @@ def current_thresholds(current,rel_cutoff=0.98,is_constant=True):
         
         
         ## Diagnostic plots! uncomment if needed
-        const_current_thresh_diagnostic(current,posthresh,negthresh)
+        # const_current_thresh_diagnostic(current,posthresh,negthresh)
     else:
         absgrad = np.abs(find_edges(current))
         
@@ -175,8 +175,8 @@ def current_thresholds(current,rel_cutoff=0.98,is_constant=True):
             print("removed ",st,"points from the beginning")
         
         ## Diagnostic plots! uncomment if needed
-        const_current_thresh_diagnostic(current,1,1)
-        variable_current_thresh_diagnostic(current,0,in_cycle,absgrad)
+        # const_current_thresh_diagnostic(current,1,1)
+        # variable_current_thresh_diagnostic(current,0,in_cycle,absgrad)
         
         
         signed_in_cycle = in_cycle * np.sign(current)
