@@ -2,7 +2,7 @@
 """
 Created on Fri Oct 16 21:53:53 2020
 
-@author: Lukas Rier
+@authors: Lukas Rier & Rory McNulty
 lukasrier@outlook.com
 """
 
@@ -45,8 +45,9 @@ def plot_max_cap_and_efficiency(cycle_no, max_charge_cap, max_discharge_cap, cou
     ax.legend(["Discharge capacity", "Charge capacity"], loc='lower left')
     ax.set_xlabel("Cycle Number", fontsize=14)
     plt.xticks(fontsize=14)
-    ax.set_ylabel("Capacity $mAh g^{-1}$", fontsize=14)
+    ax.set_ylabel("Capacity $\mathrm{mAh g^{-1}}$", fontsize=14)
     plt.yticks(fontsize=14)
+    plt.ylim(bottom=0)
     
     
     ax2=ax.twinx()
@@ -128,8 +129,7 @@ def plot_caps_vs_potentials(out_df,pos_count,neg_count,save_dir=None):
     plt.ylabel("Potential / $V$", fontsize=14)
     plt.yticks(fontsize=14)
     plt.tight_layout()
-    plt.legend(["Discharge1","Charge1","Discharge2","Charge2","Discharge3","Charge3"
-                ,"Discharge4","Charge4","Discharge5","Charge5"], loc='best')
+    plt.legend(["D1","C1","D2","C2","D3","C3","D4","C4","D5","C5"], loc='best')
     if save_dir != None:
         plt.savefig(os.path.join(save_dir,"Capacity vs. Potential (all cycles).png"))
     plt.show()

@@ -2,7 +2,8 @@
 """
 Created on Tue Mar 23 20:43:20 2021
 
-@author: lukas
+@authors: lukas Rier  & Rory McNulty
+lukasrier@outlook.com
 """
 import tkinter as tk
 from tkinter import filedialog
