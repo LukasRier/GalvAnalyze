@@ -298,8 +298,7 @@ def create_data_frame(file=None,active_mass=None,is_constant=True):
     
     save_dir = file[0:-4] + "_OUTPUTS"
     try:
-        os.chdir(os.path.abspath(os.path.join(file,'..')))
-        print(os.path.abspath(os.path.join(file,'..')))
+        ### long path fix here
         os.mkdir(save_dir)
     except FileExistsError:
         pass
