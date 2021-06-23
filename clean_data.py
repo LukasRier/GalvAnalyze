@@ -300,6 +300,8 @@ def create_data_frame(file=None,active_mass=None,is_constant=True):
     try:
 <<<<<<< Updated upstream
         #os.chdir(file[0:-4])
+=======
+        os.chdir(os.path.abspath(os.path.join(file,'..')))
         print(os.path.abspath(os.path.join(file,'..')))
 >>>>>>> Stashed changes
         os.mkdir(save_dir)
