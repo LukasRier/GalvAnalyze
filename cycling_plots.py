@@ -124,12 +124,12 @@ def plot_caps_vs_potentials(out_df,pos_count,neg_count,save_dir=None):
                  linewidth=0.5)
         plt.plot(charge_cyc_capacities[:,coln],charge_cyc_potentials[:,coln],
                  linewidth=0.5)
-    plt.xlabel("Capacity $mAh g^{-1}$", fontsize=14)
+    plt.xlabel("Capacity $\mathrm{mAh g^{-1}}$", fontsize=14)
     plt.xticks(fontsize=14)
-    plt.ylabel("Potential / $V$", fontsize=14)
+    plt.ylabel("Potential / $\mathrm{V}$", fontsize=14)
     plt.yticks(fontsize=14)
+    plt.legend(["D1","C1","D2","C2","D3","C3","D4","C4","D5","C5"], bbox_to_anchor=(0.5, -0.2), ncol=10)
     plt.tight_layout()
-    plt.legend(["D1","C1","D2","C2","D3","C3","D4","C4","D5","C5"], loc='best')
     if save_dir != None:
         plt.savefig(os.path.join(save_dir,"Capacity vs. Potential (all cycles).png"))
     plt.show()

@@ -298,7 +298,6 @@ def create_data_frame(file=None,active_mass=None,is_constant=True):
     
     save_dir = file[0:-4] + "_OUTPUTS"
     try:
-        #os.chdir(file[0:-4])
         os.mkdir(save_dir)
     except FileExistsError:
         pass
