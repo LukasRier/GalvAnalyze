@@ -317,6 +317,9 @@ def create_cycles_seperate(out_df, save_dir):
     cycle_dir = save_dir + "/Individual Cycles"
     os.mkdir(save_dir + "/Individual Cycles")
     for i in range(len(out_df.columns)//6):
+        if i==0:
+            cyc.plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential)
+        
         match_C = '(C' + str(i+1) + ')'
         current_charge_cols = [col for col in out_df.columns if match_C in col]
         match_D = '(D' + str(i+1) + ')'
