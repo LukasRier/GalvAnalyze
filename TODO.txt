@@ -11,7 +11,6 @@ TO-DO:
 	* Lukas working on solution
 
 3 - Asthetics
-	* Put individual cycles into folder called "Charge-Discharge pairs"
 	* Colour gradient of charges and colour gradient of discharges for ease of analysis
 	* Make hysteresis graphs look nice (Change axis titles, add legend, colour scheme - blue solid, blue dashed)
 
