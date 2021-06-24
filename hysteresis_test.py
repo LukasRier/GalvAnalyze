@@ -44,11 +44,21 @@ d_cap_name = capacity_head + "(D" + cycle_no + ")"
 d_potential = df.loc[:,d_pot_name]
 d_capacity = df.loc[:,d_cap_name]
 
-d_capacity = -1*d_capacity + d_capacity[d_capacity.index.get_loc(d_capacity.last_valid_index())]
+d_capacity_h = -1*d_capacity + c_capacity[c_capacity.index.get_loc(c_capacity.last_valid_index())]
 
 
-plt.figure()
+plt.figure(figsize=(20,10))
+
+plt.subplot(1,2,1)
 plt.plot(c_capacity,c_potential,'b')
 plt.plot(d_capacity,d_potential,'r')
 plt.xlabel("Capacity $\mathrm{mAh g^{-1}}$")
-plt.ylabel("Potential V")
+plt.ylabel("Cycle %s : Potential V" % cycle_no)
+plt.title('raw')
+
+plt.subplot(1,2,2)
+plt.plot(c_capacity,c_potential,'b')
+plt.plot(d_capacity_h,d_potential,'r')
+plt.xlabel("Capacity $\mathrm{mAh g^{-1}}$")
+plt.ylabel("Cycle %s : Potential V" % cycle_no)
+plt.title('Hysteresis')
