@@ -15,6 +15,7 @@ import re
 root = tk.Tk()
 root.withdraw()
 
+## hysteresis callback start
 file = filedialog.askopenfilename(parent=root,
                                               filetypes=[('Text files',
                                                           '*.csv')])
@@ -43,7 +44,9 @@ d_cap_name = capacity_head + "(D" + cycle_no + ")"
 
 d_potential = df.loc[:,d_pot_name]
 d_capacity = df.loc[:,d_cap_name]
+## end of callback, run plot hysteresis from within
 
+# plot hysteresis function receives c/d_potential c/d_capacity, flips d_cap and plots
 d_capacity_h = -1*d_capacity + c_capacity[c_capacity.index.get_loc(c_capacity.last_valid_index())]
 
 
