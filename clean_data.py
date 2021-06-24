@@ -313,6 +313,8 @@ def create_data_frame(file=None,active_mass=None,is_constant=True):
 
 def create_cycles_seperate(out_df, save_dir):
     print('Saving individual cycles...')
+    cycle_dir = save_dir + "/Individual Cycles"
+    os.mkdir(save_dir + "/Individual Cycles")
     for i in range(len(out_df.columns)//6):
         match_C = '(C' + str(i+1) + ')'
         current_charge_cols = [col for col in out_df.columns if match_C in col]
@@ -320,7 +322,7 @@ def create_cycles_seperate(out_df, save_dir):
         current_discharge_cols = [col for col in out_df.columns if match_D in col]
         usecols = current_charge_cols + current_discharge_cols
         Cycle_x = out_df[usecols]
-        Cycle_x.to_csv(os.path.join(save_dir,"Cycle_%d.csv" % (i+1)), index = True)
+        Cycle_x.to_csv(os.path.join(cycle_dir,"Cycle_%d.csv" % (i+1)), index = True)
     print('Individual cycles saved!')
 if __name__ == "__main__":
     
