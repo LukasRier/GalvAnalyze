@@ -140,9 +140,42 @@ def plot_caps_vs_potentials(out_df,pos_count,neg_count,save_dir=None):
     
     return charge_cyc_potentials,charge_cyc_capacities,discharge_cyc_potentials,discharge_cyc_capacities
 
+def plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,cycle_no):
+    d_capacity_h = -1*d_capacity + c_capacity[c_capacity.index.get_loc(c_capacity.last_valid_index())]
 
+    plt.figure(figsize=(20,10))
+    
+    plt.subplot(1,2,1)
+    plt.plot(c_capacity,c_potential,'b')
+    plt.plot(d_capacity,d_potential,'r')
+    plt.xlabel("Capacity $\mathrm{mAh g^{-1}}$")
+    plt.ylabel("Cycle %s : Potential V" % cycle_no)
+    plt.title('raw')
+    
+    plt.subplot(1,2,2)
+    plt.plot(c_capacity,c_potential,'b')
+    plt.plot(d_capacity_h,d_potential,'r')
+    plt.xlabel("Capacity $\mathrm{mAh g^{-1}}$")
+    plt.ylabel("Cycle %s : Potential V" % cycle_no)
+    plt.title('Hysteresis')
 
-
+def hysteresis_data_from_frame(cycle_df,cycle_no):
+    # time_head = "Elapsed time/s "
+    potential_head = "Ecell/V "
+    capacity_head = "Capacity/mA.h.g^-1 "
+    
+    c_pot_name = potential_head + "(C" + cycle_no + ")"
+    c_cap_name = capacity_head + "(C" + cycle_no + ")"
+    
+    c_potential = cycle_df.loc[:,c_pot_name]
+    c_capacity = cycle_df.loc[:,c_cap_name]
+    
+    d_pot_name = potential_head + "(D" + cycle_no + ")"
+    d_cap_name = capacity_head + "(D" + cycle_no + ")"
+    
+    d_potential = cycle_df.loc[:,d_pot_name]
+    d_capacity = cycle_df.loc[:,d_cap_name]
+    return c_capacity,c_potential,d_capacity,d_potential
 
 if __name__ == "__main__":
     
