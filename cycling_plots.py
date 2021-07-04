@@ -140,7 +140,7 @@ def plot_caps_vs_potentials(out_df,pos_count,neg_count,save_dir=None):
     
     return charge_cyc_potentials,charge_cyc_capacities,discharge_cyc_potentials,discharge_cyc_capacities
 
-def plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,cycle_no):
+def plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,cycle_no,save_dir=None):
     d_capacity_h = -1*d_capacity + c_capacity[c_capacity.index.get_loc(c_capacity.last_valid_index())]
 
     plt.figure(figsize=(20,10))
@@ -156,8 +156,11 @@ def plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,cycle_no):
     plt.plot(c_capacity,c_potential,'b')
     plt.plot(d_capacity_h,d_potential,'r')
     plt.xlabel("Capacity $\mathrm{mAh g^{-1}}$")
-    plt.ylabel("Cycle %s : Potential V" % cycle_no)
+    plt.ylabel(f"Cycle {cycle_no} : Potential V")
     plt.title('Hysteresis')
+    if save_dir != None:
+        plt.savefig(os.path.join(save_dir,f"Cycle {cycle_no} Hysteresis.png"))
+    plt.show()
 
 def hysteresis_data_from_frame(cycle_df,cycle_no):
     # time_head = "Elapsed time/s "

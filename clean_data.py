@@ -338,7 +338,7 @@ def create_cycles_seperate(out_df, save_dir):
         
         if i==0:         
             c_capacity,c_potential,d_capacity,d_potential = cyc.hysteresis_data_from_frame(Cycle_x,str(i+1))
-            cyc.plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,str(i+1))
+            cyc.plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,str(i+1),save_dir)
             
     print('Individual cycles saved!')
 if __name__ == "__main__":
