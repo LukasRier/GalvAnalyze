@@ -1,23 +1,27 @@
 TO-DO:
 
 1 - Hysteresis plot functionality
-	* Option to chose an exported C1D1 file and create a hysteresis plot of selected charge-discharge file
-	* Include plot of C1D1 hysteresis when "save individual charge and ..." is selected
-	* Add gui tab containing "Load file" button, "No file selected" box and "Create Hysteresis plot" button
-	* Takes input of the C1D1 files and spits out a hysteresis graph and .csv file to match
+	* Option to chose an exported CnDn file and create a hysteresis plot of selected charge-discharge file
+	* RORY find an example to work towards
+	* ##DONE## Include plot of C1D1 hysteresis when "save individual charge and ..." is selected
 
-2 - Can we increase the path length for files? Some people have an error that the file path length is too long and have to do their
+2 - ##DONE## Can we increase the path length for files? Some people have an error that the file path length is too long and have to do their
     data analysis from a USB stick to make things easier
-	* Lukas working on solution
 
-3 - Asthetics
-	* Colour gradient of charges and colour gradient of discharges for ease of analysis
-	* Make hysteresis graphs look nice (Change axis titles, add legend, colour scheme - blue solid, blue dashed)
+3 - Create error common messages
 
-4 - Create error common messages
-	* Find common errors
-	* Find datasets that don't work
-
-5 - Create read-me - final touches
+4 - Create read-me
 	* Explain basic functionality and use to layman audience
 	* Explain error messages
+
+5 - Asthetics
+	* Plot legends (Capacity graph below? Charge discharge curves at the RHS? Or wider graph C1 , D1 rather than Charge 1 etc - below?)
+	* Find potential limits to stop drift (Indexing error - need to -1) and set limit = 0 mAh g-1
+	* Think about pop-out label names
+	* Put individual cycles into folder called "Charge-Discharge pairs"
+	* Remove italics from axis titles
+	* "mAh g^-1"
+	* Set Capacity axis minimum to 0 always
+	* Colour gradient of charges and colour gradient of discharges for ease of analysis
+
+6 - Magdelena's data issue - See Rory
