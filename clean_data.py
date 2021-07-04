@@ -298,8 +298,13 @@ def create_data_frame(file=None,active_mass=None,is_constant=True):
         all_data[col] = buffer
     
     save_dir = file[0:-4] + "_OUTPUTS"
+    # print(f"Path length is {len(save_dir)}")
+    if len(save_dir) >=200:
+        tk.messagebox.showerror(title=None, 
+                                message="Your chosen file path is likely too long.\nChose a shorter filename or save your data on a USB drive to shorten the path.")
+        raise ValueError('Path lenght is too long.')
     try:
-        ### long path fix here
+       
         os.mkdir(save_dir)
 		
     except FileExistsError:
