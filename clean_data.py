@@ -320,10 +320,13 @@ def create_data_frame(file=None,active_mass=None,is_constant=True):
 def create_cycles_seperate(out_df, save_dir):
     print('Saving individual cycles...')
     cycle_dir = save_dir + "/Individual Cycles"
-    os.mkdir(save_dir + "/Individual Cycles")
+    try:
+        os.mkdir(cycle_dir)
+    except FileExistsError:
+        pass
+    
     for i in range(len(out_df.columns)//6):
-        if i==0:
-            cyc.plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential)
+        
         
         match_C = '(C' + str(i+1) + ')'
         current_charge_cols = [col for col in out_df.columns if match_C in col]
@@ -332,6 +335,11 @@ def create_cycles_seperate(out_df, save_dir):
         usecols = current_charge_cols + current_discharge_cols
         Cycle_x = out_df[usecols]
         Cycle_x.to_csv(os.path.join(cycle_dir,"Cycle_%d.csv" % (i+1)), index = True)
+        
+        if i==0:         
+            c_capacity,c_potential,d_capacity,d_potential = cyc.hysteresis_data_from_frame(Cycle_x,str(i+1))
+            cyc.plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,str(i+1))
+            
     print('Individual cycles saved!')
 if __name__ == "__main__":
     
