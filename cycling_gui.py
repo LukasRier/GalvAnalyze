@@ -86,6 +86,8 @@ class CyclingFrame(ttk.Frame):
         # add padding to the frame and show it
         self.grid(padx=10, pady=10, sticky=tk.NSEW)
         self.pack()
+        
+        
     def fileBtnCallback(self):
         self.file = filedialog.askopenfilename(filetypes=[('Text files','*.txt')])
         self.filen_entry.delete(0,len(self.tkFileVar.get()))               
@@ -143,6 +145,7 @@ class CyclingFrame(ttk.Frame):
         cyc_save_dir = os.path.dirname(cyc_filepath) 
         c_capacity,c_potential,d_capacity,d_potential = cyc.hysteresis_data_from_frame(cycle_df,hyst_cycle_no)
         cyc.plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,hyst_cycle_no,cyc_save_dir)
+        
 if __name__ == "__main__":
     app = App()
     CyclingFrame(app)
