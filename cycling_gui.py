@@ -11,8 +11,12 @@ from tkinter import ttk
 from clean_data import check_valid_mass
 import clean_data as cld
 import cycling_plots as cyc
-        
-        
+import pandas as pd
+import re
+import os
+
+
+
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
@@ -72,6 +76,12 @@ class CyclingFrame(ttk.Frame):
         self.run_plots_btn = ttk.Button( self, text = "Run Cycling", command=self.runPlotsBtnCallback )
         self.run_plots_btn.grid(column=24,row=6, sticky=tk.E,**options)
         
+        #hysteresis plots
+        self.do_hysteresis_btn = ttk.Button(self, text = "Get Hysteresis Plot",
+                                            command=self.runHysteresis)
+        self.do_hysteresis_btn.grid(column=24,row=7,sticky=tk.E,**options)
+        
+        
         
         # add padding to the frame and show it
         self.grid(padx=10, pady=10, sticky=tk.NSEW)
@@ -114,6 +124,22 @@ class CyclingFrame(ttk.Frame):
 
         cyc.plot_caps_vs_potentials(out_df,pos_count,neg_count,save_dir)
         
+    def runHysteresis(self):
+        cycle_file = filedialog.askopenfilename(filetypes=[('CSV files','*.csv')],
+                                                title='Open CSV file for a specific cycle')
+        cyc_filepath = os.path.abspath(cycle_file)
+        
+        pattern = re.compile(r'Cycle_\d+')
+        fname_match = re.findall(pattern,cycle_file)
+
+        if len(fname_match) != 1:
+            raise ValueError('This file is not named correctly.\n Generate separate cycling files using the GUI')
+
+        hyst_cycle_no = re.findall(r'Cycle_(\d+).csv',cycle_file)[0]
+        cycle_df = pd.read_csv(cyc_filepath)
+        cyc_save_dir = os.path.dirname(cyc_filepath) 
+        c_capacity,c_potential,d_capacity,d_potential = cyc.hysteresis_data_from_frame(cycle_df,hyst_cycle_no)
+        cyc.plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,hyst_cycle_no,cyc_save_dir)
 if __name__ == "__main__":
     app = App()
     CyclingFrame(app)
