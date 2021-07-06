@@ -133,8 +133,11 @@ class CyclingFrame(ttk.Frame):
         fname_match = re.findall(pattern,cycle_file)
 
         if len(fname_match) != 1:
-            raise ValueError('This file is not named correctly.\n Generate separate cycling files using the GUI')
-
+            msg = 'This is not a valid file.\n Generate separate cycling files using the GUI'
+            tk.messagebox.showerror(title='File error', 
+                                    message=msg)
+            raise ValueError(msg)
+        
         hyst_cycle_no = re.findall(r'Cycle_(\d+).csv',cycle_file)[0]
         cycle_df = pd.read_csv(cyc_filepath)
         cyc_save_dir = os.path.dirname(cyc_filepath) 
