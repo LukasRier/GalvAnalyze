@@ -1,1 +1,7 @@
 pyinstaller -F --specpath .\GalvAnalyze -n GalvAnalyze_v0.2 -w cycling_gui.py
+
+
+# -F package as one file that can be copied around
+# -n name of executable and spec file
+# -w windowed (no console)
+# --specpath creates and/or selects dir for specfile
