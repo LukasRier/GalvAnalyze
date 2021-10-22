@@ -148,7 +148,7 @@ def plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,cycle_no,save_
     plt.subplot(1,2,1)
     plt.plot(c_capacity,c_potential,'b')
     plt.plot(d_capacity,d_potential,'r')
-    plt.xlabel("Capacity $\mathrm{mAh}$ $\mathrm{g^{-1}}$")
+    plt.xlabel("Capacity / $\mathrm{mAh}$ $\mathrm{g^{-1}}$")
     plt.ylabel("Cycle %s : Potential / $\mathrm{V}$" % cycle_no)
     plt.title('raw')
     
