@@ -65,7 +65,7 @@ def plot_max_cap_and_efficiency(cycle_no, max_charge_cap, max_discharge_cap, cou
     
     
     
-def save_max_pap_csv(save_dir,cycle_no,max_charge_cap,max_discharge_cap,coulombic_efficiency):   
+def save_max_cap_csv(save_dir,cycle_no,max_charge_cap,max_discharge_cap,coulombic_efficiency):   
     max_cap = {'Cycle Number': cycle_no, 
                'Max Charge Capacity mA.h.g^-1': max_charge_cap,
                'Max Discharge Capacity mA.h.g^-1': max_discharge_cap,
@@ -209,6 +209,6 @@ if __name__ == "__main__":
     plot_max_cap_and_efficiency(cycle_no, max_charge_cap, max_discharge_cap, coulombic_efficiency,save_dir)
     
     
-    save_max_pap_csv(save_dir,cycle_no,max_charge_cap,max_discharge_cap,coulombic_efficiency)
+    save_max_cap_csv(save_dir,cycle_no,max_charge_cap,max_discharge_cap,coulombic_efficiency)
 
     plot_caps_vs_potentials(out_df,pos_count,neg_count,save_dir)
