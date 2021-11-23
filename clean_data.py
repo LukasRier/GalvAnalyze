@@ -74,6 +74,8 @@ def parse_data(data):
         potential = data.loc[:,'Ecell/V']
     elif 'E /V' in data:
         potential = data.loc[:,'E /V']
+    elif 'Ewe/V' in data:
+        potential = data.loc[:,'Ewe/V']
     else:
         potential = 'NaN'
     print(potential)
@@ -82,6 +84,8 @@ def parse_data(data):
         current = data.loc[:,'<I>/mA']
     elif 'I /mA' in data:
         current = data.loc[:,'I /mA']
+    elif 'I/mA' in data:
+        current = data.loc[:,'I/mA']
     else:
         current = 'NaN'
     print(current)
