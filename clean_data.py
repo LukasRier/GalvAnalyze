@@ -63,7 +63,7 @@ def check_valid_mass(input_str):
     except TypeError:
         # sys.exit()
         return False
-    if val < 0:
+    if val <= 0:
         return False
     else:
         return True
@@ -128,6 +128,7 @@ def variable_current_thresh_diagnostic(current,thresh,in_cycle,absgrad):
     ax.plot(in_cycle * np.sign(current),'r--')
         
 def check_min_curr_correct(incycle_thresh):
+    # validates the current threshold input
     incycle_thresh_valid = False
     while not(incycle_thresh_valid):
         if not 'root' in locals():
