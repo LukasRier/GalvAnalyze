@@ -126,6 +126,16 @@ class CyclingFrame(ttk.Frame):
 
         cyc.plot_caps_vs_potentials(out_df,pos_count,neg_count,save_dir)
         
+        #plot first cycle hysteresis
+        match_C = '(C1)'
+        current_charge_cols = [col for col in out_df.columns if match_C in col]
+        match_D = '(D1)'
+        current_discharge_cols = [col for col in out_df.columns if match_D in col]
+        usecols = current_charge_cols + current_discharge_cols
+        Cycle_1 = out_df[usecols]
+        c_capacity,c_potential,d_capacity,d_potential = cyc.hysteresis_data_from_frame(Cycle_1,str(1))
+        cyc.plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,str(1),save_dir)
+        
     def runHysteresis(self):
         cycle_file = filedialog.askopenfilename(filetypes=[('CSV files','*.csv')],
                                                 title='Open CSV file for a specific cycle')
