@@ -118,7 +118,7 @@ def plot_caps_vs_potentials(out_df,pos_count,neg_count,save_dir=None):
     #     plt.savefig(os.path.join(save_dir,"Disharge capacity vs. Potential.png"))
     
     
-    plt.figure()
+    plt.figure(figsize=(6,5))
     for coln in range(neg_count):  
         plt.plot(discharge_cyc_capacities[:,coln],discharge_cyc_potentials[:,coln],
                  linewidth=0.5)
