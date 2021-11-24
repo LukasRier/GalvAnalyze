@@ -12,3 +12,19 @@ Figure1.svg
 GalvAnalyzeFlowCharts.svg
 Test cases/V2O5_1Li_RawData_t-V-I.txt
 *.pyc
+__pycache__/clean_data.cpython-37.pyc
+build/GalvAnalyze_v0.3/Analysis-00.toc
+build/GalvAnalyze_v0.3/base_library.zip
+build/GalvAnalyze_v0.3/EXE-00.toc
+build/GalvAnalyze_v0.3/GalvAnalyze_v0.3.exe.manifest
+build/GalvAnalyze_v0.3/PKG-00.pkg
+build/GalvAnalyze_v0.3/PKG-00.toc
+build/GalvAnalyze_v0.3/PYZ-00.pyz
+build/GalvAnalyze_v0.3/PYZ-00.toc
+build/GalvAnalyze_v0.3/Tree-00.toc
+build/GalvAnalyze_v0.3/Tree-01.toc
+build/GalvAnalyze_v0.3/Tree-02.toc
+build/GalvAnalyze_v0.3/warn-GalvAnalyze_v0.3.txt
+build/GalvAnalyze_v0.3/xref-GalvAnalyze_v0.3.html
+dist/GalvAnalyze_v0.3.exe
+__pycache__/clean_data.cpython-37.pyc

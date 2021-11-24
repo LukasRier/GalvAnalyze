@@ -66,3 +66,4 @@ plt.plot(d_capacity_h,d_potential,'r')
 plt.xlabel("Capacity $\mathrm{mAh g^{-1}}$")
 plt.ylabel("Cycle %s : Potential V" % cycle_no)
 plt.title('Hysteresis')
+
