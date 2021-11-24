@@ -8,3 +8,7 @@
 *.pyc
 __pycache__/clean_data.cpython-37.pyc
 GalvAnalyze/*
+Figure1.svg
+GalvAnalyzeFlowCharts.svg
+Test cases/V2O5_1Li_RawData_t-V-I.txt
+*.pyc
