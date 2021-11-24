@@ -122,7 +122,7 @@ class CyclingFrame(ttk.Frame):
         cyc.plot_max_cap_and_efficiency(cycle_no, max_charge_cap, max_discharge_cap, coulombic_efficiency,save_dir)
     
     
-        cyc.save_max_pap_csv(save_dir,cycle_no,max_charge_cap,max_discharge_cap,coulombic_efficiency)
+        cyc.save_max_cap_csv(save_dir,cycle_no,max_charge_cap,max_discharge_cap,coulombic_efficiency)
 
         cyc.plot_caps_vs_potentials(out_df,pos_count,neg_count,save_dir)
         

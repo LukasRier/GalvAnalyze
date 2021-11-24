@@ -45,14 +45,14 @@ def plot_max_cap_and_efficiency(cycle_no, max_charge_cap, max_discharge_cap, cou
     ax.legend(["Discharge capacity", "Charge capacity"], loc='lower left')
     ax.set_xlabel("Cycle Number", fontsize=14)
     plt.xticks(fontsize=14)
-    ax.set_ylabel("Capacity $\mathrm{mAh g^{-1}}$", fontsize=14)
+    ax.set_ylabel("Capacity / $\mathrm{mAh}$ $\mathrm{g^{-1}}$", fontsize=14)
     plt.yticks(fontsize=14)
     plt.ylim(bottom=0)
     
     
     ax2=ax.twinx()
     ax2.plot(cycle_no, coulombic_efficiency, 'o')
-    ax2.set_ylabel("Coulombic efficiency %", fontsize=14)
+    ax2.set_ylabel("Coulombic efficiency / %", fontsize=14)
     ax2.legend(['Coulombic efficiency'], loc='lower right')
     plt.ylim([0,110])
     plt.yticks(fontsize=14)
@@ -65,7 +65,7 @@ def plot_max_cap_and_efficiency(cycle_no, max_charge_cap, max_discharge_cap, cou
     
     
     
-def save_max_pap_csv(save_dir,cycle_no,max_charge_cap,max_discharge_cap,coulombic_efficiency):   
+def save_max_cap_csv(save_dir,cycle_no,max_charge_cap,max_discharge_cap,coulombic_efficiency):   
     max_cap = {'Cycle Number': cycle_no, 
                'Max Charge Capacity mA.h.g^-1': max_charge_cap,
                'Max Discharge Capacity mA.h.g^-1': max_discharge_cap,
@@ -124,7 +124,7 @@ def plot_caps_vs_potentials(out_df,pos_count,neg_count,save_dir=None):
                  linewidth=0.5)
         plt.plot(charge_cyc_capacities[:,coln],charge_cyc_potentials[:,coln],
                  linewidth=0.5)
-    plt.xlabel("Capacity $\mathrm{mAh g^{-1}}$", fontsize=14)
+    plt.xlabel("Capacity / $\mathrm{mAh}$ $\mathrm{g^{-1}}$", fontsize=14)
     plt.xticks(fontsize=14)
     plt.ylabel("Potential / $\mathrm{V}$", fontsize=14)
     plt.yticks(fontsize=14)
@@ -148,15 +148,15 @@ def plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,cycle_no,save_
     plt.subplot(1,2,1)
     plt.plot(c_capacity,c_potential,'b')
     plt.plot(d_capacity,d_potential,'r')
-    plt.xlabel("Capacity $\mathrm{mAh g^{-1}}$")
-    plt.ylabel("Cycle %s : Potential V" % cycle_no)
+    plt.xlabel("Capacity / $\mathrm{mAh}$ $\mathrm{g^{-1}}$")
+    plt.ylabel("Cycle %s : Potential / $\mathrm{V}$" % cycle_no)
     plt.title('raw')
     
     plt.subplot(1,2,2)
     plt.plot(c_capacity,c_potential,'b')
     plt.plot(d_capacity_h,d_potential,'r')
-    plt.xlabel("Capacity $\mathrm{mAh g^{-1}}$")
-    plt.ylabel(f"Cycle {cycle_no} : Potential V")
+    plt.xlabel("Capacity / $\mathrm{mAh}$ $\mathrm{g^{-1}}$")
+    plt.ylabel(f"Cycle {cycle_no} : Potential / V")
     plt.title('Hysteresis')
     if save_dir != None:
         plt.savefig(os.path.join(save_dir,f"Cycle {cycle_no} Hysteresis.png"))
@@ -209,6 +209,6 @@ if __name__ == "__main__":
     plot_max_cap_and_efficiency(cycle_no, max_charge_cap, max_discharge_cap, coulombic_efficiency,save_dir)
     
     
-    save_max_pap_csv(save_dir,cycle_no,max_charge_cap,max_discharge_cap,coulombic_efficiency)
+    save_max_cap_csv(save_dir,cycle_no,max_charge_cap,max_discharge_cap,coulombic_efficiency)
 
     plot_caps_vs_potentials(out_df,pos_count,neg_count,save_dir)

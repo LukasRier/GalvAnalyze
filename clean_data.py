@@ -74,6 +74,8 @@ def parse_data(data):
         potential = data.loc[:,'Ecell/V']
     elif 'E /V' in data:
         potential = data.loc[:,'E /V']
+    elif 'Ewe/V' in data:
+        potential = data.loc[:,'Ewe/V']
     else:
         potential = 'NaN'
     print(potential)
@@ -82,6 +84,8 @@ def parse_data(data):
         current = data.loc[:,'<I>/mA']
     elif 'I /mA' in data:
         current = data.loc[:,'I /mA']
+    elif 'I/mA' in data:
+        current = data.loc[:,'I/mA']
     else:
         current = 'NaN'
     print(current)
@@ -258,11 +262,11 @@ def create_data_frame(file=None,active_mass=None,is_constant=True):
         ct_name = time_head + "(C" + str(cn+1) + ")"
         all_data[ct_name] = cyc_time
         
-        cyc_pot_name = potential_head + "(C" + str(cn+1) + ")"
-        all_data[cyc_pot_name] = cyc_pot
-        
         cyc_cap_name = capacity_head + "(C" + str(cn+1) + ")"
         all_data[cyc_cap_name] = cyc_capacity
+        
+        cyc_pot_name = potential_head + "(C" + str(cn+1) + ")"
+        all_data[cyc_pot_name] = cyc_pot
     
 
     for cn in range(neg_count):
@@ -275,12 +279,11 @@ def create_data_frame(file=None,active_mass=None,is_constant=True):
         ct_name = time_head + "(D" + str(cn+1) + ")"
         all_data[ct_name] = cyc_time
         
+        cyc_cap_name =  capacity_head + "(D" + str(cn+1) + ")"
+        all_data[cyc_cap_name] = cyc_capacity 
+        
         cyc_pot_name = potential_head + "(D" + str(cn+1) + ")"
         all_data[cyc_pot_name] = cyc_pot
-        
-        
-        cyc_cap_name =  capacity_head + "(D" + str(cn+1) + ")"
-        all_data[cyc_cap_name] = cyc_capacity   
     
     length = np.array([])
     
