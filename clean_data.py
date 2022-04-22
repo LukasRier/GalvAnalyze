@@ -28,7 +28,7 @@ def data_from_file(file=None,active_mass_input=None):
             sys.exit()
             
     print(file)
-    data = pd.read_csv(file,delimiter='\t')
+    data = pd.read_csv(file,delimiter='\t'ot',')
         
     if active_mass_input==None:
         mass_valid = False
