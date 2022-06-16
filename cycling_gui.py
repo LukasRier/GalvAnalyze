@@ -71,6 +71,12 @@ class CyclingFrame(ttk.Frame):
                         variable = self.c2var, onvalue=True, offvalue=False)
         self.save_indv_cycles_cb.grid(column=0,row=6, sticky=tk.W,**options)
         
+        # select constant current constant voltage mode
+        self.CCCVvar = tk.BooleanVar(value=False)
+        self.CCCV_cb = ttk.Checkbutton(self,
+                        text = "CCCV",
+                        variable = self.CCCVvar, onvalue=True, offvalue=False)
+        self.CCCV_cb.grid(column=0, row=7, sticky=tk.W,**options)
         
         #confirm and run clean data/plots
         self.run_plots_btn = ttk.Button( self, text = "Run Cycling", command=self.runPlotsBtnCallback )
@@ -109,6 +115,7 @@ class CyclingFrame(ttk.Frame):
         
         out_df,filename,save_dir,pos_count,neg_count = cld.create_data_frame(self.file,self.mass,not(self.c2var.get()))
         
+        #TODO check CCCV case
         if self.c1var.get() == True:
             cld.create_cycles_seperate(out_df, save_dir)
     
