@@ -235,7 +235,7 @@ def get_cycle_counts(time,is_pos,is_neg):
 # Here we need to create the value of capacity
 # Capacity = time*current (mAs) / 3600 (mAh) / active mass (g) = mAh g^-1
 
-def create_data_frame(file=None,active_mass=None,is_constant=True):    
+def create_data_frame(file=None,active_mass=None,is_constant=True,is_cccv=False):    
     
     file,data,active_mass = data_from_file(file,active_mass)
        
@@ -244,7 +244,7 @@ def create_data_frame(file=None,active_mass=None,is_constant=True):
        
 #    grav_capacity = capacity / active_mass
           
-    is_pos,is_neg = current_thresholds(current,0.98,is_constant)
+    is_pos,is_neg = current_thresholds(current,0.98,is_constant,is_cccv)
    
     # pos_edge,neg_edge = find_edges(is_pos),find_edges(is_neg)
     

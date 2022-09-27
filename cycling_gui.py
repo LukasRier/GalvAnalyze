@@ -112,10 +112,12 @@ class CyclingFrame(ttk.Frame):
             
     def runPlotsBtnCallback(self):
         print(self.c2var.get())
+         #TODO check CCCV case
+        out_df,filename,save_dir,pos_count,neg_count = cld.create_data_frame(self.file,self.mass,
+                                                is_constant=not(self.c2var.get()),
+                                                is_cccv=self.CCCVvar.get())
         
-        out_df,filename,save_dir,pos_count,neg_count = cld.create_data_frame(self.file,self.mass,not(self.c2var.get()))
-        
-        #TODO check CCCV case
+       
         if self.c1var.get() == True:
             cld.create_cycles_seperate(out_df, save_dir)
     
