@@ -77,7 +77,11 @@ def parse_data(data):
     elif 'Ewe/V' in data:
         potential = data.loc[:,'Ewe/V']
     elif 'E/V' in data:
-        potential = data.loc[:,'E/V']
+        potential = data.loc[:,'E/V']    
+    elif 'Voltage/V' in data:
+        potential = data.loc[:,'Voltage/V']
+    elif 'Voltage(V)' in data:
+        potential = data.loc[:,'Voltage(V)']
     else:
         potential = 'NaN'
     print(potential)
@@ -88,6 +92,10 @@ def parse_data(data):
         current = data.loc[:,'I /mA']
     elif 'I/mA' in data:
         current = data.loc[:,'I/mA']
+    elif 'Current/mA' in data:
+        current = data.loc[:,'Current/mA']
+    elif 'Current(A)' in data:
+        current = data.loc[:,'Current(A)']*1000
     else:
         current = 'NaN'
     print(current)
