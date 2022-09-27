@@ -71,6 +71,12 @@ class CyclingFrame(ttk.Frame):
                         variable = self.c2var, onvalue=True, offvalue=False)
         self.save_indv_cycles_cb.grid(column=0,row=6, sticky=tk.W,**options)
         
+        # select whether the first cycle is a charge (true) or discharge (false)
+        self.c3var = tk.BooleanVar(value=True)
+        self.charge_first_cb = ttk.Checkbutton(self,
+                        text = "First cycle is charge",
+                        variable = self.c3var, onvalue=True, offvalue=False)
+        self.charge_first_cb.grid(column=0,row=7, sticky=tk.W,**options)
         
         #confirm and run clean data/plots
         self.run_plots_btn = ttk.Button( self, text = "Run Cycling", command=self.runPlotsBtnCallback )
@@ -107,7 +113,7 @@ class CyclingFrame(ttk.Frame):
     def runPlotsBtnCallback(self):
         print(self.c2var.get())
         
-        out_df,filename,save_dir,pos_count,neg_count,charge_first = cld.create_data_frame(self.file,self.mass,not(self.c2var.get()))
+        out_df,filename,save_dir,pos_count,neg_count = cld.create_data_frame(self.file,self.mass,not(self.c2var.get()))
         
         if self.c1var.get() == True:
             cld.create_cycles_seperate(out_df, save_dir)
@@ -134,6 +140,7 @@ class CyclingFrame(ttk.Frame):
         usecols = current_charge_cols + current_discharge_cols
         Cycle_1 = out_df[usecols]
         c_capacity,c_potential,d_capacity,d_potential = cyc.hysteresis_data_from_frame(Cycle_1,str(1))
+        charge_first = self.c3var.get()
         cyc.plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,str(1),save_dir,charge_first)
         
     def runHysteresis(self):
@@ -154,7 +161,8 @@ class CyclingFrame(ttk.Frame):
         cycle_df = pd.read_csv(cyc_filepath)
         cyc_save_dir = os.path.dirname(cyc_filepath) 
         c_capacity,c_potential,d_capacity,d_potential = cyc.hysteresis_data_from_frame(cycle_df,hyst_cycle_no)
-        cyc.plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,hyst_cycle_no,cyc_save_dir)
+        charge_first = self.c3var.get()
+        cyc.plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,hyst_cycle_no,cyc_save_dir,charge_first)
         
 if __name__ == "__main__":
     app = App()
