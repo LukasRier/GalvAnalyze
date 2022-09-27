@@ -177,7 +177,8 @@ def plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,cycle_no,save_
     if save_dir != None:
         plt.savefig(os.path.join(save_dir,f"Cycle {cycle_no} Hysteresis.png"))
         
-        hysteresis_df = dict(zip(["Ecell/V (C raw)",
+        if charge_first:
+            hysteresis_df = dict(zip(["Ecell/V (C raw)",
                       "Capacity/mA.h.g^-1 (C raw)",
                       "Ecell/V (D raw)",
                       "Capacity/mA.h.g^-1 (D raw)",
@@ -185,6 +186,15 @@ def plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,cycle_no,save_
                       ],(c_potential,c_capacity,
                            d_potential,d_capacity,
                            d_capacity_h)))
+        else:
+            hysteresis_df = dict(zip(["Ecell/V (C raw)",
+                      "Capacity/mA.h.g^-1 (C hysteresis)",
+                      "Ecell/V (D raw)",
+                      "Capacity/mA.h.g^-1 (C raw)",
+                      "Capacity/mA.h.g^-1 (D raw)"
+                      ],(c_potential,c_capacity_h,
+                           d_potential,c_capacity,
+                           d_capacity)))
         
         
         hysteresis_df = pd.DataFrame.from_dict(hysteresis_df,orient="columns")
