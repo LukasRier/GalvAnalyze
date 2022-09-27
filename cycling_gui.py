@@ -107,7 +107,7 @@ class CyclingFrame(ttk.Frame):
     def runPlotsBtnCallback(self):
         print(self.c2var.get())
         
-        out_df,filename,save_dir,pos_count,neg_count = cld.create_data_frame(self.file,self.mass,not(self.c2var.get()))
+        out_df,filename,save_dir,pos_count,neg_count,charge_first = cld.create_data_frame(self.file,self.mass,not(self.c2var.get()))
         
         if self.c1var.get() == True:
             cld.create_cycles_seperate(out_df, save_dir)
@@ -134,7 +134,7 @@ class CyclingFrame(ttk.Frame):
         usecols = current_charge_cols + current_discharge_cols
         Cycle_1 = out_df[usecols]
         c_capacity,c_potential,d_capacity,d_potential = cyc.hysteresis_data_from_frame(Cycle_1,str(1))
-        cyc.plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,str(1),save_dir)
+        cyc.plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,str(1),save_dir,charge_first)
         
     def runHysteresis(self):
         cycle_file = filedialog.askopenfilename(filetypes=[('CSV files','*.csv')],
