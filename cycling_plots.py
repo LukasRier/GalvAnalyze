@@ -149,13 +149,20 @@ def plot_caps_vs_potentials(out_df,pos_count,neg_count,save_dir=None):
     
     return charge_cyc_potentials,charge_cyc_capacities,discharge_cyc_potentials,discharge_cyc_capacities
 
-def plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,cycle_no,save_dir=None):
-    d_capacity_h = -1*d_capacity + c_capacity[c_capacity.index.get_loc(c_capacity.last_valid_index())]
-
+def plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,cycle_no,save_dir=None,charge_first=True):
+    
     plt.figure(figsize=(6,5))    
-    ax = plt.axes()
-    ax.plot(c_capacity,c_potential,'k')
-    ax.plot(d_capacity_h,d_potential,'r')
+    ax = plt.axes()    
+    if charge_first:
+        d_capacity_h = -1*d_capacity + c_capacity[c_capacity.index.get_loc(c_capacity.last_valid_index())]
+        ax.plot(c_capacity,c_potential,'k')
+        ax.plot(d_capacity_h,d_potential,'r')
+    else:
+        c_capacity_h = -1*c_capacity + d_capacity[d_capacity.index.get_loc(d_capacity.last_valid_index())]
+        ax.plot(c_capacity_h,c_potential,'k')
+        ax.plot(d_capacity,d_potential,'r')
+
+    
     plt.xlabel("Capacity / $\mathrm{mAh}$ $\mathrm{g^{-1}}$",fontsize=14)
     plt.ylabel(f"Cycle {cycle_no} : Potential / V",fontsize=14)
     plt.yticks(fontsize=14)
