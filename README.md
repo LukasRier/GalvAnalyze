@@ -20,7 +20,7 @@ Should you deem this unsuitable, clone this repository, install the [dependencie
 
 ### Compiling GalvAnalyze
 
-Clone the repository and generate a virtual environment from the [dependencies](https://github.com/LukasRier/GalvAnalyze/blob/main/dependencies.yml "dependencies") i.e. using conda:
+Clone the repository and generate a virtual environment from the [dependencies](https://github.com/LukasRier/GalvAnalyze/blob/main/dependencies.yml "dependencies") e.g. using conda:
 
 ```
 conda env create --file=/path/to/dependencies.yml -n GAInstaller
@@ -28,7 +28,7 @@ conda env create --file=/path/to/dependencies.yml -n GAInstaller
 
 (`GAInstaller` can be substituted with an environment name of choice of course)
 
-Next, install [pyinstaller](https://pyinstaller.org/en/stable/# "pyinstaller") using
+Next, activate your virtual environment (e.g.`conda activate GAInstaller`) and install [pyinstaller](https://pyinstaller.org/en/stable/# "pyinstaller") using
 ```
 pip install -U pyinstaller
 ```
