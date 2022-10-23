@@ -20,7 +20,7 @@ class App(tk.Tk):
         super().__init__()
 
         self.title('GalvAnalyze')
-        self.iconbitmap('GalvAnalyzeIcon.ico')
+        self.iconbitmap('./logos/GalvAnalyzeIcon.ico')
         self.geometry('1000x300')
         self.resizable(False, False)
         
