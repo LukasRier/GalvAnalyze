@@ -148,7 +148,15 @@ def check_min_curr_correct(incycle_thresh):
                                    title="Min current threshold",
                                    prompt="Desired current threshold (mA):",
                                    initialvalue=incycle_thresh)
-        incycle_thresh_valid = check_valid_mass(incycle_thresh_input)
+        
+        if incycle_thresh_input is None:
+            if 'root' in locals():
+                 root.destroy()
+            msg = "You need a threshold value to proceed."
+            raise Exception(msg)
+        else:
+            incycle_thresh_valid = check_valid_mass(incycle_thresh_input)
+        
         
         if not(incycle_thresh_valid):
             tk.messagebox.showerror(title=None, 
