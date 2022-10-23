@@ -33,7 +33,7 @@ def data_from_file(file=None,active_mass_input=None):
     if active_mass_input==None:
         mass_valid = False
     else:
-        mass_valid = check_valid_mass(active_mass_input)
+        mass_valid = check_valid_number(active_mass_input)
     while not(mass_valid):
         if not 'root' in locals():
             root = tk.Tk()
@@ -42,7 +42,7 @@ def data_from_file(file=None,active_mass_input=None):
                                    title="Active Mass",
                                    prompt="Enter Active Loading (mg):",
                                    initialvalue=8)
-        mass_valid = check_valid_mass(active_mass_input)
+        mass_valid = check_valid_number(active_mass_input)
         
         if not(mass_valid):
             tk.messagebox.showerror(title=None, 
@@ -55,13 +55,13 @@ def data_from_file(file=None,active_mass_input=None):
     
     return file,data,active_mass
 
-def check_valid_mass(input_str):
+def check_valid_number(input_str):
+    # Checks whether number provided as text is a positive, non-zero number.
     try:
         val = float(input_str)
     except ValueError:
         return False
     except TypeError:
-        # sys.exit()
         return False
     if val <= 0:
         return False
@@ -155,7 +155,7 @@ def check_min_curr_correct(incycle_thresh):
             msg = "You need a threshold value to proceed."
             raise Exception(msg)
         else:
-            incycle_thresh_valid = check_valid_mass(incycle_thresh_input)
+            incycle_thresh_valid = check_valid_number(incycle_thresh_input)
         
         
         if not(incycle_thresh_valid):

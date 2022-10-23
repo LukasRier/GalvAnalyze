@@ -8,7 +8,7 @@ lukasrier@outlook.com
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import ttk
-from clean_data import check_valid_mass
+from clean_data import check_valid_number
 import clean_data as cld
 import cycling_plots as cyc
 import pandas as pd
@@ -101,7 +101,7 @@ class CyclingFrame(ttk.Frame):
     
     def massBtnCallback(self):
         print()
-        if not(check_valid_mass(self.tkMassVar.get())):
+        if not(check_valid_numer(self.tkMassVar.get())):
             tk.messagebox.showerror(title=None, 
                                     message="Enter a valid number!")
             self.mass_entry.delete(0,len(self.tkMassVar.get()))
