@@ -1,4 +1,4 @@
-name: GAclean
+name: GalvAnalyze
 channels:
   - conda-forge
 dependencies:
