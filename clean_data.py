@@ -13,7 +13,7 @@ from tkinter import simpledialog
 import sys
 import os
 import matplotlib.pyplot as plt
-import cycling_plots as cyc
+
 
 def data_from_file(file=None,active_mass_input=None):
     if file==None:
