@@ -1,3 +1,5 @@
+*.png
+*.csv
 __pycache__/*
 GalvAnalyze/*
 PaperFigs/*
