@@ -21,7 +21,7 @@ class App(tk.Tk):
     def __init__(self):
         super().__init__()
 
-        self.title('CyclingApp')
+        self.title('GalvAnalyze')
         self.geometry('1000x300')
         self.resizable(False, False)
         
