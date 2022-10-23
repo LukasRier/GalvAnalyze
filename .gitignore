@@ -1,6 +1,3 @@
-*.png
-*.pyc
-*.csv
 __pycache__/*
 GalvAnalyze/*
 PaperFigs/*
@@ -19,4 +16,3 @@ build/GalvAnalyze_v0.3/Tree-02.toc
 build/GalvAnalyze_v0.3/warn-GalvAnalyze_v0.3.txt
 build/GalvAnalyze_v0.3/xref-GalvAnalyze_v0.3.html
 dist/GalvAnalyze_v0.3.exe
-*.pyc
