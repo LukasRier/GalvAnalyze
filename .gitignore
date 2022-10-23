@@ -1,14 +1,10 @@
 
 *.png
-1Li Insertion Crate 500 Cycles_CA7 BAD.csv
-1Li Insertion Crate 500 Cycles_CA7 BAD.txt
 *.pyc
 *.csv
 __pycache__/*
 GalvAnalyze/*
-Figure1.svg
 GalvAnalyzeFlowCharts.svg
-Test_cases/*
 build/GalvAnalyze_v0.3/Analysis-00.toc
 build/GalvAnalyze_v0.3/base_library.zip
 build/GalvAnalyze_v0.3/EXE-00.toc
