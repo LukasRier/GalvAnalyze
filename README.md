@@ -18,7 +18,7 @@ Once downloaded, the executable can be run from within the zipped folder. Upon o
 
 Should you deem this unsuitable, clone this repository and run [GalvAnalyze.py](https://github.com/LukasRier/GalvAnalyze/blob/main/GalvAnalyze.py "GalvAnalyze.py")  or generate your own executable by following the below step-by-step guide.
 
-## Compiling GalvAnalyze
+### Compiling GalvAnalyze
 
 
 ## DISCLAIMER
