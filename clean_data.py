@@ -42,7 +42,13 @@ def data_from_file(file=None,active_mass_input=None):
                                    title="Active Mass",
                                    prompt="Enter Active Loading (mg):",
                                    initialvalue=8)
-        mass_valid = check_valid_number(active_mass_input)
+        if active_mass_input is None:
+            if 'root' in locals():
+                root.destroy()
+            msg = "You need an active mass value to proceed."
+            raise Exception(msg)
+        else:
+            mass_valid = check_valid_number(active_mass_input)
         
         if not(mass_valid):
             tk.messagebox.showerror(title=None, 
