@@ -8,7 +8,7 @@ __pycache__/*
 GalvAnalyze/*
 Figure1.svg
 GalvAnalyzeFlowCharts.svg
-Test cases/V2O5_1Li_RawData_t-V-I.txt
+Test_cases/*
 build/GalvAnalyze_v0.3/Analysis-00.toc
 build/GalvAnalyze_v0.3/base_library.zip
 build/GalvAnalyze_v0.3/EXE-00.toc
