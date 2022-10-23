@@ -15,8 +15,6 @@ import pandas as pd
 import re
 import os
 
-
-
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
