@@ -101,7 +101,7 @@ class CyclingFrame(ttk.Frame):
     
     def massBtnCallback(self):
         print()
-        if not(check_valid_numer(self.tkMassVar.get())):
+        if not(check_valid_number(self.tkMassVar.get())):
             tk.messagebox.showerror(title=None, 
                                     message="Enter a valid number!")
             self.mass_entry.delete(0,len(self.tkMassVar.get()))
