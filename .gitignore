@@ -5,5 +5,5 @@ PaperFigs/*
 Obsolete/*
 build/*
 dist/*
-GalvAnalyze.exe
+*.exe
 *.zip
