@@ -22,7 +22,7 @@ class App(tk.Tk):
 
         self.title('GalvAnalyze')
         
-        iconfile = './/logos//GalvAnalyzeIcon.ico'
+        iconfile = '.\\logos\\GalvAnalyzeIcon.ico'
         
         if not hasattr(sys, "frozen"):
             iconfile = os.path.join(os.path.dirname(__file__), iconfile) 
