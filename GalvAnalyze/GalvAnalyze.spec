@@ -24,7 +24,7 @@ pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
 exe = EXE(
     pyz,
     a.scripts,
-    a.binaries + [('GalvAnalyzeIcon.ico','..\\logos\\','DATA')],
+    a.binaries,
     a.zipfiles,
     a.datas,
     [],
