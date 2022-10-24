@@ -6,3 +6,4 @@ Obsolete/*
 build/*
 dist/*
 GalvAnalyze.exe
+*.zip
