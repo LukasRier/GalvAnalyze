@@ -14,7 +14,6 @@ import cycling_plots as cyc
 import pandas as pd
 import re
 import os
-import sys
 
 class App(tk.Tk):
     def __init__(self):
@@ -22,14 +21,11 @@ class App(tk.Tk):
 
         self.title('GalvAnalyze')
         
-        iconfile = '.\\logos\\GalvAnalyzeIcon.ico'
+        iconfile = 'logos\\GalvAnalyzeIcon.ico'
         
-        if not hasattr(sys, "frozen"):
-            iconfile = os.path.join(os.path.dirname(__file__), iconfile) 
-        else:
-            iconfile = 'GalvAnalyzeIcon.ico'
-        
-        self.iconbitmap(default=iconfile)
+        if os.path.isfile(iconfile):
+            self.iconbitmap(iconfile)
+            
         self.geometry('1000x300')
         self.resizable(False, False)
         
