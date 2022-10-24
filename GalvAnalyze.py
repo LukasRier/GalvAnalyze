@@ -27,7 +27,7 @@ class App(tk.Tk):
         if not hasattr(sys, "frozen"):
             iconfile = os.path.join(os.path.dirname(__file__), iconfile) 
         else:
-            iconfile = os.path.join(sys.prefix, iconfile)
+            iconfile = 'GalvAnalyzeIcon.ico'
         
         self.iconbitmap(default=iconfile)
         self.geometry('1000x300')
