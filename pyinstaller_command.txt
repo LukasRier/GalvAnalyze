@@ -1,4 +1,4 @@
-pyinstaller -F --specpath .\GalvAnalyze -n GalvAnalyze_v0.4 -w GalvAnalyze.py
+pyinstaller -F --specpath .\GalvAnalyze -n GalvAnalyze_v0.4 -w --onefile --icon=logos\GalvAnalyzeIcon.ico GalvAnalyze.py
 
 
 # -F package as one file that can be copied around

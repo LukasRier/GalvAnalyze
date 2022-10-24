@@ -5,3 +5,5 @@ PaperFigs/*
 Obsolete/*
 build/*
 dist/*
+*.exe
+*.zip
