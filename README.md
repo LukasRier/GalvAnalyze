@@ -8,7 +8,7 @@ GalvAnalyze is a tool created to simplify the analysis of galvanostatic charge-d
 * Pandas >= 1.1.3
 * Tkinter
 
-### Downloading GalvAnalzye
+### Downloading GalvAnalyze
 
 The source code for GalvAnalyze can be accessed by cloning this repository
 
