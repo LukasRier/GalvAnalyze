@@ -34,7 +34,7 @@ pip install -U pyinstaller
 ```
 and finally run
 ```
-pyinstaller .\GalvAnalyze\GalvAnalyze.spec
+pyinstaller \path\to\GalvAnalyze\GalvAnalyze.spec
 ```
 where `\path\to` is the location of your cloned repository.
 
