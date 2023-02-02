@@ -12,7 +12,7 @@ GalvAnalyze is a tool created to simplify the analysis of galvanostatic charge-d
 
 The source code for GalvAnalyze can be accessed by cloning this repository
 
-To download the GalvAnalyze executable for MS Windows (recommended for those without experience of using the python programming language), go to https://www.thenamilab.com/about-4, scroll to the bottom of the page and click the “Download GalvAnalyze” button. This will begin the download of a zipped file containing the executable. NOTE: this file is ~321 MB, ensure that you have sufficient space on your hard drive.
+To download the GalvAnalyze executable for MS Windows (recommended for those without experience of using the python programming language), go to https://www.thenamilab.com/about-4, scroll to the bottom of the page and click the “Download GalvAnalyze” button. This will begin the download of a zipped file containing the executable. (This file is ~45MB)
 
 Once downloaded, the executable can be run from within the zipped folder. Upon opening of the executable, Windows Defender SmartScreen may declare that this is an “unrecognized app”. To bypass this, press “More Info” and then “Run anyway”.
 
