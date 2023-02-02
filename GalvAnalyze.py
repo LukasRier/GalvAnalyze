@@ -120,7 +120,7 @@ class CyclingFrame(ttk.Frame):
         out_df,filename,save_dir,pos_count,neg_count = cld.create_data_frame(self.file,self.mass,not(self.c2var.get()))
         
         if self.c1var.get() == True:
-            cld.create_cycles_seperate(out_df, save_dir)
+            cld.create_cycles_separate(out_df, save_dir)
     
         
         (coulombic_efficiency, max_charge_cap, 
