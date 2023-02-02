@@ -4,7 +4,7 @@ GalvAnalyze is a tool created to simplify the analysis of galvanostatic charge-d
 ### Dependencies
 * Python >= 3.7.9
 * NumPy >= 1.18.1
-* Matplotlib >= 3.3.1
+* Matplotlib >= 3.3.3
 * Pandas >= 1.1.3
 * Tkinter
 
@@ -42,4 +42,4 @@ The command above will generate two folders \'dist\' and \'build\'.
 \'dist\' will contain your executable.
 
 ## DISCLAIMER
-GalvAnalyze is provided by the authors “as is” and “with all faults”. The authors makes no representations or warranties of any kind concerning the safety, suitability, lack of viruses, inaccuracries, typrographical errors, or other harmful components of GalvAnalyze. There are inherent dangers in the use of any software, and you are solely responsible for determining whether GalvAnalyze is compatible with your equipment and other software installed on your equipment. You are also solely responsible for the protection of your equipment and backup of your data, and GalvAnalyze will not be liable for any damages you may suffer in connceting with using, modifying, or distributing GalvAnalyze.
+GalvAnalyze is provided by the authors “as is” and “with all faults”. The authors makes no representations or warranties of any kind concerning the safety, suitability, lack of viruses, inaccuracies, typographical errors, or other harmful components of GalvAnalyze. There are inherent dangers in the use of any software, and you are solely responsible for determining whether GalvAnalyze is compatible with your equipment and other software installed on your equipment. You are also solely responsible for the protection of your equipment and backup of your data, and GalvAnalyze will not be liable for any damages you may suffer in connecting with using, modifying, or distributing GalvAnalyze.
