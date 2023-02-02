@@ -345,7 +345,7 @@ def create_data_frame(file=None,active_mass=None,is_constant=True):
     
     return out_df,filename,save_dir,pos_count,neg_count
 
-def create_cycles_seperate(out_df, save_dir):
+def create_cycles_separate(out_df, save_dir):
     print('Saving individual cycles...')
     cycle_dir = save_dir + "/Individual Cycles"
     try:
