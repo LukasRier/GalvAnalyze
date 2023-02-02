@@ -223,7 +223,7 @@ if __name__ == "__main__":
     
     out_df,filename,save_dir,pos_count,neg_count = cld.create_data_frame()
     
-    cld.create_cycles_seperate(out_df, save_dir)
+    cld.create_cycles_separate(out_df, save_dir)
     
         
     (coulombic_efficiency, max_charge_cap, 
