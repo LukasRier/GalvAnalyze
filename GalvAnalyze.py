@@ -22,7 +22,7 @@ class App(tk.Tk):
         self.title('GalvAnalyze')
         
         iconfile = 'logos\\GalvAnalyzeIcon.ico'
-        
+        # include icon if included 
         if os.path.isfile(iconfile):
             self.iconbitmap(iconfile)
             
@@ -62,24 +62,24 @@ class CyclingFrame(ttk.Frame):
         self.cnfrm_mass_btn.grid(column=2,row=4, sticky=tk.W,**options)
         
         # select whether to save individual charge discharge cycles
-        self.c1var = tk.BooleanVar(value=False)
+        self.separate_cycles_checkbox_var = tk.BooleanVar(value=False)
         self.save_indv_cycles_cb = ttk.Checkbutton(self, 
                         text = "Separate charge-discharge pairs to .csv",
-                        variable = self.c1var, onvalue=True, offvalue=False)
+                        variable = self.separate_cycles_checkbox_var, onvalue=True, offvalue=False)
         self.save_indv_cycles_cb.grid(column=0,row=5,columnspan=4, sticky=tk.W,**options)
         
         # select whether cycling currents vary in time
-        self.c2var = tk.BooleanVar(value=False)
+        self.current_varies_checkbox_var = tk.BooleanVar(value=False)
         self.save_indv_cycles_cb = ttk.Checkbutton(self, 
                         text = "Applied current varies",
-                        variable = self.c2var, onvalue=True, offvalue=False)
+                        variable = self.current_varies_checkbox_var, onvalue=True, offvalue=False)
         self.save_indv_cycles_cb.grid(column=0,row=6, sticky=tk.W,**options)
         
         # select whether the first cycle is a charge (true) or discharge (false)
-        self.c3var = tk.BooleanVar(value=True)
+        self.first_cyc_charge_checkbox_var = tk.BooleanVar(value=True)
         self.charge_first_cb = ttk.Checkbutton(self,
                         text = "First cycle is charge",
-                        variable = self.c3var, onvalue=True, offvalue=False)
+                        variable = self.first_cyc_charge_checkbox_var, onvalue=True, offvalue=False)
         self.charge_first_cb.grid(column=0,row=7, sticky=tk.W,**options)
         
         #confirm and run clean data/plots
@@ -115,11 +115,11 @@ class CyclingFrame(ttk.Frame):
             print(self.mass)
             
     def runPlotsBtnCallback(self):
-        print(self.c2var.get())
+        print(self.current_varies_checkbox_var.get())
         
-        out_df,filename,save_dir,pos_count,neg_count = cld.create_data_frame(self.file,self.mass,not(self.c2var.get()))
+        out_df,filename,save_dir,pos_count,neg_count = cld.create_data_frame(self.file,self.mass,not(self.current_varies_checkbox_var.get()))
         
-        if self.c1var.get() == True:
+        if self.separate_cycles_checkbox_var.get() == True:
             cld.create_cycles_separate(out_df, save_dir)
     
         
@@ -144,7 +144,7 @@ class CyclingFrame(ttk.Frame):
         usecols = current_charge_cols + current_discharge_cols
         Cycle_1 = out_df[usecols]
         c_capacity,c_potential,d_capacity,d_potential = cyc.hysteresis_data_from_frame(Cycle_1,str(1))
-        charge_first = self.c3var.get()
+        charge_first = self.first_cyc_charge_checkbox_var.get()
         cyc.plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,str(1),save_dir,charge_first)
         
     def runHysteresis(self):
@@ -165,7 +165,7 @@ class CyclingFrame(ttk.Frame):
         cycle_df = pd.read_csv(cyc_filepath)
         cyc_save_dir = os.path.dirname(cyc_filepath) 
         c_capacity,c_potential,d_capacity,d_potential = cyc.hysteresis_data_from_frame(cycle_df,hyst_cycle_no)
-        charge_first = self.c3var.get()
+        charge_first = self.first_cyc_charge_checkbox_var.get()
         cyc.plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,hyst_cycle_no,cyc_save_dir,charge_first)
         
 if __name__ == "__main__":
