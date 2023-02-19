@@ -26,7 +26,7 @@ class App(tk.Tk):
         if os.path.isfile(iconfile):
             self.iconbitmap(iconfile)
             
-        self.geometry('1000x300')
+        self.geometry('700x300')
         self.resizable(False, False)
         
 class CyclingFrame(ttk.Frame):
@@ -43,8 +43,8 @@ class CyclingFrame(ttk.Frame):
         self.file_btn = ttk.Button( self, text = "Load file", command=self.fileBtnCallback )
         self.file_btn.grid(column=0,row=0, sticky=tk.NW,**options)
 
-        self.filen_entry = ttk.Entry(self, textvariable=self.tkFileVar,width=95)
-        self.filen_entry.grid(row=2, column=0,columnspan = 6,sticky=tk.W,**options)
+        self.filen_entry = ttk.Entry(self, textvariable=self.tkFileVar, width=100)
+        self.filen_entry.grid(row=2, column=0,columnspan = 7,sticky=tk.W,**options)
         
         #mass selection
         self.mass = "Enter Mass"
@@ -66,7 +66,7 @@ class CyclingFrame(ttk.Frame):
         self.save_indv_cycles_cb = ttk.Checkbutton(self, 
                         text = "Separate charge-discharge pairs to .csv",
                         variable = self.separate_cycles_checkbox_var, onvalue=True, offvalue=False)
-        self.save_indv_cycles_cb.grid(column=0,row=5,columnspan=4, sticky=tk.W,**options)
+        self.save_indv_cycles_cb.grid(column=0,row=5, sticky=tk.W,**options)
         
         # select whether cycling currents vary in time
         self.current_varies_checkbox_var = tk.BooleanVar(value=False)
@@ -84,12 +84,12 @@ class CyclingFrame(ttk.Frame):
         
         #confirm and run clean data/plots
         self.run_plots_btn = ttk.Button( self, text = "Run Cycling", command=self.runPlotsBtnCallback )
-        self.run_plots_btn.grid(column=5,row=6, sticky=tk.W,**options)
+        self.run_plots_btn.grid(column=5,row=6, sticky=tk.E,**options)
         
         #hysteresis plots
         self.do_hysteresis_btn = ttk.Button(self, text = "Get Hysteresis Plot",
                                             command=self.runHysteresis)
-        self.do_hysteresis_btn.grid(column=24,row=7,sticky=tk.E,**options)
+        self.do_hysteresis_btn.grid(column=5,row=7,sticky=tk.E,**options)
         
         
         
