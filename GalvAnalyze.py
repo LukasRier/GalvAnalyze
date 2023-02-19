@@ -44,7 +44,7 @@ class CyclingFrame(ttk.Frame):
         self.file_btn.grid(column=0,row=0, sticky=tk.NW,**options)
 
         self.filen_entry = ttk.Entry(self, textvariable=self.tkFileVar,width=95)
-        self.filen_entry.grid(row=2, column=0,columnspan = 25,sticky=tk.W,**options)
+        self.filen_entry.grid(row=2, column=0,columnspan = 6,sticky=tk.W,**options)
         
         #mass selection
         self.mass = "Enter Mass"
@@ -84,7 +84,7 @@ class CyclingFrame(ttk.Frame):
         
         #confirm and run clean data/plots
         self.run_plots_btn = ttk.Button( self, text = "Run Cycling", command=self.runPlotsBtnCallback )
-        self.run_plots_btn.grid(column=24,row=6, sticky=tk.E,**options)
+        self.run_plots_btn.grid(column=5,row=6, sticky=tk.W,**options)
         
         #hysteresis plots
         self.do_hysteresis_btn = ttk.Button(self, text = "Get Hysteresis Plot",
@@ -94,7 +94,7 @@ class CyclingFrame(ttk.Frame):
         
         
         # add padding to the frame and show it
-        self.grid(padx=10, pady=10, sticky=tk.NSEW)
+        #self.grid(padx=0, pady=0)
         self.pack()
         
         
