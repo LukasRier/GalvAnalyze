@@ -1,4 +1,6 @@
-# GalvAnalyze
+<p align="center">
+  <img src="https://github.com/LukasRier/GalvAnalyze/blob/main/logos/GalvAnalyze_Logo.png" width="450"> 
+</p>
 GalvAnalyze is a tool created to simplify the analysis of galvanostatic charge-discharge cycling for battery research scientists. A compiled executable is available for download from the Nottingham Applied Materials and Interfaces group website (https://www.thenamilab.com/about-4) in a plug-and-play format.
 
 ### Dependencies
