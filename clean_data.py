@@ -14,6 +14,10 @@ import sys
 import os
 import matplotlib.pyplot as plt
 
+# parameters for parquet compression
+PARQUET_COMPRESSION: str = "gzip"
+PARQUET_ENGINE: str = "fastparquet" 
+
 
 def data_from_file(file=None,active_mass_input=None):
     if file==None:
@@ -274,9 +278,9 @@ def create_data_frame(file=None,active_mass=None,is_constant=True):
     
     all_data = dict()
 
-    time_head = "Elapsed time/s "
-    potential_head = "Ecell/V "
-    capacity_head = "Capacity/mA.h.g^-1 "
+    time_head = "Elapsed_time/s"
+    potential_head = "Ecell/V"
+    capacity_head = "Capacity/mA.h.g^-1"
     for cn in range(pos_count):
         exp_time = np.array(time[pos_cycle_no==cn+1].values,ndmin=1).T
         cyc_time = exp_time - exp_time[0]
