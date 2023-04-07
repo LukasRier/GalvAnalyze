@@ -7,11 +7,11 @@ lukasrier@outlook.com
 """
 import sys
 import os
-import numpy as np
-import pandas as pd
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import simpledialog
+import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
 # parameters for parquet compression
@@ -19,7 +19,7 @@ PARQUET_COMPRESSION: str = "gzip"
 PARQUET_ENGINE: str = "fastparquet" 
 
 def data_from_file(file=None,active_mass_input=None):
-    if file==None:
+    if file is None:
         root = tk.Tk()
         root.withdraw()
         try:
@@ -33,7 +33,7 @@ def data_from_file(file=None,active_mass_input=None):
     print(file)
     data = pd.read_csv(file,delimiter='\t'or',')
         
-    if active_mass_input==None:
+    if active_mass_input is None:
         mass_valid = False
     else:
         mass_valid = check_valid_number(active_mass_input)
@@ -50,11 +50,11 @@ def data_from_file(file=None,active_mass_input=None):
                 root.destroy()
             msg = "You need an active mass value to proceed."
             raise Exception(msg)
-        else:
-            mass_valid = check_valid_number(active_mass_input)
         
-        if not(mass_valid):
-            tk.messagebox.showerror(title=None, 
+        mass_valid = check_valid_number(active_mass_input)
+        
+        if not mass_valid:
+            tk.messagebox.showerror(title=None,
                                     message="Enter a valid number!")
     
     if 'root' in locals():
@@ -163,12 +163,11 @@ def check_min_curr_correct(incycle_thresh):
                  root.destroy()
             msg = "You need a threshold value to proceed."
             raise Exception(msg)
-        else:
-            incycle_thresh_valid = check_valid_number(incycle_thresh_input)
         
-        
+        incycle_thresh_valid = check_valid_number(incycle_thresh_input)
+
         if not(incycle_thresh_valid):
-            tk.messagebox.showerror(title=None, 
+            tk.messagebox.showerror(title=None,
                                     message="Enter a valid number!")
     
     if 'root' in locals():
@@ -186,7 +185,6 @@ def current_thresholds(current,rel_cutoff=0.98,is_constant=True):
         neg_cycles = -1 * (current < negthresh)
         is_pos = pos_cycles != 0
         is_neg = neg_cycles != 0
-        
         
         ## Diagnostic plots! uncomment if needed
         # const_current_thresh_diagnostic(current,posthresh,negthresh)
@@ -222,14 +220,14 @@ def find_edges(is_incycle):
     return edge
       
 def get_cycle_counts(time,is_pos,is_neg):
-    pos_edge,neg_edge = find_edges(is_pos),find_edges(is_neg)
+    pos_edge, neg_edge = find_edges(is_pos),find_edges(is_neg)
           
     pos_cycle_no = np.zeros(time.shape)*np.nan
     pos_count = 0
     neg_cycle_no = np.zeros(time.shape)*np.nan
     neg_count = 0
     
-    for i,t in enumerate(time):
+    for i,_ in enumerate(time):
         if is_pos[i]:
             if pos_edge[i]==1:
                 pos_count += 1
@@ -242,7 +240,7 @@ def get_cycle_counts(time,is_pos,is_neg):
                 neg_cycle_no[i-2] = neg_count
             neg_cycle_no[i] = neg_count
             
-    print("Number of neg cycles = %d \nNumber of pos cycles = %d" % (neg_count,pos_count))       
+    print("Number of neg cycles = %d \nNumber of pos cycles = %d" % (neg_count,pos_count))
     
     if pos_count > neg_count:
         pos_cycle_no[pos_cycle_no > neg_count] = np.nan
@@ -344,8 +342,14 @@ def create_data_frame(file=None, active_mass=None, is_constant=True, do_parquet=
     filename = os.path.basename(file)
     out_df = pd.DataFrame.from_dict(all_data,orient="columns")
     
-    out_df.to_csv(os.path.join(save_dir,"%s%s" % (filename[0:-3],'csv') ), index = True)  
-    
+    if do_parquet:
+        out_df.to_parquet(os.path.join(save_dir,"%s%s" % (filename[0:-3],'parquet')),
+                          index = True,
+                          engine=PARQUET_ENGINE,
+                          compression=PARQUET_COMPRESSION)
+    else:
+        out_df.to_csv(os.path.join(save_dir,"%s%s" % (filename[0:-3],'csv')),
+                      index = True)
     return out_df,filename,save_dir,pos_count,neg_count
 
 def create_cycles_separate(out_df, save_dir, do_parquet=False):
