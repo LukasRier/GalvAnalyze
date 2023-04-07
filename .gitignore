@@ -9,3 +9,4 @@ dist/*
 *.exe
 *.zip
 *.zip
+.vscode/settings.json
