@@ -219,21 +219,16 @@ def hysteresis_data_from_frame(cycle_df,cycle_no):
     return c_capacity,c_potential,d_capacity,d_potential
 
 if __name__ == "__main__":
-    
     out_df,filename,save_dir,pos_count,neg_count = cld.create_data_frame()
-    
     cld.create_cycles_separate(out_df, save_dir)
-    
-        
-    (coulombic_efficiency, max_charge_cap, 
+
+    (coulombic_efficiency,
+     max_charge_cap,
      max_discharge_cap) = calculate_max_cap_and_coulombic_eff(out_df,pos_count,neg_count)
 
     cycle_no = get_cycle_no(pos_count)
-    
+
     # max cap and coulombic efficiency plot
     plot_max_cap_and_efficiency(cycle_no, max_charge_cap, max_discharge_cap, coulombic_efficiency,save_dir)
-    
-    
     save_max_cap_csv(save_dir,cycle_no,max_charge_cap,max_discharge_cap,coulombic_efficiency)
-
     plot_caps_vs_potentials(out_df,pos_count,neg_count,save_dir)
