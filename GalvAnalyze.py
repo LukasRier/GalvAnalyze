@@ -82,6 +82,13 @@ class CyclingFrame(ttk.Frame):
                         variable = self.first_cyc_charge_checkbox_var, onvalue=True, offvalue=False)
         self.charge_first_cb.grid(column=0,row=7, sticky=tk.W,**options)
         
+        # select whether to use parquet file format
+        self.do_parquet = tk.BooleanVar(value=False)
+        self.do_parquet_cb = ttk.Checkbutton(self,
+                        text = "Use Parquet files",
+                        variable = self.do_parquet, onvalue=True, offvalue=False)
+        self.do_parquet_cb.grid(column=4,row=6, sticky=tk.W,**options)
+
         #confirm and run clean data/plots
         self.run_plots_btn = ttk.Button( self, text = "Run Cycling", command=self.runPlotsBtnCallback )
         self.run_plots_btn.grid(column=5,row=6, sticky=tk.E,**options)
@@ -117,10 +124,13 @@ class CyclingFrame(ttk.Frame):
     def runPlotsBtnCallback(self):
         print(self.current_varies_checkbox_var.get())
         
-        out_df,filename,save_dir,pos_count,neg_count = cld.create_data_frame(self.file,self.mass,not(self.current_varies_checkbox_var.get()))
+        out_df,filename,save_dir,pos_count,neg_count = cld.create_data_frame(self.file,
+                                                                             self.mass,
+                                                                             not(self.current_varies_checkbox_var.get()),
+                                                                             self.do_parquet)
         
         if self.separate_cycles_checkbox_var.get() == True:
-            cld.create_cycles_separate(out_df, save_dir)
+            cld.create_cycles_separate(out_df, save_dir, self.do_parquet)
     
         
         (coulombic_efficiency, max_charge_cap, 
@@ -148,8 +158,14 @@ class CyclingFrame(ttk.Frame):
         cyc.plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,str(1),save_dir,charge_first)
         
     def runHysteresis(self):
-        cycle_file = filedialog.askopenfilename(filetypes=[('CSV files','*.csv')],
-                                                title='Open CSV file for a specific cycle')
+        
+        if self.do_parquet:
+            filetype = ('Parquet files','*.parquet')
+        else:
+            filetype = ('CSV files','*.csv')
+        
+        cycle_file = filedialog.askopenfilename(filetypes=[filetype],
+                                                title='Open file for a specific cycle')
         cyc_filepath = os.path.abspath(cycle_file)
         
         pattern = re.compile(r'Cycle_\d+')
@@ -161,8 +177,14 @@ class CyclingFrame(ttk.Frame):
                                     message=msg)
             raise ValueError(msg)
         
-        hyst_cycle_no = re.findall(r'Cycle_(\d+).csv',cycle_file)[0]
-        cycle_df = pd.read_csv(cyc_filepath)
+        if self.do_parquet:
+            cycle_df = pd.read_parquet(cyc_filepath)
+            hyst_cycle_no = re.findall(r'Cycle_(\d+).parquet',cycle_file)[0]
+        else:
+            cycle_df = pd.read_csv(cyc_filepath)
+            hyst_cycle_no = re.findall(r'Cycle_(\d+).csv',cycle_file)[0]
+
+
         cyc_save_dir = os.path.dirname(cyc_filepath) 
         c_capacity,c_potential,d_capacity,d_potential = cyc.hysteresis_data_from_frame(cycle_df,hyst_cycle_no)
         charge_first = self.first_cyc_charge_checkbox_var.get()
