@@ -260,7 +260,7 @@ def get_cycle_counts(time,is_pos,is_neg):
 # Here we need to create the value of capacity
 # Capacity = time*current (mAs) / 3600 (mAh) / active mass (g) = mAh g^-1
 
-def create_data_frame(file=None,active_mass=None,is_constant=True):    
+def create_data_frame(file=None, active_mass=None, is_constant=True, do_parquet=False):    
     
     file,data,active_mass = data_from_file(file,active_mass)
        
@@ -349,7 +349,7 @@ def create_data_frame(file=None,active_mass=None,is_constant=True):
     
     return out_df,filename,save_dir,pos_count,neg_count
 
-def create_cycles_separate(out_df, save_dir):
+def create_cycles_separate(out_df, save_dir, do_parquet=False):
     print('Saving individual cycles...')
     cycle_dir = save_dir + "/Individual Cycles"
     try:
@@ -358,19 +358,24 @@ def create_cycles_separate(out_df, save_dir):
         pass
     
     for i in range(len(out_df.columns)//6):
-        
-        
+
         match_C = '(C' + str(i+1) + ')'
         current_charge_cols = [col for col in out_df.columns if match_C in col]
         match_D = '(D' + str(i+1) + ')'
         current_discharge_cols = [col for col in out_df.columns if match_D in col]
         usecols = current_charge_cols + current_discharge_cols
         Cycle_x = out_df[usecols]
-        Cycle_x.to_csv(os.path.join(cycle_dir,"Cycle_%d.csv" % (i+1)), index = True)
-        
-        
-            
-    print('Individual cycles saved!')
+
+        if do_parquet:
+            Cycle_x.to_parquet(os.path.join(cycle_dir,"Cycle_%d.parquet" % (i+1)),
+                               index = True,
+                               engine=PARQUET_ENGINE,
+                               compression=PARQUET_COMPRESSION)
+            print(f"Cycle {i+1} saved as .parquet!")
+        else:
+            Cycle_x.to_csv(os.path.join(cycle_dir,"Cycle_%d.csv" % (i+1)),
+                           index = True)
+            print(f"Cycle {i+1} saved as .csv!")
 if __name__ == "__main__":
     
     out_df,file,save_dir,_,_ = create_data_frame()
