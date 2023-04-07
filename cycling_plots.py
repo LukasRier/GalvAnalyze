@@ -16,12 +16,12 @@ colors = ['#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99',
           '#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a']
 
 def calculate_max_cap_and_coulombic_eff(out_df, pos_count, neg_count):    
-    charge_cols = [col for col in out_df.columns if 'Capacity/mA.h.g^-1 (C' in col]
+    charge_cols = [col for col in out_df.columns if 'Capacity/mA.h.g^-1(C' in col]
     max_charge_cap = np.zeros(pos_count)
     for i,col in enumerate(charge_cols):
         max_charge_cap[i]=np.max(out_df[col])
         
-    discharge_cols =  [col for col in out_df.columns if 'Capacity/mA.h.g^-1 (D' in col]
+    discharge_cols =  [col for col in out_df.columns if 'Capacity/mA.h.g^-1(D' in col]
     max_discharge_cap = np.zeros(neg_count)
     for i,col in enumerate(discharge_cols):
         max_discharge_cap[i]=np.max(out_df[col])
@@ -93,8 +93,8 @@ def plot_caps_vs_potentials(out_df,pos_count,neg_count,save_dir=None):
     charge_cyc_capacities = np.zeros((out_df.shape[0],pos_count))  
     
     for coln in range(pos_count):
-        charge_cyc_potentials[:,coln] = out_df["Ecell/V (C%d)" % (coln+1)]
-        charge_cyc_capacities[:,coln] = out_df["Capacity/mA.h.g^-1 (C%d)" % (coln+1)]
+        charge_cyc_potentials[:,coln] = out_df["Ecell/V(C%d)" % (coln+1)]
+        charge_cyc_capacities[:,coln] = out_df["Capacity/mA.h.g^-1(C%d)" % (coln+1)]
         
     # plt.figure()
     # plt.plot(charge_cyc_capacities,charge_cyc_potentials, linewidth=0.5)
@@ -111,8 +111,8 @@ def plot_caps_vs_potentials(out_df,pos_count,neg_count,save_dir=None):
     discharge_cyc_capacities = np.zeros((out_df.shape[0],neg_count))
     
     for coln in range(neg_count):
-        discharge_cyc_potentials[:,coln] = out_df["Ecell/V (D%d)" % (coln+1)]
-        discharge_cyc_capacities[:,coln] = out_df["Capacity/mA.h.g^-1 (D%d)" % (coln+1)]
+        discharge_cyc_potentials[:,coln] = out_df["Ecell/V(D%d)" % (coln+1)]
+        discharge_cyc_capacities[:,coln] = out_df["Capacity/mA.h.g^-1(D%d)" % (coln+1)]
     
     # plt.figure()
     # plt.plot(discharge_cyc_capacities[:,coln],discharge_cyc_potentials[:,coln], linewidth=0.5)
@@ -202,9 +202,8 @@ def plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,cycle_no,save_
     
 
 def hysteresis_data_from_frame(cycle_df,cycle_no):
-    # time_head = "Elapsed time/s "
-    potential_head = "Ecell/V "
-    capacity_head = "Capacity/mA.h.g^-1 "
+    potential_head = "Ecell/V"
+    capacity_head = "Capacity/mA.h.g^-1"
     
     c_pot_name = potential_head + "(C" + cycle_no + ")"
     c_cap_name = capacity_head + "(C" + cycle_no + ")"
