@@ -77,10 +77,6 @@ def save_max_cap_csv(save_dir,cycle_no,max_charge_cap,max_discharge_cap,coulombi
     max_cap_path = os.path.join(save_dir, "Max_capacities_per_cycle.csv")
     max_cap_df.to_csv(max_cap_path, index = False)   
 
-
-
-
-
 def plot_caps_vs_potentials(out_df,pos_count,neg_count,save_dir=None):    
     
     charge_cyc_potentials = np.zeros((out_df.shape[0],pos_count))
@@ -89,7 +85,7 @@ def plot_caps_vs_potentials(out_df,pos_count,neg_count,save_dir=None):
     for coln in range(pos_count):
         charge_cyc_potentials[:,coln] = out_df["Ecell/V(C%d)" % (coln+1)]
         charge_cyc_capacities[:,coln] = out_df["Capacity/mA.h.g^-1(C%d)" % (coln+1)]
-        
+
     # plt.figure()
     # plt.plot(charge_cyc_capacities,charge_cyc_potentials, linewidth=0.5)
     # plt.xlabel("Capacity $mAh g^{-1}$", fontsize=14)
