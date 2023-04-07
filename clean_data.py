@@ -5,19 +5,18 @@ Created on Fri Oct 16 20:16:32 2020
 @authors: lukas Rier & Rory McNulty
 lukasrier@outlook.com
 """
+import sys
+import os
 import numpy as np
 import pandas as pd
 import tkinter as tk
 from tkinter import filedialog
 from tkinter import simpledialog
-import sys
-import os
 import matplotlib.pyplot as plt
 
 # parameters for parquet compression
 PARQUET_COMPRESSION: str = "gzip"
 PARQUET_ENGINE: str = "fastparquet" 
-
 
 def data_from_file(file=None,active_mass_input=None):
     if file==None:

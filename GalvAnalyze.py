@@ -5,30 +5,28 @@ Created on Tue Mar 23 20:43:20 2021
 @authors: lukas Rier  & Rory McNulty
 lukasrier@outlook.com
 """
+import re
+import os
 import tkinter as tk
-from tkinter import filedialog
 from tkinter import ttk
+from tkinter import filedialog
+import pandas as pd
 from clean_data import check_valid_number
 import clean_data as cld
 import cycling_plots as cyc
-import pandas as pd
-import re
-import os
+
 
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
-
         self.title('GalvAnalyze')
-        
         iconfile = 'logos\\GalvAnalyzeIcon.ico'
-        # include icon if included 
+        # include icon if included
         if os.path.isfile(iconfile):
             self.iconbitmap(iconfile)
-            
-        self.geometry('700x300')
+        self.geometry('700x550')
         self.resizable(False, False)
-        
+
 class CyclingFrame(ttk.Frame):
     def __init__(self, container):
         super().__init__(container)
@@ -41,76 +39,75 @@ class CyclingFrame(ttk.Frame):
         
         self.tkFileVar = tk.StringVar(self, value=self.file)
         self.file_btn = ttk.Button( self, text = "Load file", command=self.fileBtnCallback )
-        self.file_btn.grid(column=0,row=0, sticky=tk.NW,**options)
 
         self.filen_entry = ttk.Entry(self, textvariable=self.tkFileVar, width=100)
-        self.filen_entry.grid(row=2, column=0,columnspan = 7,sticky=tk.W,**options)
         
         #mass selection
         self.mass = "Enter Mass"
         self.tkMassVar = tk.StringVar(self, value=self.mass)
         self.mass_entry_lbl = ttk.Label(self,text="Active Mass:")
-        self.mass_entry_lbl.grid(row=3, column=0,sticky=tk.W,**options)
         
         self.mass_unit_lbl = ttk.Label(self,text="mg")
-        self.mass_unit_lbl.grid(row=4, column=1,sticky=tk.W,**options)
         
         self.mass_entry = ttk.Entry(self, textvariable=self.tkMassVar)
-        self.mass_entry.grid(row = 4, column=0,sticky=tk.W,**options)
         
-        self.cnfrm_mass_btn = ttk.Button( self, text = "Confirm Mass", command=self.massBtnCallback )
-        self.cnfrm_mass_btn.grid(column=2,row=4, sticky=tk.W,**options)
+        self.cnfrm_mass_btn = ttk.Button( self, text = "Confirm Mass", command=self.mass_button_callback )
         
         # select whether to save individual charge discharge cycles
         self.separate_cycles_checkbox_var = tk.BooleanVar(value=False)
         self.save_indv_cycles_cb = ttk.Checkbutton(self, 
                         text = "Separate charge-discharge pairs to .csv",
                         variable = self.separate_cycles_checkbox_var, onvalue=True, offvalue=False)
-        self.save_indv_cycles_cb.grid(column=0,row=5, sticky=tk.W,**options)
         
         # select whether cycling currents vary in time
         self.current_varies_checkbox_var = tk.BooleanVar(value=False)
         self.save_indv_cycles_cb = ttk.Checkbutton(self, 
                         text = "Applied current varies",
                         variable = self.current_varies_checkbox_var, onvalue=True, offvalue=False)
-        self.save_indv_cycles_cb.grid(column=0,row=6, sticky=tk.W,**options)
         
         # select whether the first cycle is a charge (true) or discharge (false)
         self.first_cyc_charge_checkbox_var = tk.BooleanVar(value=True)
         self.charge_first_cb = ttk.Checkbutton(self,
                         text = "First cycle is charge",
                         variable = self.first_cyc_charge_checkbox_var, onvalue=True, offvalue=False)
-        self.charge_first_cb.grid(column=0,row=7, sticky=tk.W,**options)
         
         # select whether to use parquet file format
         self.do_parquet = tk.BooleanVar(value=False)
         self.do_parquet_cb = ttk.Checkbutton(self,
                         text = "Use Parquet files",
                         variable = self.do_parquet, onvalue=True, offvalue=False)
-        self.do_parquet_cb.grid(column=4,row=6, sticky=tk.W,**options)
-
+        
         #confirm and run clean data/plots
-        self.run_plots_btn = ttk.Button( self, text = "Run Cycling", command=self.runPlotsBtnCallback )
-        self.run_plots_btn.grid(column=5,row=6, sticky=tk.E,**options)
+        self.run_plots_btn = ttk.Button( self, text = "Run Cycling", command=self.run_plots_button_callback )
         
         #hysteresis plots
         self.do_hysteresis_btn = ttk.Button(self, text = "Get Hysteresis Plot",
-                                            command=self.runHysteresis)
-        self.do_hysteresis_btn.grid(column=5,row=7,sticky=tk.E,**options)
+                                            command=self.run_hysteresis)
         
-        
+        #Set layout of GUI elements
+        self.file_btn.grid(row=0, column=7, sticky=tk.NW, **options)
+        self.filen_entry.grid(row=0, column=0, columnspan = 6,sticky=tk.W, **options)
+        self.mass_entry_lbl.grid(row=3, column=0, sticky=tk.W, **options)
+        self.mass_unit_lbl.grid(row=4, column=1, sticky=tk.W, **options)
+        self.mass_entry.grid(row=4, column=0, sticky=tk.W, **options)
+        self.cnfrm_mass_btn.grid(row=4, column=2, sticky=tk.W, **options)
+        self.save_indv_cycles_cb.grid(row=5, column=0, sticky=tk.W, **options)
+        self.save_indv_cycles_cb.grid(row=6, column=0, sticky=tk.W, **options)
+        self.charge_first_cb.grid(row=7, column=0, sticky=tk.W, **options)
+        self.do_parquet_cb.grid(row=6, column=4, sticky=tk.W, **options)
+        self.run_plots_btn.grid(row=6, column=5, sticky=tk.E, **options)
+        self.do_hysteresis_btn.grid(row=7, column=5, sticky=tk.E, **options)
         
         # add padding to the frame and show it
         #self.grid(padx=0, pady=0)
-        self.pack()
-        
+        self.pack()     
         
     def fileBtnCallback(self):
         self.file = filedialog.askopenfilename(filetypes=[('Text files','*.txt')])
         self.filen_entry.delete(0,len(self.tkFileVar.get()))               
         self.filen_entry.insert(0,self.file)    
     
-    def massBtnCallback(self):
+    def mass_button_callback(self):
         print()
         if not(check_valid_number(self.tkMassVar.get())):
             tk.messagebox.showerror(title=None, 
@@ -121,15 +118,15 @@ class CyclingFrame(ttk.Frame):
             self.mass = self.tkMassVar.get()
             print(self.mass)
             
-    def runPlotsBtnCallback(self):
+    def run_plots_button_callback(self):
         print(self.current_varies_checkbox_var.get())
         
-        out_df,filename,save_dir,pos_count,neg_count = cld.create_data_frame(self.file,
+        out_df,_,save_dir,pos_count,neg_count = cld.create_data_frame(self.file,
                                                                              self.mass,
                                                                              not(self.current_varies_checkbox_var.get()),
                                                                              self.do_parquet)
         
-        if self.separate_cycles_checkbox_var.get() == True:
+        if self.separate_cycles_checkbox_var.get() is True:
             cld.create_cycles_separate(out_df, save_dir, self.do_parquet)
     
         
@@ -157,7 +154,7 @@ class CyclingFrame(ttk.Frame):
         charge_first = self.first_cyc_charge_checkbox_var.get()
         cyc.plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,str(1),save_dir,charge_first)
         
-    def runHysteresis(self):
+    def run_hysteresis(self):
         
         if self.do_parquet:
             filetype = ('Parquet files','*.parquet')
