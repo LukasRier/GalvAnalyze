@@ -5,12 +5,11 @@ Created on Fri Oct 16 21:53:53 2020
 @authors: Lukas Rier & Rory McNulty
 lukasrier@outlook.com
 """
-
-import clean_data as cld
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-import os
+import clean_data as cld
 
 colors = ['#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99',
           '#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a']
@@ -69,18 +68,13 @@ def plot_max_cap_and_efficiency(cycle_no, max_charge_cap, max_discharge_cap, cou
     plt.show()
     plt.savefig(os.path.join(save_dir,"Cycle no vs. Capacity and Coulombic efficiency.png"))
     
-
-    
-    
-    
 def save_max_cap_csv(save_dir,cycle_no,max_charge_cap,max_discharge_cap,coulombic_efficiency):   
     max_cap = {'Cycle Number': cycle_no, 
                'Max Charge Capacity mA.h.g^-1': max_charge_cap,
                'Max Discharge Capacity mA.h.g^-1': max_discharge_cap,
                'Coulombic Efficiency' : coulombic_efficiency}
     max_cap_df = pd.DataFrame.from_dict(data=max_cap,orient="columns")
-    max_cap_path = os.path.join(save_dir,"Max_capacities_per_cycle.csv")
-    # max_cap_path = os.path.join(save_dir,"%s%s" % ('test','_max_capacities_per_cycle.csv'))
+    max_cap_path = os.path.join(save_dir, "Max_capacities_per_cycle.csv")
     max_cap_df.to_csv(max_cap_path, index = False)   
 
 
