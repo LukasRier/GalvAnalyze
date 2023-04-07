@@ -380,9 +380,4 @@ def create_cycles_separate(out_df, save_dir, do_parquet=False):
                            index = True)
             print(f"Cycle {i+1} saved as .csv!")
 if __name__ == "__main__":
-    
     out_df,file,save_dir,_,_ = create_data_frame()
-    
-
-            
-            
