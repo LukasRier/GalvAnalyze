@@ -48,12 +48,12 @@ class CyclingFrame(ttk.Frame):
         # File selection
         self.file = "No File Selected"
 
-        self.tkFileVar = tk.StringVar(self, value=self.file)
+        self.tk_file_var = tk.StringVar(self, value=self.file)
         self.file_btn = ttk.Button(
             self, text="Load file", command=self.file_button_callback)
 
         self.filen_entry = ttk.Entry(
-            self, textvariable=self.tkFileVar, width=100)
+            self, textvariable=self.tk_file_var, width=100)
 
         # mass selection
         self.mass = "Enter Mass"
@@ -131,7 +131,7 @@ class CyclingFrame(ttk.Frame):
 
         self.file = filedialog.askopenfilename(
             filetypes=[('Text files', '*.txt')])
-        self.filen_entry.delete(0, len(self.tkFileVar.get()))
+        self.filen_entry.delete(0, len(self.tk_file_var.get()))
         self.filen_entry.insert(0, self.file)
 
     def mass_button_callback(self):

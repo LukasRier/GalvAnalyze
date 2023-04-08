@@ -164,7 +164,6 @@ def const_current_thresh_diagnostic(current, posthresh, negthresh):
     posthresh (float): the positive threshold value.
     negthresh (float): the negative threshold value.
     """
-    import matplotlib.pyplot as plt
     plt.figure()
     ax = plt.subplot(111)
     ax.plot(current, 'k')
@@ -242,7 +241,6 @@ def check_min_curr_correct(incycle_thresh):
     incycle_thresh = float(incycle_thresh_input)
 
     return incycle_thresh
-
 
 def current_thresholds(current, rel_cutoff=0.98, is_constant=True):
     """
