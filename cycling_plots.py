@@ -248,7 +248,7 @@ def plot_hysteresis(c_capacity, c_potential, d_capacity, d_potential, cycle_no, 
     plt.tight_layout()
     plt.show()
 
-    if save_dir != None:
+    if save_dir is not None:
         plt.savefig(os.path.join(save_dir, f"Cycle {cycle_no} Hysteresis.png"))
 
         if charge_first:
