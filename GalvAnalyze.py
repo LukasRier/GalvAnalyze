@@ -57,12 +57,12 @@ class CyclingFrame(ttk.Frame):
 
         # mass selection
         self.mass = "Enter Mass"
-        self.tkMassVar = tk.StringVar(self, value=self.mass)
+        self.tk_mass_var = tk.StringVar(self, value=self.mass)
         self.mass_entry_lbl = ttk.Label(self, text="Active Mass:")
 
         self.mass_unit_lbl = ttk.Label(self, text="mg")
 
-        self.mass_entry = ttk.Entry(self, textvariable=self.tkMassVar)
+        self.mass_entry = ttk.Entry(self, textvariable=self.tk_mass_var)
 
         self.cnfrm_mass_btn = ttk.Button(
             self, text="Confirm Mass", command=self.mass_button_callback)
@@ -146,13 +146,13 @@ class CyclingFrame(ttk.Frame):
         None
         """
         print()
-        if not check_valid_number(self.tkMassVar.get()):
+        if not check_valid_number(self.tk_mass_var.get()):
             tk.messagebox.showerror(title=None,
                                     message="Enter a valid number!")
-            self.mass_entry.delete(0, len(self.tkMassVar.get()))
+            self.mass_entry.delete(0, len(self.tk_mass_var.get()))
             self.mass_entry.insert(0, "Enter Mass")
         else:
-            self.mass = self.tkMassVar.get()
+            self.mass = self.tk_mass_var.get()
             print(self.mass)
 
     def run_plots_button_callback(self):
