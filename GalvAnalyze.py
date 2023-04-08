@@ -71,25 +71,33 @@ class CyclingFrame(ttk.Frame):
         self.separate_cycles_checkbox_var = tk.BooleanVar(value=False)
         self.save_indv_cycles_cb = ttk.Checkbutton(self,
                                                    text="Separate charge-discharge pairs to .csv",
-                                                   variable=self.separate_cycles_checkbox_var, onvalue=True, offvalue=False)
+                                                   variable=self.separate_cycles_checkbox_var,
+                                                   onvalue=True,
+                                                   offvalue=False)
 
         # select whether cycling currents vary in time
         self.current_varies_checkbox_var = tk.BooleanVar(value=False)
         self.save_indv_cycles_cb = ttk.Checkbutton(self,
                                                    text="Applied current varies",
-                                                   variable=self.current_varies_checkbox_var, onvalue=True, offvalue=False)
+                                                   variable=self.current_varies_checkbox_var,
+                                                   onvalue=True,
+                                                   offvalue=False)
 
         # select whether the first cycle is a charge (true) or discharge (false)
         self.first_cyc_charge_checkbox_var = tk.BooleanVar(value=True)
         self.charge_first_cb = ttk.Checkbutton(self,
                                                text="First cycle is charge",
-                                               variable=self.first_cyc_charge_checkbox_var, onvalue=True, offvalue=False)
+                                               variable=self.first_cyc_charge_checkbox_var,
+                                               onvalue=True,
+                                               offvalue=False)
 
         # select whether to use parquet file format
         self.do_parquet = tk.BooleanVar(value=False)
         self.do_parquet_cb = ttk.Checkbutton(self,
                                              text="Use Parquet files",
-                                             variable=self.do_parquet, onvalue=True, offvalue=False)
+                                             variable=self.do_parquet,
+                                             onvalue=True,
+                                             offvalue=False)
 
         # confirm and run clean data/plots
         self.run_plots_btn = ttk.Button(
