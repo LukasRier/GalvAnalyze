@@ -17,7 +17,10 @@ import cycling_plots as cyc
 
 
 class App(tk.Tk):
+    """Main application window that contains all other widgets."""
+
     def __init__(self):
+        """Initialize the App class."""
         super().__init__()
         self.title('GalvAnalyze')
         iconfile = 'logos\\GalvAnalyzeIcon.ico'
@@ -28,7 +31,14 @@ class App(tk.Tk):
         self.resizable(False, False)
 
 class CyclingFrame(ttk.Frame):
+    """Frame for cycling plot and data analysis options."""
+
     def __init__(self, container):
+        """Initialize the CyclingFrame class.
+
+        Args:
+            container (object): Parent container for the frame.
+        """
         super().__init__(container)
         
         options = {'padx': 5,
@@ -103,13 +113,33 @@ class CyclingFrame(ttk.Frame):
         self.pack()     
         
     def fileBtnCallback(self):
+        """
+        Callback function for the 'Select File' button.
+        
+        Allows the user to select a text file and sets the selected file path to the 'file' attribute of the instance.
+        Updates the text in the 'filen_entry' Entry widget with the selected file path.
+
+        Returns:
+        None
+        """
+
         self.file = filedialog.askopenfilename(filetypes=[('Text files','*.txt')])
         self.filen_entry.delete(0,len(self.tkFileVar.get()))               
         self.filen_entry.insert(0,self.file)    
     
     def mass_button_callback(self):
+        """
+        Callback function for the 'Mass' button.
+
+        Validates the mass value entered by the user.
+        If the mass is invalid, shows an error message and resets the mass value in the Entry widget to 'Enter Mass'.
+        If the mass is valid, sets the mass value to the 'mass' attribute of the instance.
+
+        Returns:
+        None
+        """
         print()
-        if not(check_valid_number(self.tkMassVar.get())):
+        if not check_valid_number(self.tkMassVar.get()):
             tk.messagebox.showerror(title=None, 
                                     message="Enter a valid number!")
             self.mass_entry.delete(0,len(self.tkMassVar.get()))
@@ -119,6 +149,17 @@ class CyclingFrame(ttk.Frame):
             print(self.mass)
             
     def run_plots_button_callback(self):
+        """
+        Callback function for the 'Run Plots' button.
+
+        Runs the necessary functions to create and save various plots based on the selected file and mass values.
+        Depending on the status of the 'current_varies_checkbox_var' and 'separate_cycles_checkbox_var' attributes,
+        the function creates data frames, calculates charge and discharge capacities, cycles and saves data, and
+        creates plots of max capacity, coulombic efficiency, capacity vs. potential, and hysteresis.
+
+        Returns:
+        None
+        """
         print(self.current_varies_checkbox_var.get())
         
         out_df,_,save_dir,pos_count,neg_count = cld.create_data_frame(self.file,
@@ -155,7 +196,15 @@ class CyclingFrame(ttk.Frame):
         cyc.plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,str(1),save_dir,charge_first)
         
     def run_hysteresis(self):
-        
+        """Open a file dialog to select a specific cycle file, load the file into a pandas dataframe, and plot the hysteresis
+        curve of the cycle.
+    
+        Raises:
+        ValueError: If the selected file is not a valid cycle file generated using the GUI.
+    
+        Returns:
+        None
+        """
         if self.do_parquet:
             filetype = ('Parquet files','*.parquet')
         else:
