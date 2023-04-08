@@ -1,5 +1,6 @@
 *.png
 *.csv
+*.parquet
 __pycache__/*
 PaperFigs/*
 Obsolete/*
@@ -8,3 +9,4 @@ dist/*
 *.exe
 *.zip
 *.zip
+.vscode/settings.json
