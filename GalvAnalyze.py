@@ -48,7 +48,7 @@ class CyclingFrame(ttk.Frame):
         self.file = "No File Selected"
         
         self.tkFileVar = tk.StringVar(self, value=self.file)
-        self.file_btn = ttk.Button( self, text = "Load file", command=self.fileBtnCallback )
+        self.file_btn = ttk.Button( self, text = "Load file", command=self.file_button_callback )
 
         self.filen_entry = ttk.Entry(self, textvariable=self.tkFileVar, width=100)
         
@@ -112,7 +112,7 @@ class CyclingFrame(ttk.Frame):
         #self.grid(padx=0, pady=0)
         self.pack()     
         
-    def fileBtnCallback(self):
+    def file_button_callback(self):
         """
         Callback function for the 'Select File' button.
         
