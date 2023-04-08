@@ -66,7 +66,7 @@ def get_cycle_no(pos_count):
 
 def plot_max_cap_and_efficiency(cycle_no, max_charge_cap, max_discharge_cap, coulombic_efficiency, save_dir):
     """
-    This function plots the maximum charge and discharge capacities, as well as the coulombic efficiency, as a function of cycle number.
+    Plots the maximum charge and discharge capacities and coulombic efficiency against cycle number.
     
     Args:
     - cycle_no: a numpy array containing the cycle numbers

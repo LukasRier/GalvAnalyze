@@ -483,7 +483,8 @@ def create_cycles_separate(out_df, save_dir, do_parquet=False):
 
     Returns:
     None
-    """print('Saving individual cycles...')
+    """
+    print('Saving individual cycles...')
     cycle_dir = save_dir + "/Individual Cycles"
     try:
         os.mkdir(cycle_dir)
