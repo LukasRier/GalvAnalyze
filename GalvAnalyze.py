@@ -30,6 +30,7 @@ class App(tk.Tk):
         self.geometry('700x550')
         self.resizable(False, False)
 
+
 class CyclingFrame(ttk.Frame):
     """Frame for cycling plot and data analysis options."""
 
@@ -40,63 +41,68 @@ class CyclingFrame(ttk.Frame):
             container (object): Parent container for the frame.
         """
         super().__init__(container)
-        
+
         options = {'padx': 5,
                    'pady': 5}
-        
-        #File selection
-        self.file = "No File Selected"
-        
-        self.tkFileVar = tk.StringVar(self, value=self.file)
-        self.file_btn = ttk.Button( self, text = "Load file", command=self.file_button_callback )
 
-        self.filen_entry = ttk.Entry(self, textvariable=self.tkFileVar, width=100)
-        
-        #mass selection
+        # File selection
+        self.file = "No File Selected"
+
+        self.tkFileVar = tk.StringVar(self, value=self.file)
+        self.file_btn = ttk.Button(
+            self, text="Load file", command=self.file_button_callback)
+
+        self.filen_entry = ttk.Entry(
+            self, textvariable=self.tkFileVar, width=100)
+
+        # mass selection
         self.mass = "Enter Mass"
         self.tkMassVar = tk.StringVar(self, value=self.mass)
-        self.mass_entry_lbl = ttk.Label(self,text="Active Mass:")
-        
-        self.mass_unit_lbl = ttk.Label(self,text="mg")
-        
+        self.mass_entry_lbl = ttk.Label(self, text="Active Mass:")
+
+        self.mass_unit_lbl = ttk.Label(self, text="mg")
+
         self.mass_entry = ttk.Entry(self, textvariable=self.tkMassVar)
-        
-        self.cnfrm_mass_btn = ttk.Button( self, text = "Confirm Mass", command=self.mass_button_callback )
-        
+
+        self.cnfrm_mass_btn = ttk.Button(
+            self, text="Confirm Mass", command=self.mass_button_callback)
+
         # select whether to save individual charge discharge cycles
         self.separate_cycles_checkbox_var = tk.BooleanVar(value=False)
-        self.save_indv_cycles_cb = ttk.Checkbutton(self, 
-                        text = "Separate charge-discharge pairs to .csv",
-                        variable = self.separate_cycles_checkbox_var, onvalue=True, offvalue=False)
-        
+        self.save_indv_cycles_cb = ttk.Checkbutton(self,
+                                                   text="Separate charge-discharge pairs to .csv",
+                                                   variable=self.separate_cycles_checkbox_var, onvalue=True, offvalue=False)
+
         # select whether cycling currents vary in time
         self.current_varies_checkbox_var = tk.BooleanVar(value=False)
-        self.save_indv_cycles_cb = ttk.Checkbutton(self, 
-                        text = "Applied current varies",
-                        variable = self.current_varies_checkbox_var, onvalue=True, offvalue=False)
-        
+        self.save_indv_cycles_cb = ttk.Checkbutton(self,
+                                                   text="Applied current varies",
+                                                   variable=self.current_varies_checkbox_var, onvalue=True, offvalue=False)
+
         # select whether the first cycle is a charge (true) or discharge (false)
         self.first_cyc_charge_checkbox_var = tk.BooleanVar(value=True)
         self.charge_first_cb = ttk.Checkbutton(self,
-                        text = "First cycle is charge",
-                        variable = self.first_cyc_charge_checkbox_var, onvalue=True, offvalue=False)
-        
+                                               text="First cycle is charge",
+                                               variable=self.first_cyc_charge_checkbox_var, onvalue=True, offvalue=False)
+
         # select whether to use parquet file format
         self.do_parquet = tk.BooleanVar(value=False)
         self.do_parquet_cb = ttk.Checkbutton(self,
-                        text = "Use Parquet files",
-                        variable = self.do_parquet, onvalue=True, offvalue=False)
-        
-        #confirm and run clean data/plots
-        self.run_plots_btn = ttk.Button( self, text = "Run Cycling", command=self.run_plots_button_callback )
-        
-        #hysteresis plots
-        self.do_hysteresis_btn = ttk.Button(self, text = "Get Hysteresis Plot",
+                                             text="Use Parquet files",
+                                             variable=self.do_parquet, onvalue=True, offvalue=False)
+
+        # confirm and run clean data/plots
+        self.run_plots_btn = ttk.Button(
+            self, text="Run Cycling", command=self.run_plots_button_callback)
+
+        # hysteresis plots
+        self.do_hysteresis_btn = ttk.Button(self, text="Get Hysteresis Plot",
                                             command=self.run_hysteresis)
-        
-        #Set layout of GUI elements
+
+        # Set layout of GUI elements
         self.file_btn.grid(row=0, column=7, sticky=tk.NW, **options)
-        self.filen_entry.grid(row=0, column=0, columnspan = 6,sticky=tk.W, **options)
+        self.filen_entry.grid(
+            row=0, column=0, columnspan=6, sticky=tk.W, **options)
         self.mass_entry_lbl.grid(row=3, column=0, sticky=tk.W, **options)
         self.mass_unit_lbl.grid(row=4, column=1, sticky=tk.W, **options)
         self.mass_entry.grid(row=4, column=0, sticky=tk.W, **options)
@@ -107,15 +113,15 @@ class CyclingFrame(ttk.Frame):
         self.do_parquet_cb.grid(row=6, column=4, sticky=tk.W, **options)
         self.run_plots_btn.grid(row=6, column=5, sticky=tk.E, **options)
         self.do_hysteresis_btn.grid(row=7, column=5, sticky=tk.E, **options)
-        
+
         # add padding to the frame and show it
         #self.grid(padx=0, pady=0)
-        self.pack()     
-        
+        self.pack()
+
     def file_button_callback(self):
         """
         Callback function for the 'Select File' button.
-        
+
         Allows the user to select a text file and sets the selected file path to the 'file' attribute of the instance.
         Updates the text in the 'filen_entry' Entry widget with the selected file path.
 
@@ -123,10 +129,11 @@ class CyclingFrame(ttk.Frame):
         None
         """
 
-        self.file = filedialog.askopenfilename(filetypes=[('Text files','*.txt')])
-        self.filen_entry.delete(0,len(self.tkFileVar.get()))               
-        self.filen_entry.insert(0,self.file)    
-    
+        self.file = filedialog.askopenfilename(
+            filetypes=[('Text files', '*.txt')])
+        self.filen_entry.delete(0, len(self.tkFileVar.get()))
+        self.filen_entry.insert(0, self.file)
+
     def mass_button_callback(self):
         """
         Callback function for the 'Mass' button.
@@ -140,14 +147,14 @@ class CyclingFrame(ttk.Frame):
         """
         print()
         if not check_valid_number(self.tkMassVar.get()):
-            tk.messagebox.showerror(title=None, 
+            tk.messagebox.showerror(title=None,
                                     message="Enter a valid number!")
-            self.mass_entry.delete(0,len(self.tkMassVar.get()))
-            self.mass_entry.insert(0,"Enter Mass")
+            self.mass_entry.delete(0, len(self.tkMassVar.get()))
+            self.mass_entry.insert(0, "Enter Mass")
         else:
             self.mass = self.tkMassVar.get()
             print(self.mass)
-            
+
     def run_plots_button_callback(self):
         """
         Callback function for the 'Run Plots' button.
@@ -161,81 +168,87 @@ class CyclingFrame(ttk.Frame):
         None
         """
         print(self.current_varies_checkbox_var.get())
-        
-        out_df,_,save_dir,pos_count,neg_count = cld.create_data_frame(self.file,
-                                                                             self.mass,
-                                                                             not(self.current_varies_checkbox_var.get()),
-                                                                             self.do_parquet)
-        
+
+        out_df, _, save_dir, pos_count, neg_count = cld.create_data_frame(self.file,
+                                                                          self.mass,
+                                                                          not(self.current_varies_checkbox_var.get(
+                                                                          )),
+                                                                          self.do_parquet)
+
         if self.separate_cycles_checkbox_var.get() is True:
             cld.create_cycles_separate(out_df, save_dir, self.do_parquet)
-    
-        
-        (coulombic_efficiency, max_charge_cap, 
-         max_discharge_cap) = cyc.calculate_max_cap_and_coulombic_eff(out_df,pos_count,neg_count)
-    
-        cycle_no = cyc.get_cycle_no(pos_count)
-    
-        # max cap and coulombic efficiency plot
-        cyc.plot_max_cap_and_efficiency(cycle_no, max_charge_cap, max_discharge_cap, coulombic_efficiency,save_dir)
-    
-    
-        cyc.save_max_cap_csv(save_dir,cycle_no,max_charge_cap,max_discharge_cap,coulombic_efficiency)
 
-        cyc.plot_caps_vs_potentials(out_df,pos_count,neg_count,save_dir)
-        
-        #plot first cycle hysteresis
+        (coulombic_efficiency, max_charge_cap,
+         max_discharge_cap) = cyc.calculate_max_cap_and_coulombic_eff(out_df, pos_count, neg_count)
+
+        cycle_no = cyc.get_cycle_no(pos_count)
+
+        # max cap and coulombic efficiency plot
+        cyc.plot_max_cap_and_efficiency(
+            cycle_no, max_charge_cap, max_discharge_cap, coulombic_efficiency, save_dir)
+
+        cyc.save_max_cap_csv(save_dir, cycle_no, max_charge_cap,
+                             max_discharge_cap, coulombic_efficiency)
+
+        cyc.plot_caps_vs_potentials(out_df, pos_count, neg_count, save_dir)
+
+        # plot first cycle hysteresis
         match_C = '(C1)'
         current_charge_cols = [col for col in out_df.columns if match_C in col]
         match_D = '(D1)'
-        current_discharge_cols = [col for col in out_df.columns if match_D in col]
+        current_discharge_cols = [
+            col for col in out_df.columns if match_D in col]
         usecols = current_charge_cols + current_discharge_cols
         Cycle_1 = out_df[usecols]
-        c_capacity,c_potential,d_capacity,d_potential = cyc.hysteresis_data_from_frame(Cycle_1,str(1))
+        c_capacity, c_potential, d_capacity, d_potential = cyc.hysteresis_data_from_frame(
+            Cycle_1, str(1))
         charge_first = self.first_cyc_charge_checkbox_var.get()
-        cyc.plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,str(1),save_dir,charge_first)
-        
+        cyc.plot_hysteresis(c_capacity, c_potential, d_capacity,
+                            d_potential, str(1), save_dir, charge_first)
+
     def run_hysteresis(self):
         """Open a file dialog to select a specific cycle file, load the file into a pandas dataframe, and plot the hysteresis
         curve of the cycle.
-    
+
         Raises:
         ValueError: If the selected file is not a valid cycle file generated using the GUI.
-    
+
         Returns:
         None
         """
         if self.do_parquet:
-            filetype = ('Parquet files','*.parquet')
+            filetype = ('Parquet files', '*.parquet')
         else:
-            filetype = ('CSV files','*.csv')
-        
+            filetype = ('CSV files', '*.csv')
+
         cycle_file = filedialog.askopenfilename(filetypes=[filetype],
                                                 title='Open file for a specific cycle')
         cyc_filepath = os.path.abspath(cycle_file)
-        
+
         pattern = re.compile(r'Cycle_\d+')
-        fname_match = re.findall(pattern,cycle_file)
+        fname_match = re.findall(pattern, cycle_file)
 
         if len(fname_match) != 1:
             msg = 'This is not a valid file.\n Generate separate cycling files using the GUI'
-            tk.messagebox.showerror(title='File error', 
+            tk.messagebox.showerror(title='File error',
                                     message=msg)
             raise ValueError(msg)
-        
+
         if self.do_parquet:
             cycle_df = pd.read_parquet(cyc_filepath)
-            hyst_cycle_no = re.findall(r'Cycle_(\d+).parquet',cycle_file)[0]
+            hyst_cycle_no = re.findall(r'Cycle_(\d+).parquet', cycle_file)[0]
         else:
             cycle_df = pd.read_csv(cyc_filepath)
-            hyst_cycle_no = re.findall(r'Cycle_(\d+).csv',cycle_file)[0]
+            hyst_cycle_no = re.findall(r'Cycle_(\d+).csv', cycle_file)[0]
 
-
-        cyc_save_dir = os.path.dirname(cyc_filepath) 
-        c_capacity,c_potential,d_capacity,d_potential = cyc.hysteresis_data_from_frame(cycle_df,hyst_cycle_no)
+        cyc_save_dir = os.path.dirname(cyc_filepath)
+        c_capacity, c_potential, d_capacity, d_potential = cyc.hysteresis_data_from_frame(
+            cycle_df, hyst_cycle_no)
         charge_first = self.first_cyc_charge_checkbox_var.get()
-        cyc.plot_hysteresis(c_capacity,c_potential,d_capacity,d_potential,hyst_cycle_no,cyc_save_dir,charge_first)
-        
+        cyc.plot_hysteresis(c_capacity, c_potential, d_capacity,
+                            d_potential, hyst_cycle_no, cyc_save_dir, charge_first)
+
+
 if __name__ == "__main__":
     app = App()
     CyclingFrame(app)
