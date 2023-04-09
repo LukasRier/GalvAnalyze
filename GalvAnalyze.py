@@ -78,7 +78,7 @@ class CyclingFrame(ttk.Frame):
 
         # select whether cycling currents vary in time
         self.current_varies_checkbox_var = tk.BooleanVar(value=False)
-        self.save_indv_cycles_cb = ttk.Checkbutton(self,
+        self.current_varies_cb = ttk.Checkbutton(self,
                                                    text="Applied current varies",
                                                    variable=self.current_varies_checkbox_var,
                                                    onvalue=True,
@@ -117,7 +117,7 @@ class CyclingFrame(ttk.Frame):
         self.mass_entry.grid(row=4, column=0, sticky=tk.W, **options)
         self.cnfrm_mass_btn.grid(row=4, column=2, sticky=tk.W, **options)
         self.save_indv_cycles_cb.grid(row=5, column=0, sticky=tk.W, **options)
-        self.save_indv_cycles_cb.grid(row=6, column=0, sticky=tk.W, **options)
+        self.current_varies_cb.grid(row=6, column=0, sticky=tk.W, **options)
         self.charge_first_cb.grid(row=7, column=0, sticky=tk.W, **options)
         self.do_parquet_cb.grid(row=6, column=4, sticky=tk.W, **options)
         self.run_plots_btn.grid(row=6, column=5, sticky=tk.E, **options)
