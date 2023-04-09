@@ -16,6 +16,7 @@ import clean_data as cld
 import cycling_plots as cyc
 
 
+
 class App(tk.Tk):
     """Main application window that contains all other widgets."""
 
@@ -201,15 +202,15 @@ class CyclingFrame(ttk.Frame):
         cyc.plot_caps_vs_potentials(out_df, pos_count, neg_count, save_dir)
 
         # plot first cycle hysteresis
-        match_C = '(C1)'
-        current_charge_cols = [col for col in out_df.columns if match_C in col]
-        match_D = '(D1)'
+        match_c = '(C1)'
+        current_charge_cols = [col for col in out_df.columns if match_c in col]
+        match_d = '(D1)'
         current_discharge_cols = [
-            col for col in out_df.columns if match_D in col]
+            col for col in out_df.columns if match_d in col]
         usecols = current_charge_cols + current_discharge_cols
-        Cycle_1 = out_df[usecols]
+        cycle_1 = out_df[usecols]
         c_capacity, c_potential, d_capacity, d_potential = cyc.hysteresis_data_from_frame(
-            Cycle_1, str(1))
+            cycle_1, str(1))
         charge_first = self.first_cyc_charge_checkbox_var.get()
         cyc.plot_hysteresis(c_capacity, c_potential, d_capacity,
                             d_potential, str(1), save_dir, charge_first)
