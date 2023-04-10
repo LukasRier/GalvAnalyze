@@ -185,7 +185,7 @@ class CyclingFrame(ttk.Frame):
                                                                           self.do_parquet)
 
         if self.separate_cycles_checkbox_var.get() is True:
-            cld.create_cycles_separate(out_df, save_dir, self.do_parquet)
+            cld.create_cycles_separate(out_df, save_dir, self.do_parquet.get())
 
         (coulombic_efficiency, max_charge_cap,
          max_discharge_cap) = cyc.calculate_max_cap_and_coulombic_eff(out_df, pos_count, neg_count)
@@ -225,7 +225,7 @@ class CyclingFrame(ttk.Frame):
         Returns:
         None
         """
-        if self.do_parquet:
+        if self.do_parquet.get():
             filetype = ('Parquet files', '*.parquet')
         else:
             filetype = ('CSV files', '*.csv')
@@ -243,7 +243,7 @@ class CyclingFrame(ttk.Frame):
                                     message=msg)
             raise ValueError(msg)
 
-        if self.do_parquet:
+        if self.do_parquet.get():
             cycle_df = pd.read_parquet(cyc_filepath)
             hyst_cycle_no = re.findall(r'Cycle_(\d+).parquet', cycle_file)[0]
         else:
