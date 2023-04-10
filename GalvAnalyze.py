@@ -178,12 +178,11 @@ class CyclingFrame(ttk.Frame):
         None
         """
         print(self.current_varies_checkbox_var.get())
-
         out_df, _, save_dir, pos_count, neg_count = cld.create_data_frame(self.file,
                                                                           self.mass,
                                                                           not(self.current_varies_checkbox_var.get(
                                                                           )),
-                                                                          self.do_parquet)
+                                                                          self.do_parquet.get())
 
         if self.separate_cycles_checkbox_var.get() is True:
             cld.create_cycles_separate(out_df, save_dir, self.do_parquet.get())
