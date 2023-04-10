@@ -11,6 +11,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
 import pandas as pd
+import matplotlib.pyplot as plt
 from clean_data import check_valid_number
 import clean_data as cld
 import cycling_plots as cyc
@@ -214,6 +215,8 @@ class CyclingFrame(ttk.Frame):
         charge_first = self.first_cyc_charge_checkbox_var.get()
         cyc.plot_hysteresis(c_capacity, c_potential, d_capacity,
                             d_potential, str(1), save_dir, charge_first)
+        
+        plt.show()
 
     def run_hysteresis(self):
         """Open a file dialog to select a specific cycle file, load the file into a pandas dataframe, and plot the hysteresis
