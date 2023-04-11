@@ -13,6 +13,7 @@ from tkinter import simpledialog
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import logging
 
 # parameters for parquet compression
 PARQUET_COMPRESSION: str = "gzip"
@@ -274,14 +275,16 @@ def current_thresholds(current, rel_cutoff=0.98, is_constant=True):
         in_cycle = absgrad < incycle_thresh
 
         # get rid of initial period
+        logging.warning("Removing inital 'rest' period")
         if in_cycle[0] == 1:
             in_cycle[0] = 0
             st = 1
             while in_cycle[st] == 1:
                 in_cycle[st] = 0
                 st += 1
-            print("removed ", st, "points from the beginning")
-
+            msg = f"removed {st} points from the beginning"
+            print(msg)
+            logging.warning(msg)
         # Diagnostic plots! uncomment if needed
         # const_current_thresh_diagnostic(current,1,1)
         # variable_current_thresh_diagnostic(current,0,in_cycle,absgrad)
@@ -343,6 +346,9 @@ def get_cycle_counts(time, is_pos, is_neg):
 
     print("Number of neg cycles = %d \nNumber of pos cycles = %d" %
           (neg_count, pos_count))
+    logging.warning(f"Found {pos_count} charge and {neg_count} discharge cycles.")
+    if not pos_count == neg_count:
+        logging.warning(f"Discarding cycles to ensure charge/discharge pairs for each cycle.")
 
     if pos_count > neg_count:
         pos_cycle_no[pos_cycle_no > neg_count] = np.nan
@@ -391,6 +397,7 @@ def create_data_frame(file=None, active_mass=None, is_constant=True, do_parquet=
 
     (pos_count, neg_count,
      pos_cycle_no, neg_cycle_no) = get_cycle_counts(time, is_pos, is_neg)
+    logging.warning(f"Assuming {pos_count} charge and {neg_count} discharge cycles.")
 
     all_data = dict()
 
