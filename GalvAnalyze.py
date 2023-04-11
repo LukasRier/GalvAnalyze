@@ -7,6 +7,7 @@ lukasrier@outlook.com
 """
 import re
 import os
+import logging
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
@@ -29,7 +30,8 @@ class App(tk.Tk):
         # include icon if included
         if os.path.isfile(iconfile):
             self.iconbitmap(iconfile)
-        self.geometry('700x550')
+        self.call('tk', 'scaling', 1.5)
+        self.geometry('1100x250')
         self.resizable(False, False)
 
 
@@ -125,7 +127,7 @@ class CyclingFrame(ttk.Frame):
         self.do_hysteresis_btn.grid(row=7, column=5, sticky=tk.E, **options)
 
         # add padding to the frame and show it
-        #self.grid(padx=0, pady=0)
+        self.grid(padx=0, pady=0)
         self.pack()
 
     def file_button_callback(self):
@@ -144,9 +146,16 @@ class CyclingFrame(ttk.Frame):
         self.filen_entry.delete(0, len(self.tk_file_var.get()))
         self.filen_entry.insert(0, self.file)
 
+        # configure log file name and formatting
+        log_fname = self.file[:-4] + '.log'
+        logging.basicConfig(filename=log_fname, level=logging.WARNING,
+                            filemode='w', format='%(asctime)s %(message)s')
+        logging.warning('File selected!')
+        plt.ion()
+
     def mass_button_callback(self):
         """
-        Callback function for the 'Mass' button.
+        Callback function for the 'Confirm Mass' button.
 
         Validates the mass value entered by the user.
         If the mass is invalid, shows an error message and resets the mass value in the Entry widget to 'Enter Mass'.
@@ -155,8 +164,9 @@ class CyclingFrame(ttk.Frame):
         Returns:
         None
         """
-        print()
+        logging.warning('Confirming active mass value...')
         if not check_valid_number(self.tk_mass_var.get()):
+            logging.warning('Active mass value not valid! Asking for another...')
             tk.messagebox.showerror(title=None,
                                     message="Enter a valid number!")
             self.mass_entry.delete(0, len(self.tk_mass_var.get()))
@@ -164,6 +174,8 @@ class CyclingFrame(ttk.Frame):
         else:
             self.mass = self.tk_mass_var.get()
             print(self.mass)
+            logging.warning(f'Active mass value valid ({self.mass} mg)')
+
 
     def run_plots_button_callback(self):
         """
@@ -178,13 +190,20 @@ class CyclingFrame(ttk.Frame):
         None
         """
         print(self.current_varies_checkbox_var.get())
+        if self.current_varies_checkbox_var.get():
+            logging.warning('Creating dataframe. Assuming applied current varies')
+        else:
+            logging.warning('Creating dataframe. Assuming applied current is constant')
+
+        if self.do_parquet.get():
+            logging.warning('Using Parquet format instead of CSV!')
         out_df, _, save_dir, pos_count, neg_count = cld.create_data_frame(self.file,
                                                                           self.mass,
-                                                                          not(self.current_varies_checkbox_var.get(
-                                                                          )),
+                                                                          not(self.current_varies_checkbox_var.get()),
                                                                           self.do_parquet.get())
-
+        
         if self.separate_cycles_checkbox_var.get() is True:
+            logging.warning('Saving individual cycles...')
             cld.create_cycles_separate(out_df, save_dir, self.do_parquet.get())
 
         (coulombic_efficiency, max_charge_cap,
@@ -193,15 +212,19 @@ class CyclingFrame(ttk.Frame):
         cycle_no = cyc.get_cycle_no(pos_count)
 
         # max cap and coulombic efficiency plot
+        logging.warning('Plotting maximum capacity and efficiency...')
         cyc.plot_max_cap_and_efficiency(
             cycle_no, max_charge_cap, max_discharge_cap, coulombic_efficiency, save_dir)
-
+        
+        logging.warning('Saving table of max capacities...')
         cyc.save_max_cap_csv(save_dir, cycle_no, max_charge_cap,
                              max_discharge_cap, coulombic_efficiency)
-
+        
+        logging.warning('Creating capacity vs potential plot...')
         cyc.plot_caps_vs_potentials(out_df, pos_count, neg_count, save_dir)
 
         # plot first cycle hysteresis
+        logging.warning('Creating hysteresis plot for cycle 1...')
         match_c = '(C1)'
         current_charge_cols = [col for col in out_df.columns if match_c in col]
         match_d = '(D1)'
@@ -212,11 +235,13 @@ class CyclingFrame(ttk.Frame):
         c_capacity, c_potential, d_capacity, d_potential = cyc.hysteresis_data_from_frame(
             cycle_1, str(1))
         charge_first = self.first_cyc_charge_checkbox_var.get()
+        if charge_first is True:
+            logging.warning('Assuming first cycle is charge')
+        else:
+            logging.warning('Assuming first cycle is discharge')
         cyc.plot_hysteresis(c_capacity, c_potential, d_capacity,
                             d_potential, str(1), save_dir, charge_first)
-        
-        plt.show()
-
+                
     def run_hysteresis(self):
         """Open a file dialog to select a specific cycle file, load the file into a pandas dataframe, and plot the hysteresis
         curve of the cycle.
@@ -231,7 +256,7 @@ class CyclingFrame(ttk.Frame):
             filetype = ('Parquet files', '*.parquet')
         else:
             filetype = ('CSV files', '*.csv')
-
+        logging.warning('Choosing file for hysteresis plots')
         cycle_file = filedialog.askopenfilename(filetypes=[filetype],
                                                 title='Open file for a specific cycle')
         cyc_filepath = os.path.abspath(cycle_file)
@@ -243,6 +268,7 @@ class CyclingFrame(ttk.Frame):
             msg = 'This is not a valid file.\n Generate separate cycling files using the GUI'
             tk.messagebox.showerror(title='File error',
                                     message=msg)
+            logging.error(msg)
             raise ValueError(msg)
 
         if self.do_parquet.get():
@@ -251,13 +277,14 @@ class CyclingFrame(ttk.Frame):
         else:
             cycle_df = pd.read_csv(cyc_filepath)
             hyst_cycle_no = re.findall(r'Cycle_(\d+).csv', cycle_file)[0]
-
+        logging.warning(f'Generating hysteresis plot for cycle {hyst_cycle_no}.')
         cyc_save_dir = os.path.dirname(cyc_filepath)
         c_capacity, c_potential, d_capacity, d_potential = cyc.hysteresis_data_from_frame(
             cycle_df, hyst_cycle_no)
         charge_first = self.first_cyc_charge_checkbox_var.get()
         cyc.plot_hysteresis(c_capacity, c_potential, d_capacity,
                             d_potential, hyst_cycle_no, cyc_save_dir, charge_first)
+        # plt.show()
 
 
 if __name__ == "__main__":
