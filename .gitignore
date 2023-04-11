@@ -10,3 +10,4 @@ dist/*
 *.zip
 *.zip
 .vscode/settings.json
+*.log
