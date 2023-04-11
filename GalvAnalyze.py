@@ -74,7 +74,7 @@ class CyclingFrame(ttk.Frame):
         # select whether to save individual charge discharge cycles
         self.separate_cycles_checkbox_var = tk.BooleanVar(value=False)
         self.save_indv_cycles_cb = ttk.Checkbutton(self,
-                                                   text="Separate charge-discharge pairs to .csv",
+                                                   text="Save separate charge-\ndischarge pairs to file.",
                                                    variable=self.separate_cycles_checkbox_var,
                                                    onvalue=True,
                                                    offvalue=False)
@@ -116,8 +116,8 @@ class CyclingFrame(ttk.Frame):
         self.filen_entry.grid(
             row=0, column=0, columnspan=6, sticky=tk.W, **options)
         self.mass_entry_lbl.grid(row=3, column=0, sticky=tk.W, **options)
-        self.mass_unit_lbl.grid(row=4, column=1, sticky=tk.W, **options)
         self.mass_entry.grid(row=4, column=0, sticky=tk.W, **options)
+        self.mass_unit_lbl.grid(row=4, column=1, sticky=tk.W)
         self.cnfrm_mass_btn.grid(row=4, column=2, sticky=tk.W, **options)
         self.save_indv_cycles_cb.grid(row=5, column=0, sticky=tk.W, **options)
         self.current_varies_cb.grid(row=6, column=0, sticky=tk.W, **options)
