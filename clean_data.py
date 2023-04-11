@@ -187,21 +187,21 @@ def variable_current_thresh_diagnostic(current, thresh, in_cycle, absgrad):
     None
     """
     plt.figure()
-    ax = plt.subplot(111)
+    ax = plt.axes()
     ax.plot(current, 'k')
     ax.plot(thresh * np.ones((len(current))), 'r')
     ax.plot(-1 * thresh * np.ones((len(current))), 'b')
 
     plt.figure()
-    ax = plt.subplot(111)
-    ax.hist(current, bins=10)
+    ax2 = plt.axes()
+    ax2.hist(current, bins=10)
 
     plt.figure()
-    ax = plt.subplot(111)
-    ax.plot(absgrad, 'k')
+    ax3 = plt.axes()
+    ax3.plot(absgrad, 'k')
     plt.title('absgrad')
     # ax.plot(in_cycle,'r--')
-    ax.plot(in_cycle * np.sign(current), 'r--')
+    ax3.plot(in_cycle * np.sign(current), 'r--')
 
 
 def check_min_curr_correct(incycle_thresh):
@@ -377,6 +377,7 @@ def create_data_frame(file=None, active_mass=None, is_constant=True, do_parquet=
     pos_count (int): The number of positive cycles in the input data.
     neg_count (int): The number of negative cycles in the input data.
     """
+
     file, data, active_mass = data_from_file(file, active_mass)
 
     (potential,
