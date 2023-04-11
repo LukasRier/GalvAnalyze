@@ -75,7 +75,7 @@ def plot_max_cap_and_efficiency(cycle_no, max_charge_cap, max_discharge_cap, cou
     - coulombic_efficiency: a numpy array containing the coulombic efficiency for each cycle
     - save_dir: a string representing the directory where the plot should be saved (if None, the plot is not saved)
     """
-    # plt.figure(figsize=(6.5, 5))
+    plt.figure(figsize=(6.5, 5))
     ax = plt.axes()
     ax.plot(cycle_no, max_discharge_cap, 'x')
     ax.plot(cycle_no, max_charge_cap, 'x')
