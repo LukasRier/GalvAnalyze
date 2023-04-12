@@ -259,6 +259,8 @@ def current_thresholds(current, rel_cutoff=0.98, is_constant=True):
     if is_constant:
         posthresh = rel_cutoff * np.max(current)
         negthresh = rel_cutoff * np.min(current)
+        logging.warning(f"Assuming constant current. Using {rel_cutoff}x max/min of applied current as threshold\n({posthresh} and {negthresh} respectively)")
+
         pos_cycles = current > posthresh
         neg_cycles = -1 * (current < negthresh)
         is_pos = pos_cycles != 0
@@ -272,6 +274,7 @@ def current_thresholds(current, rel_cutoff=0.98, is_constant=True):
         incycle_thresh = np.min(np.unique(absgrad[absgrad > 0]))
 
         incycle_thresh = check_min_curr_correct(incycle_thresh)
+        logging.warning(f"Assuming variable current.\n Using {incycle_thresh} as threshold.")
         in_cycle = absgrad < incycle_thresh
 
         # get rid of initial period
