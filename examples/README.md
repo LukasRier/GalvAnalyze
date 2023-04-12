@@ -21,3 +21,9 @@ Cell cycled for 6 cycles and beginning with a discharge (First cycle is charge n
 The active mass for this cell was 1000 mg.
 
 A constant current was applied (0.283 mA for 6 cycles).
+
+## Case 3
+
+File Case3_ActiveMass_18mg_CurrentThreshold_0.15mA.txt
+
+Same data as in Case 1 but without final discharge cycle. Given the unequal number of charge and discharge cycles, the final charging cycle is discarded, resulting in 49 pairs.
