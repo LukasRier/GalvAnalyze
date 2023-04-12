@@ -156,53 +156,73 @@ def parse_data(data):
     return potential, time, current
 
 
-def const_current_thresh_diagnostic(current, posthresh, negthresh):
+def variable_current_thresh_diagnostic(current, thresh, is_pos, is_neg):
     """
-    Plots the current data with positive and negative threshold lines.
+    Plots the current data with positive and negative threshold lines
+    and highlights the charge and discharge sections of the data for 
+    variable current data
+
+
+    Parameters:
+    current (pandas.Series): the current data to be plotted.
+    thresh (float): the chosen (positive) threshold value.
+    is_pos (array-like): logical array indicating points within the charge cycle
+    is_neg (array-like): logical array indicating points within the discharge cycle
+    """
+    posthresh = thresh
+    negthresh = -1*thresh
+    plt.figure(figsize=(9, 4))
+    ax = plt.subplot(111)
+    ax.plot(current, 'k')
+    x = np.arange(1, len(current)+1)
+    ax.plot(x,
+            posthresh * np.ones((len(current))), 'r')
+    ax.plot(x,
+            negthresh * np.ones((len(current))), 'b')
+    if is_pos is not None and is_neg is not None:
+        ax.fill_between(x, np.max(current)*is_pos, np.min(current)*is_pos,
+                        where=(is_pos), color='C2', alpha=0.3)
+        ax.fill_between(x, np.max(current)*is_neg, np.min(current)*is_neg,
+                        where=(is_neg), color='C3', alpha=0.3)
+        
+    plt.ylabel('Current I / mA')
+    plt.xlabel('Sample Number')
+    plt.legend(['Current',f'Chosen charge threshold\n({posthresh} mA)', f'Chosen discharge threshold\n({negthresh} mA)',
+                'Charge cycles', 'Discharge cycles'],loc='center left', bbox_to_anchor=(1, 0.5))
+    plt.tight_layout()
+
+def const_current_thresh_diagnostic(current, posthresh, negthresh, is_pos, is_neg):
+    """
+    Plots the current data with positive and negative threshold lines
+    and highlights the charge and discharge sections of the data
 
     Parameters:
     current (pandas.Series): the current data to be plotted.
     posthresh (float): the positive threshold value.
     negthresh (float): the negative threshold value.
+    is_pos (array-like): logical array indicating points within the charge cycle
+    is_neg (array-like): logical array indicating points within the discharge cycle
     """
-    plt.figure()
+    print(type(is_pos))
+    plt.figure(figsize=(9, 4))
     ax = plt.subplot(111)
     ax.plot(current, 'k')
-    ax.plot(np.arange(1, len(current)+1),
+    x = np.arange(1, len(current)+1)
+    ax.plot(x,
             posthresh * np.ones((len(current))), 'r')
-    ax.plot(np.arange(1, len(current)+1),
+    ax.plot(x,
             negthresh * np.ones((len(current))), 'b')
-
-
-def variable_current_thresh_diagnostic(current, thresh, in_cycle, absgrad):
-    """
-    Plot diagnostic graphs for current threshold analysis.
-
-    Parameters:
-    current (array-like): An array of current values.
-    thresh (float): The current threshold value.
-    in_cycle (array-like): Boolean array indicating whether the data point is in a cycle.
-    absgrad (array-like): An array of absolute gradient values.
-
-    Returns:
-    None
-    """
-    plt.figure()
-    ax = plt.axes()
-    ax.plot(current, 'k')
-    ax.plot(thresh * np.ones((len(current))), 'r')
-    ax.plot(-1 * thresh * np.ones((len(current))), 'b')
-
-    plt.figure()
-    ax2 = plt.axes()
-    ax2.hist(current, bins=10)
-
-    plt.figure()
-    ax3 = plt.axes()
-    ax3.plot(absgrad, 'k')
-    plt.title('absgrad')
-    # ax.plot(in_cycle,'r--')
-    ax3.plot(in_cycle * np.sign(current), 'r--')
+    if is_pos is not None and is_neg is not None:
+        ax.fill_between(x, np.max(current)*is_pos, np.min(current)*is_pos,
+                        where=(is_pos), color='C2', alpha=0.3)
+        ax.fill_between(x, np.max(current)*is_neg, np.min(current)*is_neg,
+                        where=(is_neg), color='C3', alpha=0.3)
+        
+    plt.ylabel('Current I / mA')
+    plt.xlabel('Sample Number')
+    plt.legend(['Current','Charge threshold\n0.98 of max', 'Discharge threshold\n0.98 of min',
+                'Charge cycles', 'Discharge cycles'],loc='center left', bbox_to_anchor=(1, 0.5))
+    plt.tight_layout()
 
 
 def check_min_curr_correct(incycle_thresh):
@@ -266,8 +286,7 @@ def current_thresholds(current, rel_cutoff=0.98, is_constant=True):
         is_pos = pos_cycles != 0
         is_neg = neg_cycles != 0
 
-        # Diagnostic plots! uncomment if needed
-        # const_current_thresh_diagnostic(current,posthresh,negthresh)
+        const_current_thresh_diagnostic(current,posthresh,negthresh, is_pos, is_neg)
     else:
         absgrad = np.abs(find_edges(current))
 
@@ -277,24 +296,24 @@ def current_thresholds(current, rel_cutoff=0.98, is_constant=True):
         logging.warning(f"Assuming variable current.\n Using {incycle_thresh} as threshold.")
         in_cycle = absgrad < incycle_thresh
 
-        # get rid of initial period
+        # remove initial period
         logging.warning("Removing inital 'rest' period")
         if in_cycle[0] == 1:
             in_cycle[0] = 0
             st = 1
-            while in_cycle[st] == 1:
+            while in_cycle[st] == 1:  
                 in_cycle[st] = 0
                 st += 1
             msg = f"removed {st} points from the beginning"
             print(msg)
             logging.warning(msg)
-        # Diagnostic plots! uncomment if needed
-        # const_current_thresh_diagnostic(current,1,1)
-        # variable_current_thresh_diagnostic(current,0,in_cycle,absgrad)
 
         signed_in_cycle = in_cycle * np.sign(current)
         is_pos = signed_in_cycle == 1
         is_neg = signed_in_cycle == -1
+
+        variable_current_thresh_diagnostic(current, incycle_thresh, is_pos, is_neg)
+
     return is_pos, is_neg
 
 
@@ -364,9 +383,6 @@ def get_cycle_counts(time, is_pos, is_neg):
         np.nanmax(neg_cycle_no), np.nanmax(pos_cycle_no)))
 
     return pos_count, neg_count, pos_cycle_no, neg_cycle_no
-
-# Here we need to create the value of capacity
-# Capacity = time*current (mAs) / 3600 (mAh) / active mass (g) = mAh g^-1
 
 
 def create_data_frame(file=None, active_mass=None, is_constant=True, do_parquet=False):
