@@ -158,20 +158,24 @@ class CyclingFrame(ttk.Frame):
         data = cld.data_from_file(self.file, active_mass_input=1)[1]
         (_potential, _time, _current) = cld.parse_data(data)
 
-        plt.figure(figsize=(5, 9))
+        plt.figure(figsize=(9, 4))
         ax = plt.subplot(2,1,1)
         ax.plot(_time, _current, 'k')
         ax.plot(_time, 0.98 * np.max(_current) * np.ones((len(_current))), 'r')
         ax.plot(_time, 0.98 * np.min(_current) * np.ones((len(_current))), 'b')
         plt.ylabel('Current / mA')
-        plt.xlabel('Experiment time / s')
+        # plt.xlabel('Experiment time / s')
         plt.legend(['Current','Charge threshold\n0.98 of max',
-                    'Discharge threshold\n0.98 of min'])
+                    'Discharge threshold\n0.98 of min'],loc='center left', bbox_to_anchor=(1, 0.5))
 
         ax2 = plt.subplot(2,1,2)
         ax2.plot(_time, _potential, 'k')
         plt.ylabel('Potential / V')
         plt.xlabel('Experiment time / s')
+        # plt.legend(['Potential','Charge threshold\n0.98 of max',
+        #             'Discharge threshold\n0.98 of min'],loc='center left', bbox_to_anchor=(1, 0.5))
+        plt.figtext(0.8, 0.2, f"Check:\n- Is the applied current\n  constant?\n\n- Is the first cycle a charge?\n  (positive current)", fontsize=9)
+        plt.tight_layout()
 
     def mass_button_callback(self):
         """
