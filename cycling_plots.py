@@ -250,19 +250,19 @@ def plot_hysteresis(c_capacity, c_potential, d_capacity, d_potential, cycle_no, 
 
         if charge_first:
             hysteresis_df = dict(zip(["Ecell/V (C raw)",
-                                      "Capacity/mA.h.g^-1 (C raw)",
+                                      "Capacity/mA.h.g^-1(C_raw)",
                                       "Ecell/V (D raw)",
-                                      "Capacity/mA.h.g^-1 (D raw)",
-                                      "Capacity/mA.h.g^-1 (D hysteresis)"
+                                      "Capacity/mA.h.g^-1(D_raw)",
+                                      "Capacity/mA.h.g^-1(D_hysteresis)"
                                       ], (c_potential, c_capacity,
                                           d_potential, d_capacity,
                                           d_capacity_h)))
         else:
             hysteresis_df = dict(zip(["Ecell/V (C raw)",
-                                      "Capacity/mA.h.g^-1 (C hysteresis)",
+                                      "Capacity/mA.h.g^-1(C_hysteresis)",
                                       "Ecell/V (D raw)",
-                                      "Capacity/mA.h.g^-1 (C raw)",
-                                      "Capacity/mA.h.g^-1 (D raw)"
+                                      "Capacity/mA.h.g^-1(C_raw)",
+                                      "Capacity/mA.h.g^-1(D_raw)"
                                       ], (c_potential, c_capacity_h,
                                           d_potential, c_capacity,
                                           d_capacity)))
