@@ -284,7 +284,6 @@ class CyclingFrame(ttk.Frame):
         charge_first = self.first_cyc_charge_checkbox_var.get()
         cyc.plot_hysteresis(c_capacity, c_potential, d_capacity,
                             d_potential, hyst_cycle_no, cyc_save_dir, charge_first)
-        # plt.show()
 
 
 if __name__ == "__main__":
