@@ -151,6 +151,13 @@ class CyclingFrame(ttk.Frame):
         log_fname = self.file[:-4] + '.log'
         logging.basicConfig(filename=log_fname, level=logging.WARNING,
                             filemode='w', format='%(asctime)s %(message)s')
+
+        logging.warning("\n" + 104 * "*" +"\n" + 
+            37*" " + "Thank you for using GalvAnalyze!\n\n" +
+            19*" " + "To report issues, suggest improvements or propose new features\n" + 
+            19*" " + "please use the comment box at:\n" +
+            37*" " + "www.thenamilab.com/about-4\n" + 
+            104 * "*")
         logging.warning('File selected!')
         plt.ion()
 
