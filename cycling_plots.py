@@ -101,7 +101,7 @@ def plot_max_cap_and_efficiency(cycle_no, max_charge_cap, max_discharge_cap, cou
     plt.yticks(fontsize=14)
     plt.tight_layout()
     plt.savefig(os.path.join(
-        save_dir, "Cycle no vs. Capacity and Coulombic efficiency.png"))
+        save_dir, "Cycle no vs. Capacity and Coulombic efficiency.png"), dpi=600)
 
 
 def save_max_cap_csv(save_dir, cycle_no, max_charge_cap, max_discharge_cap, coulombic_efficiency):
@@ -200,7 +200,7 @@ def plot_caps_vs_potentials(out_df, pos_count, neg_count, save_dir=None):
     plt.tight_layout()
     if save_dir != None:
         plt.savefig(os.path.join(
-            save_dir, "Capacity vs. Potential (all cycles).png"))
+            save_dir, "Capacity vs. Potential (all cycles).png"), dpi=600)
 
     return charge_cyc_potentials, charge_cyc_capacities, discharge_cyc_potentials, discharge_cyc_capacities
 
@@ -246,7 +246,7 @@ def plot_hysteresis(c_capacity, c_potential, d_capacity, d_potential, cycle_no, 
     plt.tight_layout()
 
     if save_dir is not None:
-        plt.savefig(os.path.join(save_dir, f"Cycle {cycle_no} Hysteresis.png"))
+        plt.savefig(os.path.join(save_dir, f"Cycle {cycle_no} Hysteresis.png"), dpi=600)
 
         if charge_first:
             hysteresis_df = dict(zip(["Ecell/V (C raw)",
