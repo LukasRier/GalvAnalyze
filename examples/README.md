@@ -27,3 +27,35 @@ A constant current was applied (0.283 mA for 6 cycles).
 File Case3_ActiveMass_18mg_CurrentThreshold_0.15mA.txt
 
 Same data as in Case 1 but without final discharge cycle. Given the unequal number of charge and discharge cycles, the final charging cycle is discarded, resulting in 49 pairs.
+
+# Error cases
+
+## Case 4
+
+File Case4_nonsense_headings.txt
+Column headings are not compatible with GalvAnalyze. Only a specific set of headings is currently supported:
+
+**Potential**: “Ecell/V”, “E /V”, “Ewe/V”, “E/V”, “Voltage/V” or “Voltage(V)”
+
+**Current**: “<I>/mA”, “I /mA”, “I/mA”, “Current/mA”, or “Current(A)”
+
+**Time**: “time/s” or “time /s”
+
+
+## Case 5
+
+File Case5_empty.txt
+
+File is emplty. Error is described in the log file.
+
+## Case 6
+
+File Case6_no_data.txt
+
+Valid column headings are provided, however no data is contained in the file. Error is described in the log file.
+
+## Case 7
+
+File Case7_single_discharge.txt
+
+Valid file with correct column headings and data. Data for a single discharge is provided. Given the lack of a paired charge cycle, GalvAnalyze rejects the cycle and returns an error message in the log file.
