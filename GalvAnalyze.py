@@ -164,6 +164,17 @@ class CyclingFrame(ttk.Frame):
         # plot current data to inspect and help with options
         data = cld.data_from_file(self.file, active_mass_input=1)[1]
         (_potential, _time, _current) = cld.parse_data(data)
+        
+        #check there is data
+        if (_potential.size == 0) or (_time.size == 0) or (_current.size == 0):
+            logging.warning('Insufficient data found!')
+            logging.warning(f"Number of data points for potential = {_potential.size}")
+            logging.warning(f"Number of data points for current = {_current.size}")
+            logging.warning(f"Number of data points for time = {_time.size}")
+            tk.messagebox.showerror(title=None,
+                                message="Insufficient data found in the file.")
+            raise Exception("Insufficient data found in the file.")
+            
 
         plt.figure(figsize=(9, 4))
         ax = plt.subplot(2,1,1)
@@ -183,6 +194,7 @@ class CyclingFrame(ttk.Frame):
         #             'Discharge threshold\n0.98 of min'],loc='center left', bbox_to_anchor=(1, 0.5))
         plt.figtext(0.8, 0.2, f"Check:\n- Is the applied current\n  constant?\n\n- Is the first cycle a charge?\n  (positive current)", fontsize=9)
         plt.tight_layout()
+        plt.savefig("Data_check.png", dpi=600)
 
     def mass_button_callback(self):
         """
