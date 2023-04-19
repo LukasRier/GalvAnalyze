@@ -46,7 +46,15 @@ def data_from_file(file=None, active_mass_input=None):
             sys.exit()
 
     print(file)
-    data = pd.read_csv(file, delimiter='\t' or ',')
+    try:
+        data = pd.read_csv(file, delimiter='\t' or ',')
+    except pd.errors.EmptyDataError as e:
+        logging.error(e)
+        logging.error("No data found in the file.")
+        tk.messagebox.showerror(title=None,
+                                message="No data found in the file.")
+        raise(e)
+
 
     if active_mass_input is None:
         mass_valid = False
@@ -115,6 +123,7 @@ def parse_data(data):
         - pandas.Series: the time data
         - pandas.Series: the current data
     """
+    potential_heading_good = True
     if 'Ecell/V' in data:
         potential = data.loc[:, 'Ecell/V']
     elif 'E /V' in data:
@@ -129,8 +138,9 @@ def parse_data(data):
         potential = data.loc[:, 'Voltage(V)']
     else:
         potential = 'NaN'
+        potential_heading_good = False
     print(potential)
-
+    current_heading_good = True
     if '<I>/mA' in data:
         current = data.loc[:, '<I>/mA']
     elif 'I /mA' in data:
@@ -143,16 +153,24 @@ def parse_data(data):
         current = data.loc[:, 'Current(A)']*1000
     else:
         current = 'NaN'
+        current_heading_good = False
     print(current)
 
+    time_heading_good = True
     if 'time/s' in data:
         time = data.loc[:, 'time/s']
     elif 'time /s' in data:
         time = data.loc[:, 'time /s']
     else:
         time = 'NaN'
+        time_heading_good = False
     print(time)
 
+    if not any([time_heading_good, potential_heading_good, current_heading_good]):
+        logging.warning("Non-valid column headings! Check if your data has headings and that they are supported.")
+        tk.messagebox.showerror(title=None,
+                                    message="Non-valid column headings found!")
+        raise Exception("Non-valid column headings found!")
     return potential, time, current
 
 
@@ -190,6 +208,7 @@ def variable_current_thresh_diagnostic(current, thresh, is_pos, is_neg):
     plt.legend(['Current',f'Chosen charge threshold\n({posthresh} mA)', f'Chosen discharge threshold\n({negthresh} mA)',
                 'Charge cycles', 'Discharge cycles'],loc='center left', bbox_to_anchor=(1, 0.5))
     plt.tight_layout()
+    plt.savefig('variable_current_thresh_diagnostic.png', dpi=600)
 
 def const_current_thresh_diagnostic(current, posthresh, negthresh, is_pos, is_neg):
     """
@@ -223,7 +242,7 @@ def const_current_thresh_diagnostic(current, posthresh, negthresh, is_pos, is_ne
     plt.legend(['Current','Charge threshold\n0.98 of max', 'Discharge threshold\n0.98 of min',
                 'Charge cycles', 'Discharge cycles'],loc='center left', bbox_to_anchor=(1, 0.5))
     plt.tight_layout()
-
+    plt.savefig('const_current_thresh_diagnostic.png', dpi=600)
 
 def check_min_curr_correct(incycle_thresh):
     """
@@ -369,6 +388,12 @@ def get_cycle_counts(time, is_pos, is_neg):
     print("Number of neg cycles = %d \nNumber of pos cycles = %d" %
           (neg_count, pos_count))
     logging.warning(f"Found {pos_count} charge and {neg_count} discharge cycles.")
+
+    if (pos_count == 0) or (neg_count == 0):
+        logging.error("Insufficient number of cycles to ensure charge/discharge pairs for each cycle.")
+        tk.messagebox.showerror(title=None,
+                                    message=f"Insufficient number of cycles!\n({pos_count} positive and {neg_count} negative cycles found)")
+        raise Exception("Insufficient number of cycles to ensure charge/discharge pairs for each cycle.")
     if not pos_count == neg_count:
         logging.warning(f"Discarding cycles to ensure charge/discharge pairs for each cycle.")
 
