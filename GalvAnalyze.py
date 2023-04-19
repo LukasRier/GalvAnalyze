@@ -222,7 +222,7 @@ class CyclingFrame(ttk.Frame):
 
     def run_plots_button_callback(self):
         """
-        Callback function for the 'Run Plots' button.
+        Callback function for the 'Run Cycling' button.
 
         Runs the necessary functions to create and save various plots based on the selected file and mass values.
         Depending on the status of the 'current_varies_checkbox_var' and 'separate_cycles_checkbox_var' attributes,
