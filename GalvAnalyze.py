@@ -147,11 +147,16 @@ class CyclingFrame(ttk.Frame):
         self.filen_entry.delete(0, len(self.tk_file_var.get()))
         self.filen_entry.insert(0, self.file)
 
+        # check if logger exists and if so clear it
+        if logging.getLogger().hasHandlers():
+            logging.getLogger().handlers.clear()
+
+        
         # configure log file name and formatting
         log_fname = self.file[:-4] + '.log'
         logging.basicConfig(filename=log_fname, level=logging.WARNING,
                             filemode='w', format='%(asctime)s %(message)s')
-
+        
         logging.warning("\n" + 104 * "*" +"\n" +
             37*" " + "Thank you for using GalvAnalyze!\n\n" +
             19*" " + "To report issues, suggest improvements or propose new features\n" +
