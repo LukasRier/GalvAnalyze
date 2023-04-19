@@ -208,7 +208,7 @@ def variable_current_thresh_diagnostic(current, thresh, is_pos, is_neg):
     plt.legend(['Current',f'Chosen charge threshold\n({posthresh} mA)', f'Chosen discharge threshold\n({negthresh} mA)',
                 'Charge cycles', 'Discharge cycles'],loc='center left', bbox_to_anchor=(1, 0.5))
     plt.tight_layout()
-    plt.savefig('variable_current_thresh_diagnostic.png', dpi=600)
+    # plt.savefig('variable_current_thresh_diagnostic.png', dpi=600)
 
 def const_current_thresh_diagnostic(current, posthresh, negthresh, is_pos, is_neg):
     """
@@ -242,7 +242,7 @@ def const_current_thresh_diagnostic(current, posthresh, negthresh, is_pos, is_ne
     plt.legend(['Current','Charge threshold\n0.98 of max', 'Discharge threshold\n0.98 of min',
                 'Charge cycles', 'Discharge cycles'],loc='center left', bbox_to_anchor=(1, 0.5))
     plt.tight_layout()
-    plt.savefig('const_current_thresh_diagnostic.png', dpi=600)
+    # plt.savefig('const_current_thresh_diagnostic.png', dpi=600)
 
 def check_min_curr_correct(incycle_thresh):
     """

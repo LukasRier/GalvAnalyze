@@ -199,7 +199,7 @@ class CyclingFrame(ttk.Frame):
         #             'Discharge threshold\n0.98 of min'],loc='center left', bbox_to_anchor=(1, 0.5))
         plt.figtext(0.8, 0.2, f"Check:\n- Is the applied current\n  constant?\n\n- Is the first cycle a charge?\n  (positive current)", fontsize=9)
         plt.tight_layout()
-        plt.savefig("Data_check.png", dpi=600)
+        # plt.savefig("Data_check.png", dpi=600)
 
     def mass_button_callback(self):
         """
