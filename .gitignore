@@ -11,3 +11,4 @@ dist/*
 *.zip
 .vscode/settings.json
 *.log
+.vscode/launch.json
