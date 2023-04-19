@@ -1,4 +1,5 @@
-pyinstaller -F --clean --specpath .\GalvAnalyze -n GalvAnalyze_v0.4 -w --onefile --icon=logos\GalvAnalyzeIcon.ico GalvAnalyze.py
+pyinstaller -D --clean --specpath .\GalvAnalyze -n GalvAnalyze_v0.6 -w --icon=logos\GalvAnalyzeIcon.ico GalvAnalyze.py
+pyinstaller -F --clean --specpath .\GalvAnalyze -n GalvAnalyze_v0.6 -w --onefile --icon=logos\GalvAnalyzeIcon.ico GalvAnalyze.py
 
 
 # -F package as one file that can be copied around (or -D for folder containing bundle. this is faster to load!)
@@ -6,3 +7,19 @@ pyinstaller -F --clean --specpath .\GalvAnalyze -n GalvAnalyze_v0.4 -w --onefile
 # -n name of executable and spec file
 # -w windowed (no console)
 # --specpath creates and/or selects dir for specfile
+
+For light weight installer:
+
+install non-conda version of python (3.9)
+create virtual environment:
+    mkdir pathto\GA_venv
+
+    python -m venv GA_venv
+
+pathto\GA_venv\Scripts\activate.bat
+
+python -m pip install -r reqs.txt
+
+pip install pyinstaller
+
+pyinstaller -D --clean --specpath .\GalvAnalyze -n GalvAnalyze_v0.6 -w --icon=logos\GalvAnalyzeIcon.ico GalvAnalyze.py
