@@ -32,6 +32,8 @@ conda env create --file=/path/to/dependencies.yml -n GAInstaller
 
 Next, activate your virtual environment (e.g.`conda activate GAInstaller`) and install [pyinstaller](https://pyinstaller.org/en/stable/# "pyinstaller") using
 ```
+pip install fastparquet
+
 pip install -U pyinstaller
 ```
 and finally run
