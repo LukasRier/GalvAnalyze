@@ -169,7 +169,8 @@ class CyclingFrame(ttk.Frame):
         # plot current data to inspect and help with options
         data = cld.data_from_file(self.file, active_mass_input=1)[1]
         (_potential, _time, _current) = cld.parse_data(data)
-        
+        print(pd.api.types.is_numeric_dtype(_potential))
+
         #check there is data
         if (_potential.size == 0) or (_time.size == 0) or (_current.size == 0):
             logging.warning('Insufficient data found!')
@@ -179,8 +180,13 @@ class CyclingFrame(ttk.Frame):
             tk.messagebox.showerror(title=None,
                                 message="Insufficient data found in the file.")
             raise Exception("Insufficient data found in the file.")
-            
-
+        
+        if (not pd.api.types.is_numeric_dtype(_potential)) or (not pd.api.types.is_numeric_dtype(_time)) or (not pd.api.types.is_numeric_dtype(_current)):
+            logging.error('Loaded data is not numeric!')
+            tk.messagebox.showerror(title=None,
+                                message="Non-numeric data found in the file.")
+            raise Exception("Non-numeric data found in the file")
+        
         plt.figure(figsize=(9, 4))
         ax = plt.subplot(2,1,1)
         ax.plot(_time, _current, 'k')
