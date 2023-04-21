@@ -153,7 +153,7 @@ class CyclingFrame(ttk.Frame):
 
         
         # configure log file name and formatting
-        log_fname = self.file[:-4] + '.log'
+        log_fname = 'LOG_' + self.file[:-4] + '.log'
         logging.basicConfig(filename=log_fname, level=logging.WARNING,
                             filemode='w', format='%(asctime)s %(message)s')
         
@@ -169,7 +169,6 @@ class CyclingFrame(ttk.Frame):
         # plot current data to inspect and help with options
         data = cld.data_from_file(self.file, active_mass_input=1)[1]
         (_potential, _time, _current) = cld.parse_data(data)
-        print(pd.api.types.is_numeric_dtype(_potential))
 
         #check there is data
         if (_potential.size == 0) or (_time.size == 0) or (_current.size == 0):
@@ -295,6 +294,9 @@ class CyclingFrame(ttk.Frame):
             logging.warning('Assuming first cycle is discharge')
         cyc.plot_hysteresis(c_capacity, c_potential, d_capacity,
                             d_potential, str(1), save_dir, charge_first)
+        
+        plt.draw_all()
+        plt.show()
                 
     def run_hysteresis(self):
         """Open a file dialog to select a specific cycle file, load the file into a pandas dataframe, and plot the hysteresis
