@@ -13,3 +13,4 @@ dist/*
 *.log
 .vscode/launch.json
 GalvAnalyze/GalvAnalyze_v0.6.1_w.spec
+examples/case9.m
