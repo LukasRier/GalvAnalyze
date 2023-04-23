@@ -153,7 +153,7 @@ class CyclingFrame(ttk.Frame):
 
         
         # configure log file name and formatting
-        log_fname = 'LOG_' + self.file[:-4] + '.log'
+        log_fname = self.file[:-4] + '_LOG.log'
         logging.basicConfig(filename=log_fname, level=logging.WARNING,
                             filemode='w', format='%(asctime)s %(message)s')
         
