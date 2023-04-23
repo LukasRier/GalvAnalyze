@@ -12,3 +12,4 @@ dist/*
 .vscode/settings.json
 *.log
 .vscode/launch.json
+GalvAnalyze/GalvAnalyze_v0.6.1_w.spec
